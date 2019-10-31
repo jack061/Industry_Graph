@@ -1,6 +1,0 @@
-E:\Project\Industry_Graph\JFine.Plugins.Test\obj\Debug\JFine.Plugins.Test.csprojAssemblyReference.cache
-E:\Project\Industry_Graph\JFine.Plugins.Test\obj\Debug\JFine.Plugins.Test.csproj.CoreCompileInputs.cache
-E:\OneDrive\工作项目\Industry_Graph\JFine.Plugins.Test\obj\Debug\JFine.Plugins.Test.csprojAssemblyReference.cache
-E:\OneDrive\工作项目\Industry_Graph\JFine.Plugins.Test\obj\Debug\JFine.Plugins.Test.csproj.CoreCompileInputs.cache
-E:\工作项目\Industry_Graph\JFine.Plugins.Test\obj\Debug\JFine.Plugins.Test.csprojAssemblyReference.cache
-E:\工作项目\Industry_Graph\JFine.Plugins.Test\obj\Debug\JFine.Plugins.Test.csproj.CoreCompileInputs.cache
