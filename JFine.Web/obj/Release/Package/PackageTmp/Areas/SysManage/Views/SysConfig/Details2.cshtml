@@ -1,0 +1,283 @@
+﻿@*------------------------------------------------------------------------------
+    *     此代码由T4模板自动生成
+    *	   生成时间 2018-09-08 10:59:24
+    *     ©为之团队
+    *------------------------------------------------------------------------------*@
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Form2.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/SysManage/SysConfig/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formInitialize(data);
+                    $("#IsIPFilter").attr("checked", data.IsIPFilter);
+                    $("#IsTimeFilter").attr("checked", data.IsTimeFilter);
+                    $("#IsMaintenance").attr("checked", data.IsMaintenance);
+                    $("#IsCA").attr("checked", data.IsCA);
+                }
+            });
+            $('.jfine_switch input').bootstrapSwitch();
+        }
+    });
+    //初始化组件
+    function initControl() {
+        $(".collapse-link").click(function () {
+            var o = $(this).closest("div.ibox"),
+                e = $(this).find("i"),
+                i = o.find("div.ibox-content");
+            i.slideToggle();
+            e.toggleClass("fa-chevron-up").toggleClass("fa-chevron-down");
+            o.toggleClass("").toggleClass("border-bottom");
+        });
+    }
+</script>
+
+<form id="form1">
+    <input type="hidden" id="Id" name="Id" value="" />
+    <div id="jfine-form-container" class="jfine-form-container" border="0">
+        <table id="jfine-form-maintable" class="jfineui jfine-form-maintable" style="table-layout: fixed;"
+               border="0" cellspacing="0" cellpadding="0" align="center">
+            <tbody>
+                <tr id="jfine-form-titlebg" class="jfine-form-titlebg">
+                    <td>
+                        <table align="center" border="0" style="margin: 0px auto; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td class="jfine-form-header_l">
+                                        <span class="jfine-form-logo">
+                                            <img src="/Content/images/formlogo.png" />
+                                        </span>
+                                    </td>
+                                    <td class="jfine-form-header_c">
+                                        <span class="jfine-form-header-title">系统配置</span>
+                                    </td>
+                                    <td class="jfine-form-header_r">
+                                        <div>
+                                            <div class="btn-group">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="jfine-form-formcontent" class="jfine-form-titlebg" style="">
+                    <td>
+                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h4>系统设置</h4>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content" style="overflow:hidden;">
+                                    <table class="form">
+
+                                        <tr>
+                                            <th class="formTitle"> 系统代码</th>
+                                            <td class="formValue">
+                                                <div id="SysCode" name="SysCode"></div>
+                                            </td>
+                                            <th class="formTitle"> 软件名称</th>
+                                            <td class="formValue">
+                                                <div id="SoftName" name="SoftName"></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 软件简称</th>
+                                            <td class="formValue">
+                                                <div id="SoftShortName" name="SoftShortName"></div>
+                                            </td>
+                                            <th class="formTitle"> 软件版本</th>
+                                            <td class="formValue">
+                                                <div id="SoftVersion" name="SoftVersion"></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 软件Logo</th>
+                                            <td class="formValue">
+                                                <div id="SoftLogo" name="SoftLogo"></div>
+                                            </td>
+                                            <th class="formTitle"> 联系我们</th>
+                                            <td class="formValue">
+                                                <div id="ContactUs" name="ContactUs"></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 公司名称</th>
+                                            <td class="formValue">
+                                                <div id="CompanyName" name="CompanyName"></div>
+                                            </td>
+                                            <th class="formTitle"> 公司简称</th>
+                                            <td class="formValue">
+                                                <div id="CompanyShortName" name="CompanyShortName"></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 公司联系方式</th>
+                                            <td class="formValue">
+                                                <div id="CompanyContract" name="CompanyContract"></div>
+                                            </td>
+                                            <th class="formTitle"> 公司地址</th>
+                                            <td class="formValue">
+                                                <div id="CompanyAddress" name="CompanyAddress"></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 公司Logo</th>
+                                            <td class="formValue">
+                                                <div id="CompanyLogo" name="CompanyLogo"></div>
+                                            </td>
+                                            <th class="formTitle"> 版权</th>
+                                            <td class="formValue">
+                                                <div id="CopyRight" name="CopyRight"></div>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h4>登陆设置</h4>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <table class="form">
+
+                                        <tr>
+                                            <th class="formTitle"> 默认主题</th>
+                                            <td class="formValue">
+                                                <div id="DefaultSkin" name="DefaultSkin"></div>
+                                            </td>
+                                            <th class="formTitle"></th>
+                                            <td class="formValue"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 是否过滤IP</th>
+                                            <td class="formValue">
+                                                <div class="jfine_switch" data-on="primary">
+                                                    <input id="IsIPFilter" name="IsIPFilter" type="checkbox" />
+                                                </div>
+                                            </td>
+                                            <th class="formTitle"> IP段</th>
+                                            <td class="formValue"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 是否过滤时间段</th>
+                                            <td class="formValue">
+                                                <div class="jfine_switch" data-on="primary">
+                                                    <input id="IsTimeFilter" name="IsTimeFilter" type="checkbox" />
+                                                </div>
+                                            </td>
+                                            <th class="formTitle"> 时间段</th>
+                                            <td class="formValue">
+                                                <input id="StartTime" name="StartTime" /> -<input id="EndTime" name="EndTime" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 是否通过CA</th>
+                                            <td class="formValue">
+                                                <div class="jfine_switch" data-on="primary">
+                                                    <input id="IsCA" name="IsCA" type="checkbox" />
+                                                </div>
+                                            </td>
+                                            <th class="formTitle"> CA服务地址</th>
+                                            <td class="formValue">
+                                                <div id="CAHost" name="CAHost"></div>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <th class="formTitle"> 是否系统维护</th>
+                                            <td class="formValue">
+                                                <div class="jfine_switch" data-on="primary">
+                                                    <input id="IsMaintenance" name="IsMaintenance" type="checkbox" />
+                                                </div>
+                                            </td>
+                                            <th class="formTitle"> 系统维护信息</th>
+                                            <td class="formValue">
+                                                <div id="MaintenanceMessage" name="MaintenanceMessage"></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h4>邮件设置</h4>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <table class="form">
+
+                                        <tr>
+                                            <th class="formTitle"> 邮箱名称</th>
+                                            <td class="formValue">
+                                                <div id="MailName" name="MailName"></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 邮箱地址</th>
+                                            <td class="formValue">
+                                                <div id="MailUserName" name="MailUserName"></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 邮箱主机</th>
+                                            <td class="formValue">
+                                                <div id="MailHost" name="MailHost"></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 邮件签名</th>
+                                            <td class="formValue">
+                                                <div id="MailSign" name="MailSign"></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+

@@ -1,0 +1,492 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>供应商注册</title>
+    <script src="~/Content/js/jquery/jquery-2.1.1.min.js"></script>
+    <script src="~/Content/js/bootstrap/bootstrap.min.js"></script>
+    <link href="~/Content/js/bootstrap/bootstrap.min.css?v=1.0.1" rel="stylesheet" />
+    <link href="~/Content/js/bootstrap/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/Content/js/select2/select2.min.css?v=1.0.1" rel="stylesheet" />
+    <script src="~/Content/js/dialog/dialog.js"></script>
+    <script src="~/Content/js/select2/select2.min.js"></script>
+    <script src="~/Content/js/validate/jquery.metadata.js"></script>
+    <script src="~/Content/js/validate/jquery.validate.min.js"></script>
+    <script src="~/Content/js/datepicker/WdatePicker.js"></script>
+    <script src="~/Content/js/common/framework-ui.js"></script>
+    <script>
+        var SecondCount = 10;
+        var intervalId;
+        var sz_count = 0;
+        var zz_count = 0;
+        $(function () {
+            initControl();
+        });
+        function initControl() {
+            $("#head").load("/Content/html/TopPage.html");
+            $("#footer").load("/Content/html/FooterPage.html");
+
+            //采购组织
+            $("#OrganizeCode").bindSelect({
+                url: "/SysManage/ItemsDetail/GetSelectJson",
+                param: { Code: "CGZZ" },
+                change: function (data) {
+                    $("#OrganizeName").val(data.text);
+                }
+            });
+
+            //企业类别
+            $("#SupType").bindSelect({
+                url: "/SysManage/ItemsDetail/GetSelectJson",
+                id: "text",
+                param: { Code: "GYSLB" }
+            });
+            //企业性质
+            $("#Property").bindSelect({
+                url: "/SysManage/ItemsDetail/GetSelectJson",
+                id: "text",
+                param: { Code: "GYSXZ" }
+            });
+            //招标类别
+            $("#PurchaseCategory").bindSelect({
+                url: "/SysManage/ItemsDetail/GetSelectJson",
+                id: "text",
+                param: { Code: "CG" }
+            });
+            var queryJson = {
+                BindId: "0"
+            }
+            $("#Area").bindSelect({
+                url: "/SysCommon/SysArea/GetSelectJson",
+                param: { queryJson: JSON.stringify(queryJson) },
+                id: "Name",
+                text: "Name",
+                change: function (data) {
+                    loadArea1(data);
+                }
+            });
+
+            $("#Area1").bindSelect({
+                id: "Name",
+                text: "Name"
+            });
+            $("#Area2").bindSelect({
+                id: "Name",
+                text: "Name"
+            });
+
+        }
+
+        //加载市区
+        function loadArea1(data0) {
+            var queryJson = {
+                BindId: (data0.Id == undefined) ? "-1" : data0.Id
+            }
+            $("#Area1").bindSelect({
+                url: "/SysCommon/SysArea/GetSelectJson",
+                param: { queryJson: JSON.stringify(queryJson) },
+                search: true,
+                id: "Name",
+                text: "Name",
+                change: function (data) {
+                    loadArea2(data);
+                }
+            });
+        }
+
+        //加载县区
+        function loadArea2(data1) {
+            var queryJson = {
+                BindId: (data1.Id == undefined) ? "-1" : data1.Id
+            }
+            $("#Area2").bindSelect({
+                url: "/SysCommon/SysArea/GetSelectJson",
+                param: { queryJson: JSON.stringify(queryJson) },
+                id: "Name",
+                text: "Name",
+                search: true,
+            });
+        }
+
+        //打开上传附件窗口
+        function open_upload(elementId) {
+            $.modalOpen({
+                id: "UpLoadForm",
+                title: "上传附件",
+                url: "/SysCommon/Common/UpLoadBF?modelName=SupplierBase&windowId=SPage&elementId=" + elementId,
+                width: "550px",
+                height: "570px",
+                btn: null
+            });
+        }
+
+        //附件窗口回调刷新文件列表
+        function refreshFiles(result) {
+            if (result.elementId == "PromiseAttach")
+            {
+                var displayStr = "<a style='color:blue;' href='" + result.path + "'>" + result.filename_o + "</a>";
+                $("#" + result.elementId + "_fileInfo").html(displayStr);
+                $("#" + result.elementId).val(result.filename_o);
+                $("#" + result.elementId + "URL").val(result.path);
+            }
+
+            if (result.filename_o.indexOf(",") >= 0 || result.filename_o.indexOf(":") >= 0) {
+                alert('文件名称中不能含有逗号或者冒号等字符。');
+                return false;
+            }
+
+            if (result.elementId == "SZFile") {
+                sz_count = sz_count + 1;
+                $('#' + result.elementId + '_Show').append("<div id='" + result.elementId + "_Show_" + sz_count
+                    + "'> <input type=\"hidden\" name=\"SZFile\" id=\"SZFile" + sz_count + "\" value='" + result.filename_o + ":" + result.path
+                    + "'/> <a style='color:blue;' href='" + result.path + "'>" + result.filename_o
+                    + "</a><a style='margin-left:10px;color:red;' href='#' onclick=\"delDiv('" + result.elementId + "_Show_" + sz_count + "');\">删除</a></div>");
+            }
+            if (result.elementId == "ZZFile") {
+                zz_count = zz_count + 1;
+                $('#' + result.elementId + '_Show').append("<div id='" + result.elementId + "_Show_" + zz_count
+                    + "'> <input type=\"hidden\" name=\"ZZFile\" id=\"ZZFile" + zz_count + "\" value='" + +result.filename_o + ":" + result.path
+                    + "' /> <a style='color:blue;' href='" + result.path + "'>" + result.filename_o
+                    + "</a><a style='margin-left:10px;color:red;' href='#' onclick=\"delDiv('" + result.elementId + "_Show_" + zz_count + "');\">删除</a></div>");
+            }
+            
+        }
+        function delDiv(ele_id) {
+            $('#' + ele_id).remove();
+        }
+
+        function submitData() {
+            if (!$('#form1').valid()) {
+                return false;
+            }
+            var postData = $('#form1').serialize();
+            $.submitForm({
+                url: "/Portal/Supplier/RegistSupplier",
+                param: postData,
+                success: function () {
+                    setTimeout('window.opener=null;window.close();', 1500);
+                }
+            })
+        }
+
+        function cancel()
+        {
+            window.opener = null;
+            window.close();
+        }
+    </script>
+    <style>
+        .banner {
+            width: 100%;
+            height: 160px;
+            background: url(/Content/images/Portal/banner.jpg) no-repeat center top;
+            display: block;
+        }
+        .error {
+            color:red;
+        }
+    </style>
+</head>
+<body>
+    <div id="head" class="head" style="padding-left:15%; padding-right:15%;height:36px;">
+
+    </div>
+
+    <div class="banner">
+
+    </div>
+
+    <div class="main">
+        <h1 style="text-align: center;font-size:24px;">供应商注册</h1>
+        <div style ="border-bottom:1px solid #e6e6e6;"></div>
+        <form id="form1" class="form-horizontal" style="padding: 30px 15% 10px;" action="">
+
+            <fieldset>
+                <legend style="font-size:18px;font-weight:bold;">注册账号</legend>
+            </fieldset>
+
+            <div class="form-group">
+                <label for="PurchaseOrg" class="col-sm-3 control-label"><span style="color:red;">*</span>采购组织：</label>
+                <div class="col-sm-6">
+                    <select class="form-control required" id="OrganizeCode" name="OrganizeCode" />
+                    <input id="OrganizeName" name="OrganizeName" type="hidden" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="PurchaseCategory" class="col-sm-3 control-label">项目类别：</label>
+                <div class="col-sm-6">
+                    <select class="form-control required" id="PurchaseCategory" name="PurchaseCategory" />
+                    <input type="hidden" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SupNo" class="col-sm-3 control-label">用户名：</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control required" id="SupNo" name="SupNo" placeholder="请输入用户名">
+                </div>
+                <div style="display: inline">
+                    <label class="help-block">6-16位字母、数字、符号、区分大小写</label>
+                </div>
+            </div>
+
+            <fieldset>
+                <legend style="font-size:18px;font-weight:bold;">企业信息</legend>
+            </fieldset>
+
+            <div class="form-group">
+                <label for="SupName" class="col-sm-3 control-label">企业名称：</label>
+                <div class="col-sm-6">
+                    <input id="SupName" name="SupName" type="text"
+                           class="form-control  required" placeholder="请输入公司名称" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SupName1" class="col-sm-3 control-label">企业曾用名：</label>
+                <div class="col-sm-6">
+                    <input id="SupName1" name="SupName1" type="text"
+                           class="form-control" placeholder="请输入公司曾用名" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SupType" class="col-sm-3 control-label">企业类别：</label>
+                <div class="col-sm-6">
+                    <select id="SupType" name="SupType" class="form-control  required" ></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Property" class="col-sm-3 control-label">企业性质：</label>
+                <div class="col-sm-6">
+                    <select id="Property" name="Property" class="form-control  required"></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="EstablishDate" class="col-sm-3 control-label">企业成立时间：</label>
+                <div class="col-sm-6">
+                    <input id="EstablishDate" name="EstablishDate" type="text" style="height:34px;"
+                           class="form-control Wdate required" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd'})" placeholder="请输入公司成立时间" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="URL" class="col-sm-3 control-label">公司网址：</label>
+                <div class="col-sm-6">
+                    <input id="URL" name="URL" type="text"
+                           class="form-control" placeholder="请输入公司网址" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Area" class="col-sm-3 control-label">公司地址：</label>
+                <div class="col-sm-6">
+                    <select id="Area" name="Area" style="width:100px;" class="form-control required"></select>
+                    <select id="Area1" name="Area1" style="width:100px;" class="form-control required"></select>
+                    <select id="Area2" name="Area2" style="width:100px;" class="form-control required"></select>
+                    <input id="Area3" name="Area3" type="text" style="width: 200px;display: inline;" class="form-control  required" placeholder="请输入街道" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="DetailAddress" class="col-sm-3 control-label">注册地址：</label>
+                <div class="col-sm-6">
+                    <input id="DetailAddress" name="DetailAddress" type="text"
+                           class="form-control  required" placeholder="请输入注册地址" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="LegalPerson" class="col-sm-3 control-label">法人：</label>
+                <div class="col-sm-6">
+                    <input id="LegalPerson" name="LegalPerson" type="text"
+                           class="form-control  required" placeholder="请输入法人" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="TaxNo" class="col-sm-3 control-label">税号：</label>
+                <div class="col-sm-6">
+                    <input id="TaxNo" name="TaxNo" type="text"
+                           class="form-control  required" placeholder="请输入税号" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="RegisteredCapital" class="col-sm-3 control-label">注册资金（万元）：</label>
+                <div class="col-sm-6">
+                    <input id="RegisteredCapital" name="RegisteredCapital" type="text"
+                           class="form-control isNumber required" placeholder="请输入注册资金（万元）" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Bank" class="col-sm-3 control-label">开户行：</label>
+                <div class="col-sm-6">
+                    <input id="Bank" name="Bank" type="text"
+                           class="form-control  required" placeholder="请输入开户行" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Account" class="col-sm-3 control-label">银行账号：</label>
+                <div class="col-sm-6">
+                    <input id="Account" name="Account" type="text"
+                           class="form-control  required" placeholder="请输入银行账号" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="CreditCode" class="col-sm-3 control-label">社会信用代码：</label>
+                <div class="col-sm-6">
+                    <input id="CreditCode" name="CreditCode" type="text"
+                           class="form-control  required" placeholder="请输入社会信用代码" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SupName1" class="col-sm-3 control-label">三证合一：</label>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary dropdown-text" href="javascript:open_upload('SZFile')"><i class="fa fa-upload"></i>上传三证</a>
+                    <div id="SZFile_Show" style="margin-left: 10px; line-height: 25px; font-size: 12px;">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SupName1" class="col-sm-3 control-label">资质文件：</label>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary dropdown-text" href="javascript:open_upload('ZZFile')"><i class="fa fa-upload"></i>上传资质文件</a>
+                    <div id="ZZFile_Show" style="margin-left: 10px; line-height: 25px; font-size: 12px;">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="PromiseAttach" class="col-sm-3 control-label">供应商承诺书：</label>
+                <div class="col-sm-6">
+                    <div id="PromiseAttach_fileInfo" style="display: inline-block;"></div>
+                    <a class="btn btn-primary dropdown-text" href="javascript:open_upload('PromiseAttach')"><i class="fa fa-upload"></i>上传承诺书</a>
+                    <input id="PromiseAttach" name="PromiseAttach" type="hidden" class="form-control" />
+                    <input id="PromiseAttachURL" name="PromiseAttachURL" type="hidden" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SupName1" class="col-sm-3 control-label">经营范围：</label>
+                <div class="col-sm-6">
+                    <textarea id="BusinessScope" name="BusinessScope" class="form-control required" rows="4" placeholder="请输入经营范围"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="CompanyDES" class="col-sm-3 control-label">公司描述：</label>
+                <div class="col-sm-6">
+                    <textarea id="CompanyDES" name="CompanyDES" class="form-control" rows="4" placeholder="请输入公司描述"></textarea>
+                </div>
+            </div>
+
+            <fieldset>
+                <legend style="font-size:18px;font-weight:bold;">联系人信息</legend>
+            </fieldset>
+
+            <div class="form-group">
+                <label for="Name" class="col-sm-3 control-label">姓名：</label>
+                <div class="col-sm-6">
+                    <input id="Name" name="Name" type="text"
+                           class="form-control  required" placeholder="请输入姓名" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="Sex" class="col-sm-3 control-label">性别：</label>
+                <div class="col-sm-6">
+                    &nbsp; &nbsp;<input type="radio" name="Sex" id="Sex" value="男"
+                                        checked="checked"> &nbsp;男 &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp;<input type="radio" name="Sex" id="Sex_w" value="女">
+                    &nbsp;女
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="IDNumber" class="col-sm-3 control-label">身份证号：</label>
+                <div class="col-sm-6">
+                    <input id="IDNumber" name="IDNumber" type="text"
+                           class="form-control  required" placeholder="请输入身份证号" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Department" class="col-sm-3 control-label">部门：</label>
+                <div class="col-sm-6">
+                    <input id="Department" name="Department" type="text"
+                           class="form-control  required" placeholder="请输入部门" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Post" class="col-sm-3 control-label">职位：</label>
+                <div class="col-sm-6">
+                    <input id="Post" name="Post" type="text"
+                           class="form-control  required" placeholder="请输入职位" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Mobile" class="col-sm-3 control-label">手机：</label>
+                <div class="col-sm-6">
+                    <input id="Mobile" name="Mobile" type="text"
+                           class="form-control  required isPhone" placeholder="请输入手机" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Phone" class="col-sm-3 control-label">电话：</label>
+                <div class="col-sm-6">
+                    <input id="Phone" name="Phone" type="text"
+                           class="form-control" placeholder="请输入电话" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Email" class="col-sm-3 control-label">邮箱：</label>
+                <div class="col-sm-6">
+                    <input id="Email" name="Email" type="text"
+                           class="form-control  required email" placeholder="请输入邮箱" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-3">
+
+                    <div class="checkbox">
+                        <label><input id="IfRead" name="IfRead" type="checkbox">我已阅读并接受</label> <a href="#"
+                                                                                                   style="text-decoration: underline;" target="_blank">注册条款</a>
+                    </div>
+                </div>
+            </div>
+            @Html.AntiForgeryToken()
+        </form>
+
+        <div style="text-align:center;padding-bottom:5px;padding-top:5px;">
+            <button type="button" onclick="submitData();" class="btn btn-info">提交</button> <button type="button" onclick="cancel();" class="btn btn-danger">取消</button>
+        </div>
+        
+    </div>
+
+    <div class="footer" style="border-top:1px solid #e6e6e6;text-align:center;padding-bottom:10px;padding-top:10px;">
+        <footer id="footer">
+            
+        </footer>
+    </div>
+</body>
+</html>
+
+

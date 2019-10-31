@@ -1,0 +1,12 @@
+﻿{
+    "PluginName": "Test",
+    "FriendlyName": "Test",
+    "Group": "Test",
+    "Version": "1.0",
+    "SupportedVersions": ["3.0"],
+    "Author": "sj",
+    "Sort": 1,
+    "PluginFileName": "JFine.Plugins.Test.dll",
+    "Description": "XXX",
+    "LimitedToCustomerRoles": []
+}

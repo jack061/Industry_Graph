@@ -1,0 +1,559 @@
+﻿@*------------------------------------------------------------------------------
+    *     此代码由T4模板自动生成
+    *	   生成时间 2017-09-22 12:04:05
+    *     ©为之团队
+    *------------------------------------------------------------------------------*@
+
+
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    var type = $.request("type");//调度类型（常规/DB）
+    $(function () {
+        if (!!keyValue) {
+            $.ajax({
+                url: "/SysCommon/JobSchedule/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        } else
+        {
+            $("#ScheduleType").val(type);
+        }
+        initControl();
+    });
+
+    //组件初始化
+    function initControl()
+    {
+        var scheduleRule = $("#TriggerRule").val();
+        if (scheduleRule == "") {
+            showCycleDiv('0');
+        } else
+        {
+            var rules = scheduleRule.split(":");
+            $("input:radio[name='type'][value='" + rules[0] + "']").attr("checked", true);
+            if (rules.length >= 2)
+            {
+                showCycleDiv(rules[0]);
+                if (rules[0] == "5")
+                {//Cron
+                    $("#cronExp").val(rules[1]);
+                }
+            }
+            if (rules.length >= 3) {
+                showCycleDiv(rules[0]);
+                if (rules[0] == "0") {//天
+                    $("#hour").find("option[value='" + rules[1] + "']").attr("selected", true);
+                    $("#minute").find("option[value='" + rules[2] + "']").attr("selected", true);
+                }
+                if (rules[0] == "6") {//固定频率
+                    $("#period").val(rules[1]);
+                    $("#timez").val(rules[2]);
+                }
+            }
+
+            if (rules.length >= 4) {
+                showCycleDiv(rules[0]);
+                if (rules[0] == "1") {//周
+                    $("#daysOfWeek").find("option[value='" + rules[1] + "']").attr("selected", true);
+                    $("#hour").find("option[value='" + rules[2] + "']").attr("selected", true);
+                    $("#minute").find("option[value='" + rules[3] + "']").attr("selected", true);
+                }
+                if (rules[0] == "2") {//月
+                    //$("#daysOfMonth").find("option[value='" + rules[1] + "']").attr("selected", true);
+                    $("#daysOfMonth").val(rules[1]);
+                    $("#hour").find("option[value='" + rules[2] + "']").attr("selected", true);
+                    $("#minute").find("option[value='" + rules[3] + "']").attr("selected", true);
+                }
+            }
+
+            if (rules.length >= 5) {
+                showCycleDiv(rules[0]);
+                if (rules[0] == "3") {//季
+                    $("#monthOfSession").find("option[value='" + rules[1] + "']").attr("selected", true);
+                    $("#dayOfSession").find("option[value='" + rules[2] + "']").attr("selected", true);
+                    $("#hour").find("option[value='" + rules[3] + "']").attr("selected", true);
+                    $("#minute").find("option[value='" + rules[4] + "']").attr("selected", true);
+                }
+                if (rules[0] == "4") {//年
+                    $("#monthOfYear").find("option[value='" + rules[1] + "']").attr("selected", true);
+                    $("#dayOfYear").find("option[value='" + rules[2] + "']").attr("selected", true);
+                    $("#hour").find("option[value='" + rules[3] + "']").attr("selected", true);
+                    $("#minute").find("option[value='" + rules[4] + "']").attr("selected", true);
+                }
+            }
+            
+        }
+        var scheduleType= $("#ScheduleType").val();
+        switch (scheduleType)
+        {
+            case '常规': {
+                $("#th_executeContent").html("程序集");
+                $("#ExecuteContentInfo").show();
+                $(".dll").show();
+                $("#DLLName").addClass("required");
+                
+                break;
+            }
+            case 'DB': {
+                $("#th_executeContent").html("SQL/存储过程");
+                $("#ExecuteContentInfo").hide();
+                $(".dll").hide();
+                $("#DLLName").removeClass("required");
+                break;
+            }
+        }
+    }
+
+    //提交表单
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+
+        if (1 == 1)
+        {//触发器规则校验
+
+        }
+        var rule = getTriggerRule();
+        $("#TriggerRule").val(rule);
+        var postData = $("#form1").formSerialize();
+        $.submitForm({
+            url: "/SysCommon/JobSchedule/SaveForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+    // 显示触发规则
+    function showCycleDiv(key) {
+        switch (key) {
+            case '0': {
+                $("#dayDiv").hide();
+                $("#weekDiv").hide();
+                $("#monthDiv").hide();
+                $("#quarterDiv").hide();
+                $("#yearDiv").hide();
+                $("#cronDiv").hide();
+                $("#periodTR").hide();
+                $("#hhmmssDiv").show();
+                break;
+            }
+            case '1': {
+                $("#dayDiv").hide();
+                $("#weekDiv").show();
+                $("#monthDiv").hide();
+                $("#quarterDiv").hide();
+                $("#yearDiv").hide();
+                $("#cronDiv").hide();
+                $("#periodTR").hide();
+                $("#hhmmssDiv").show();
+                break;
+            }
+            case '2': {
+                $("#dayDiv").hide();
+                $("#weekDiv").hide();
+                $("#monthDiv").show();
+                $("#quarterDiv").hide();
+                $("#yearDiv").hide();
+                $("#cronDiv").hide();
+                $("#periodTR").hide();
+                $("#hhmmssDiv").show();
+                break;
+            }
+            case '3': {
+                $("#dayDiv").hide();
+                $("#weekDiv").hide();
+                $("#monthDiv").hide();
+                $("#quarterDiv").show();
+                $("#yearDiv").hide();
+                $("#cronDiv").hide();
+                $("#periodTR").hide();
+                $("#hhmmssDiv").show();
+                break;
+            }
+            case '4': {
+                $("#dayDiv").hide();
+                $("#weekDiv").hide();
+                $("#monthDiv").hide();
+                $("#quarterDiv").hide();
+                $("#yearDiv").show();
+                $("#cronDiv").hide();
+                $("#periodTR").hide();
+                $("#hhmmssDiv").show();
+                break;
+            }
+            case '5': {
+                $("#dayDiv").hide();
+                $("#weekDiv").hide();
+                $("#monthDiv").hide();
+                $("#quarterDiv").hide();
+                $("#yearDiv").hide();
+                $("#cronDiv").show();
+                $("#periodTR").hide();
+                $("#hhmmssDiv").hide();
+                break;
+            }
+            case '6': {
+                $("#dayDiv").hide();
+                $("#weekDiv").hide();
+                $("#monthDiv").hide();
+                $("#quarterDiv").hide();
+                $("#yearDiv").hide();
+                $("#cronDiv").hide();
+                $("#periodTR").show();
+                $("#hhmmssDiv").hide();
+                break;
+            }
+        }
+    }
+
+    //获取触发规则
+    function getTriggerRule() {
+        var ruleType = $('input:radio[name="type"]:checked').val();
+        var rule = ruleType;
+        switch (ruleType) {
+            case '0': {//天
+                rule += ":" + $("#hour").val();
+                rule += ":" + $("#minute").val();
+                break;
+            }
+            case '1': {//周
+                rule += ":" + $("#daysOfWeek").val();
+                rule += ":" + $("#hour").val();
+                rule += ":" + $("#minute").val();
+                break;
+            }
+            case '2': {//月
+                rule += ":" + $("#daysOfMonth").val();
+                rule += ":" + $("#hour").val();
+                rule += ":" + $("#minute").val();
+                break;
+            }
+            case '3': {//季
+                rule += ":" + $("#monthOfSession").val();
+                rule += ":" + $("#dayOfSession").val();
+                rule += ":" + $("#hour").val();
+                rule += ":" + $("#minute").val();
+                break;
+            }
+            case '4': {//年
+                rule += ":" + $("#monthOfYear").val();
+                rule += ":" + $("#dayOfYear").val();
+                rule += ":" + $("#hour").val();
+                rule += ":" + $("#minute").val();
+                break;
+            }
+            case '5': {//cron
+                rule += ":" + $("#cronExp").val();
+                break;
+            }
+            case '6': {//period
+                rule += ":" + $("#period").val();
+                rule += ":" + $("#timez").val();
+                break;
+            }
+        }
+        return rule;
+    }
+
+</script>
+
+<form id="form1">
+    <input type="hidden" name="ScheduleType" id="ScheduleType" value="" />
+    <input type="hidden" name="TriggerRule" id="TriggerRule" value="" />
+    <div style="margin: 10px 10px 10px 10px;">
+        <fieldset class="field_bule">
+            <legend><span class="color">任务定义</span> </legend>
+            <table class="form">
+                <tr>
+                    <th class="formTitle"> 任务标题</th>
+                    <td class="formValue">
+                        <input id="JobTilte" name="JobTilte" type="text" class="form-control required" placeholder="请输入任务标题" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle"> 是否系统任务</th>
+                    <td class="formValue">
+                        <div class="ckbox">
+                            <input id="IsSystem" name="IsSystem   " type="checkbox"><label for="IsSystem">系统任务</label>
+                        </div>
+                    </td>
+                </tr> 
+                
+                <tr class="dll">
+                    <th class="formTitle"> DLL名称</th>
+                    <td class="formValue">
+                        <input id="DLLName" name="DLLName" type="text" class="form-control" placeholder="请输入DLL名称" />
+                        <div style="color:red;">格式：JFine.Job.DLL</div>
+                    </td>
+                </tr>             
+
+                <tr>
+                    <th class="formTitle" id="th_executeContent"> 执行内容</th>
+                    <td class="formValue">
+                        <textarea id="ExecuteContent" name="ExecuteContent" class="form-control required" rows="3"  style="height: 50px;"></textarea>
+                        <div id="ExecuteContentInfo" style="color:red;">格式：命名空间+类名(说明：实现接口JFine.Job.ITaskJob)</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle"> 执行参数</th>
+                    <td class="formValue">
+                        <input id="ExecuteParam" name="ExecuteParam" type="text" class="form-control" placeholder="请输入执行参数" />
+                        <div style="color:red;">格式：@@par1='string',@@par2=10</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle"> 任务描述</th>
+                    <td class="formValue">
+                        <textarea id="JobDESC" name="JobDESC" class="form-control" style="height: 30px;"></textarea>
+                    </td>
+                </tr>
+
+            </table>
+        </fieldset>
+
+        <fieldset class="field_bule">
+            <legend><span class="color">触发器定义</span> </legend>
+            <table class="form">
+                <tr>
+                    <th class="formTitle"> 执行频率</th>
+                    <td class="formValue">
+                        &nbsp;<input name="type" value="0" onclick="showCycleDiv(this.value);" checked="checked" type="radio">每天
+                        &nbsp;<input name="type" value="1" onclick="showCycleDiv(this.value);" type="radio">每周
+                        &nbsp;<input name="type" value="2" onclick="showCycleDiv(this.value);" type="radio">每月
+                        &nbsp;<input name="type" value="3" onclick="showCycleDiv(this.value);" type="radio">每季
+                        &nbsp;<input name="type" value="4" onclick="showCycleDiv(this.value);" type="radio">每年
+                        &nbsp;<input name="type" value="5" onclick="showCycleDiv(this.value);" type="radio">Cron表达式
+                        &nbsp;<input name="type" value="6" onclick="showCycleDiv(this.value);" type="radio">可定频率
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle"> 执行时间</th>
+                    <td class="formValue">
+                        @*天*@
+                        <div id="dayDiv">
+                            
+                        </div>
+                        @*周*@
+                        <div id="weekDiv">
+                            第<input name="daysOfWeek" id="daysOfWeek" size="15" onblur="checkDayStr(this,'每周天',1,7);" type="text">天，【小写数字，从周日到周六：1,2,3,4,5,6,7，','分割】
+                        </div>
+                        @*月*@
+                        <div id="monthDiv">
+                            第<input name="daysOfMonth" id="daysOfMonth" size="15" onblur="checkDayStr(this,'每月天',1,31);" type="text">号，【小写数字，','分割，例如：2,4,5】
+                        </div>
+                        @*季度*@
+                        <div id="quarterDiv">
+                           第<select name="monthOfSession" id="monthOfSession">
+                                <option value="1" selected="selected">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select> 月 第
+                            <select name="dayOfSession" id="dayOfSession">
+                                <option value="1" selected="selected">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                            </select> 天
+                        </div>
+                        @*年*@
+                        <div id="yearDiv">
+                            第 <select name="monthOfYear" id="monthOfYear">
+                                <option value="1" selected="selected">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>月 第<select name="dayOfYear" id="dayOfYear">
+                                <option value="1" selected="selected">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                            </select>天
+                        </div>
+                        @*Cron*@
+                        <div id="cronDiv">
+                            <div>
+                                Cron表达式：<input name="cronExp" id="cronExp" type="text">，【示例：0 15 10 ? * 6#3】
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
+                        @*定频率*@
+                        <div id="periodTR">
+                            重复次数：
+                            <input name="timez" id="timez" size="2" onkeyup="timezChange(this.value);" type="text">
+                            &nbsp;&nbsp;执行间隔：
+                            <input name="period" id="period" size="5" type="text">(秒)
+                            &nbsp;&nbsp;【任务启动时执行，-1执行无限次，0执行1次】
+                        </div>
+                        <div id="hhmmssDiv">
+                            <select name="hour" id="hour">
+                                <option value="0">0</option>
+                                <option value="1" selected="selected">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                            </select>时 <select name="minute" id="minute">
+                                <option value="0">0</option>
+                                <option value="1" selected="selected">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                                <option value="32">32</option>
+                                <option value="33">33</option>
+                                <option value="34">34</option>
+                                <option value="35">35</option>
+                                <option value="36">36</option>
+                                <option value="37">37</option>
+                                <option value="38">38</option>
+                                <option value="39">39</option>
+                                <option value="40">40</option>
+                                <option value="41">41</option>
+                                <option value="42">42</option>
+                                <option value="43">43</option>
+                                <option value="44">44</option>
+                                <option value="45">45</option>
+                                <option value="46">46</option>
+                                <option value="47">47</option>
+                                <option value="48">48</option>
+                                <option value="49">49</option>
+                                <option value="50">50</option>
+                                <option value="51">51</option>
+                                <option value="52">52</option>
+                                <option value="53">53</option>
+                                <option value="54">54</option>
+                                <option value="55">55</option>
+                                <option value="56">56</option>
+                                <option value="57">57</option>
+                                <option value="58">58</option>
+                                <option value="59">59</option>
+                            </select> 分<input name="second" id="second" value="0" type="hidden">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+</form>

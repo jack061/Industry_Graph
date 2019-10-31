@@ -1,0 +1,296 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JFine.Infrastructure</name>
+    </assembly>
+    <members>
+        <member name="T:JFine.Infrastructure.AppDomainTypeFinder">
+            <summary>
+            应用域内类查找器
+            </summary>
+        </member>
+        <member name="T:JFine.Infrastructure.ITypeFinder">
+            <summary>
+            Classes implementing this interface provide information about types 
+            to various services in the Nop engine.
+            </summary>
+        </member>
+        <member name="M:JFine.Infrastructure.ITypeFinder.FindClassesOfType``1(System.Boolean)">
+            <summary>
+            Find classes of type
+            </summary>
+            <typeparam name="T">Type</typeparam>
+            <param name="onlyConcreteClasses">A value indicating whether to find only concrete classes</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:JFine.Infrastructure.ITypeFinder.FindClassesOfType(System.Type,System.Boolean)">
+            <summary>
+            Find classes of type
+            </summary>
+            <param name="assignTypeFrom">Assign type from</param>
+            <param name="onlyConcreteClasses">A value indicating whether to find only concrete classes</param>
+            <returns>Result</returns>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Infrastructure.ITypeFinder.FindClassesOfType``1(System.Collections.Generic.IEnumerable{System.Reflection.Assembly},System.Boolean)">
+            <summary>
+            Find classes of type
+            </summary>
+            <typeparam name="T">Type</typeparam>
+            <param name="assemblies">Assemblies</param>
+            <param name="onlyConcreteClasses">A value indicating whether to find only concrete classes</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:JFine.Infrastructure.ITypeFinder.FindClassesOfType(System.Type,System.Collections.Generic.IEnumerable{System.Reflection.Assembly},System.Boolean)">
+            <summary>
+            Find classes of type
+            </summary>
+            <param name="assignTypeFrom">Assign type from</param>
+            <param name="assemblies">Assemblies</param>
+            <param name="onlyConcreteClasses">A value indicating whether to find only concrete classes</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:JFine.Infrastructure.ITypeFinder.GetAssemblies">
+            <summary>
+            Gets the assemblies related to the current implementation.
+            </summary>
+            <returns>A list of assemblies</returns>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.AddAssembliesInAppDomain(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Reflection.Assembly})">
+            <summary>
+            迭代应用域内所有的程序集
+            </summary>
+            <param name="addedAssemblyNames"></param>
+            <param name="assemblies"></param>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.AddConfiguredAssemblies(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Reflection.Assembly})">
+            <summary>
+            添加程序集
+            </summary>
+            <param name="addedAssemblyNames"></param>
+            <param name="assemblies"></param>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.Matches(System.String)">
+            <summary>
+            Check if a dll is one of the shipped dlls that we know don't need to be investigated.
+            </summary>
+            <param name="assemblyFullName">
+            The name of the assembly to check.
+            </param>
+            <returns>
+            True if the assembly should be loaded into Nop.
+            </returns>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.Matches(System.String,System.String)">
+            <summary>
+            Check if a dll is one of the shipped dlls that we know don't need to be investigated.
+            </summary>
+            <param name="assemblyFullName">
+            The assembly name to match.
+            </param>
+            <param name="pattern">
+            The regular expression pattern to match against the assembly name.
+            </param>
+            <returns>
+            True if the pattern matches the assembly name.
+            </returns>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.LoadMatchingAssemblies(System.String)">
+            <summary>
+            Makes sure matching assemblies in the supplied folder are loaded in the app domain.
+            </summary>
+            <param name="directoryPath">
+            The physical path to a directory containing dlls to load in the app domain.
+            </param>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.DoesTypeImplementOpenGeneric(System.Type,System.Type)">
+            <summary>
+            是否实现泛型类
+            </summary>
+            <param name="type"></param>
+            <param name="openGeneric"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.FindClassesOfType``1(System.Boolean)">
+            <summary>
+            查找类
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="onlyConcreteClasses">标识是否只查找具体的类</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.FindClassesOfType(System.Type,System.Boolean)">
+            <summary>
+            查找类
+            </summary>
+            <param name="assignTypeFrom">分配类型</param>
+            <param name="onlyConcreteClasses">标识是否只查找具体的类</param>
+            <returns>Result</returns>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.FindClassesOfType``1(System.Collections.Generic.IEnumerable{System.Reflection.Assembly},System.Boolean)">
+             <summary>
+            查找类
+             </summary>
+             <typeparam name="T">类型</typeparam>
+             <param name="assemblies">程序集</param>
+             <param name="onlyConcreteClasses">标识是否只查找具体的类</param>
+             <returns>Result</returns>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.FindClassesOfType(System.Type,System.Collections.Generic.IEnumerable{System.Reflection.Assembly},System.Boolean)">
+            <summary>
+            查找类
+            </summary>
+            <param name="assignTypeFrom">类型</param>
+            <param name="assemblies">程序集</param>
+            <param name="onlyConcreteClasses">标识是否只查找具体的类</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.FindFromAbsClassesOfType(System.Type,System.Boolean)">
+            <summary>
+            查找类
+            </summary>
+            <param name="assignTypeFrom">分配类型</param>
+            <param name="onlyConcreteClasses">标识是否只查找具体的类</param>
+            <returns>Result</returns>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.FindFromAbsClassesOfType``1(System.Collections.Generic.IEnumerable{System.Reflection.Assembly},System.Boolean)">
+             <summary>
+            查找类
+             </summary>
+             <typeparam name="T">类型</typeparam>
+             <param name="assemblies">程序集</param>
+             <param name="onlyConcreteClasses">标识是否只查找具体的类</param>
+             <returns>Result</returns>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.FindFromAbsClassesOfType(System.Type,System.Collections.Generic.IEnumerable{System.Reflection.Assembly},System.Boolean)">
+            <summary>
+            根据抽象类获取子类
+            </summary>
+            <param name="assignTypeFrom">类型</param>
+            <param name="assemblies">程序集</param>
+            <param name="onlyConcreteClasses">标识是否只查找具体的类</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.GetAssemblyByName(System.String)">
+            <summary>
+            根据名称（jfine.dll）获取程序集
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Infrastructure.AppDomainTypeFinder.GetAssemblies">
+            <summary>
+            Gets the assemblies related to the current implementation.
+            </summary>
+            <returns>A list of assemblies</returns>
+        </member>
+        <member name="P:JFine.Infrastructure.AppDomainTypeFinder.App">
+            <summary>The app domain to look for types in.</summary>
+        </member>
+        <member name="P:JFine.Infrastructure.AppDomainTypeFinder.LoadAppDomainAssemblies">
+            <summary>Gets or sets whether Nop should iterate assemblies in the app domain when loading Nop types. Loading patterns are applied when loading these assemblies.</summary>
+        </member>
+        <member name="P:JFine.Infrastructure.AppDomainTypeFinder.AssemblyNames">
+            <summary>Gets or sets assemblies loaded a startup in addition to those loaded in the AppDomain.</summary>
+        </member>
+        <member name="P:JFine.Infrastructure.AppDomainTypeFinder.AssemblySkipLoadingPattern">
+            <summary>Gets the pattern for dlls that we know don't need to be investigated.</summary>
+        </member>
+        <member name="P:JFine.Infrastructure.AppDomainTypeFinder.AssemblyRestrictToLoadingPattern">
+            <summary>Gets or sets the pattern for dll that will be investigated. For ease of use this defaults to match all but to increase performance you might want to configure a pattern that includes assemblies and your own.</summary>
+            <remarks>If you change this so that Nop assemblies aren't investigated (e.g. by not including something like "^Nop|..." you may break core functionality.</remarks>
+        </member>
+        <member name="T:JFine.Infrastructure.EngineContext">
+            <summary>
+            JFineEngine单例模式
+            </summary>
+        </member>
+        <member name="T:JFine.Infrastructure.IStartupTask">
+            <summary>
+            Interface which should be implemented by tasks run on startup
+            </summary>
+        </member>
+        <member name="M:JFine.Infrastructure.IStartupTask.Execute">
+            <summary>
+            Executes a task
+            </summary>
+        </member>
+        <member name="P:JFine.Infrastructure.IStartupTask.Order">
+            <summary>
+            Gets order of this startup task implementation
+            </summary>
+        </member>
+        <member name="T:JFine.Infrastructure.Singleton`1">
+            <summary>
+            A statically compiled "singleton" used to store objects throughout the 
+            lifetime of the app domain. Not so much singleton in the pattern's 
+            sense of the word as a standardized way to store single instances.
+            </summary>
+            <typeparam name="T">The type of object to store.</typeparam>
+            <remarks>Access to the instance is not synchrnoized.</remarks>
+        </member>
+        <member name="T:JFine.Infrastructure.Singleton">
+            <summary>
+            Provides access to all "singletons" stored by <see cref="T:JFine.Infrastructure.Singleton`1"/>.
+            </summary>
+        </member>
+        <member name="P:JFine.Infrastructure.Singleton.AllSingletons">
+            <summary>
+            Dictionary of type to singleton instances.
+            </summary>
+        </member>
+        <member name="P:JFine.Infrastructure.Singleton`1.Instance">
+            <summary>
+            The singleton instance for the specified type T. Only one instance (at the time) of this object for each type of T.
+            </summary>
+        </member>
+        <member name="T:JFine.Infrastructure.SingletonList`1">
+            <summary>
+            Provides a singleton list for a certain type.
+            </summary>
+            <typeparam name="T">The type of list to store.</typeparam>
+        </member>
+        <member name="P:JFine.Infrastructure.SingletonList`1.Instance">
+            <summary>
+            The singleton instance for the specified type T. Only one instance (at the time) of this list for each type of T.
+            </summary>
+        </member>
+        <member name="T:JFine.Infrastructure.SingletonDictionary`2">
+            <summary>
+            Provides a singleton dictionary for a certain key and vlaue type.
+            </summary>
+            <typeparam name="TKey">The type of key.</typeparam>
+            <typeparam name="TValue">The type of value.</typeparam>
+        </member>
+        <member name="P:JFine.Infrastructure.SingletonDictionary`2.Instance">
+            <summary>
+            The singleton instance for the specified type T. Only one instance (at the time) of this dictionary for each type of T.
+            </summary>
+        </member>
+        <member name="T:JFine.Infrastructure.WebAppTypeFinder">
+            <summary>
+            Provides information about types in the current web application. 
+            Optionally this class can look at all assemblies in the bin folder.
+            </summary>
+        </member>
+        <member name="M:JFine.Infrastructure.WebAppTypeFinder.GetBinDirectory">
+            <summary>
+            Gets a physical disk path of \Bin directory
+            </summary>
+            <returns>The physical path. E.g. "c:\inetpub\wwwroot\bin"</returns>
+        </member>
+        <member name="M:JFine.Infrastructure.WebAppTypeFinder.GetAssemblies">
+            <summary>
+            Get assemblies
+            </summary>
+            <returns>Result</returns>
+        </member>
+        <member name="P:JFine.Infrastructure.WebAppTypeFinder.EnsureBinFolderAssembliesLoaded">
+            <summary>
+            Gets or sets whether assemblies in the bin folder of the web application should be specifically checked for being loaded on application load. This is need in situations where plugins need to be loaded in the AppDomain after the application been reloaded.
+            </summary>
+        </member>
+    </members>
+</doc>

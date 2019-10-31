@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+
+    var keyValue = $.request("keyValue");
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridDeptList");
+        $gridList.dataGrid({
+            url: "/SysManage/Organize/GetDeptListJoinUser?userId=" + keyValue,
+            height: $(window).height() - 60,
+            multiselect: true,
+            rownumbers: true,
+            rowNum: -1,
+            colModel: [
+                { label: "主键", name: "Id", hidden: true, key: true },
+                { label: '名称', name: 'Name', width: 200, align: 'left' },
+                { label: '编号', name: 'Code', width: 150, align: 'left' },
+                {
+                    label: '分类', name: 'Category', width: 80, align: 'left',
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == "Group") {
+                            return "集团";
+                        } else if (cellvalue == "Company") {
+                            return "公司";
+                        } else if (cellvalue == "Department") {
+                            return "部门";
+                        } else if (cellvalue == "WorkGroup") {
+                            return "小组";
+                        }
+                    }
+                },
+                { label: '备注', name: 'Description', width: 300, align: 'left' },
+                { label: 'UserId', name: 'UserId', hidden: true }
+            ],
+            loadComplete: function () {
+                var rows = $gridList.jqGrid("getDataIDs");
+                if (rows != undefined) {
+                    for (var i in rows) {
+                        var rowData = $gridList.jqGrid('getRowData', rows[i]);
+                        if (rowData.UserId != undefined & rowData.UserId != null & rowData.UserId != '') {
+                            //$("#gridDeptList").setSelection(rows[i]);
+                            $("#gridDeptList").jqGrid('setSelection', rows[i]);
+                        }
+                    }
+                }
+
+            }
+        });
+
+    }
+    function submitForm() {
+        var deptListJson = $("#gridDeptList").jqGridRows();
+        if (deptListJson == undefined && deptListJson  == null) {
+            deptListJson = [];
+        }
+        $.submitForm({
+            url: "/SysManage/Organize/SaveUserDept?keyValue=" + keyValue,
+            param: { "deptListJson": JSON.stringify(deptListJson)},
+            success: function () {
+
+            }
+        })
+    }
+</script>
+
+<div class="gridPanel">
+    <table id="gridDeptList"></table>
+</div>

@@ -1,0 +1,110 @@
+﻿ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2019-07-26 09:40:44
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+     var keyValue = $.request("keyValue");
+    $(function () {
+        $.ajax({
+            url: "/IOT/IOTOrder/GetFormJson",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                  $("#form1").formInitialize(data);
+            }
+        });
+    });
+</script>
+
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <table class="form">
+ 	  	
+			<tr>
+                <th class="formTitle"> 工单号</th>
+                <td class="formValue">
+                    <div id="OrderNum" name="OrderNum" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 产品编码</th>
+                <td class="formValue">
+                    <div id="ProductCode" name="ProductCode" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 产品名称</th>
+                <td class="formValue">
+                    <div id="ProductName" name="ProductName" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 标准节拍</th>
+                <td class="formValue">
+                    <div id="StandardBeat" name="StandardBeat" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 数量</th>
+                <td class="formValue">
+                    <div id="Quantity" name="Quantity" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 开始时间</th>
+                <td class="formValue">
+                    <div id="StartTime" name="StartTime" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 结束时间</th>
+                <td class="formValue">
+                    <div id="EndTime" name="EndTime" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 设备编码</th>
+                <td class="formValue">
+                    <div id="DeviceCode" name="DeviceCode" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 设备名称</th>
+                <td class="formValue">
+                    <div id="DeviceName" name="DeviceName" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建日期</th>
+                <td class="formValue">
+                    <div id="CreateDate" name="CreateDate" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建用户名称</th>
+                <td class="formValue">
+                    <div id="CreateUserName" name="CreateUserName" ></div>
+                </td>
+            </tr>
+   
+        </table>
+    </div>
+</form>
+

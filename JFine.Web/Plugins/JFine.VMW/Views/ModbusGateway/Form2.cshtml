@@ -1,0 +1,252 @@
+﻿
+ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2019-06-24 17:56:03
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form2.cshtml";
+}
+<script>
+    var keyValue = '@ViewBag.Id';
+    $(function () {
+	initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/Modbus/ModbusGateway/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+
+	 //初始化组件
+    function initControl()
+    {
+        //初始化工作
+        gridList();
+    }
+    function gridList() {
+        var queryJson = {
+            bindid: keyValue
+        }
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/Modbus/ModbusGatewayPara/GetGridJson",
+            height: $(window).height() - 320,
+            postData: { queryJson: JSON.stringify(queryJson) },
+            colModel: [
+
+					{ label: "主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+					{ label: "BindId", name: "BindId", width: 150, align: 'left', hidden: true },
+
+					{ label: "设备Id", name: "DeviceId", width: 90, align: 'left' },
+
+					{ label: "寄存器地址", name: "AddrId", width: 90, align: 'left' },
+
+                    { label: "数据位数", name: "Databit", width: 90, align: 'left' },
+
+					{ label: "参数编码", name: "ParameterCode", width: 100, align: 'left' },
+
+					{ label: "参数名称", name: "ParameterName", width: 130, align: 'left' },
+
+                    { label: "下限", name: "MinValue", width: 80, align: 'left' },
+
+                    { label: "上限", name: "MaxValue", width: 80, align: 'left' },
+
+                    { label: "是否预警", name: "warnFlag", width: 60, align: 'left' },
+
+                    { label: "排序", name: "Sort", width: 60, align: 'left' },
+
+					{ label: "创建日期", name: "CreateDate", width: 130, align: 'left' },
+
+            ],
+            pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+    }
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        var postData = $("#form1").formSerialize();
+        $.submitForm({
+            url: "/Modbus/ModbusGateway/SaveForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                var parentTabId = top.$.jfinetab.getCurrentTabParentId();
+                var resultPage = top.$.jfinetab.getTabContentFromId(parentTabId);
+                resultPage.refreshGrid();
+                top.$.jfinetab.closeCurrentTab();
+            }
+        })
+    }
+	//关闭Form
+    function closeForm() {
+        top.$.jfinetab.closeCurrentTab();
+    }
+
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增参数配置",
+            url: "/Modbus/ModbusGatewayPara/Form?bindid="+keyValue,
+            width: ($(window).width() * 0.8) + "px",
+            height: ($(window).height() * 0.7) + "px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+        //var parentId = top.$.jfinetab.getCurrentTabId();
+        //top.$.jfinetab.addTabContent("/Modbus/ModbusGatewayPara/Form2", "参数配置--新增", parentId + "_add", parentId);
+    }
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            $.modalOpen({
+                id: "Form",
+                title: "修改参数配置",
+                url: "/Modbus/ModbusGatewayPara/Form?keyValue=" + keyValue,
+                width: ($(window).width() * 0.8) + "px",
+                height: ($(window).height() * 0.7) + "px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].submitForm();
+                }
+            });
+        }
+        //var parentId = top.$.jfinetab.getCurrentTabId();
+        //var Id = $("#gridList").jqGridRowValue().Id;
+        //if ($.checkedArray(Id)) {
+        //    top.$.jfinetab.addTabContent("/Modbus/ModbusGatewayPara/Form2?keyValue=" + Id, "参数配置--修改", parentId + "_edit", parentId);
+        // }
+
+    }
+    function btn_delete() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            $.deleteForm({
+                url: "/Modbus/ModbusGatewayPara/DeleteForm",
+                param: { keyValue: keyValue },
+                success: function () {
+                    $.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+            });
+        }
+
+    }
+</script>
+
+<form id="form1">
+    <input type="hidden" id="Id" name="Id" value="" />
+    <div id="jfine-form-container" class="jfine-form-container" border="0">
+        <table id="jfine-form-maintable" class="jfineui jfine-form-maintable" style="table-layout: fixed;"
+               border="0" cellspacing="0" cellpadding="0" align="center">
+            <tbody>
+                <tr id="jfine-form-titlebg" class="jfine-form-titlebg">
+                    <td>
+                        <table align="center" border="0" style="margin: 0px auto; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td class="jfine-form-header_l">
+                                        <span class="jfine-form-logo">
+                                            <img src="/Content/images/formlogo.png" />
+                                        </span>
+                                    </td>
+                                    <td class="jfine-form-header_c">
+                                        <span class="jfine-form-header-title">Modbus网关</span>
+                                    </td>
+                                    <td class="jfine-form-header_r">
+                                        <div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-info dropdown-text" onclick="submitForm()"><i class="fa fa-send"></i>提交</a>
+                                                <a class="btn btn-warning dropdown-text" onclick="closeForm()"><i class="fa fa-minus"></i>关闭</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="jfine-form-formcontent" class="jfine-form-titlebg" style="">
+                    <td>
+                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                            <table class="form" style="margin-bottom: 10px;">
+					 	  	
+								<tr>
+									<th class="formTitle"> IP</th>
+									<td class="formValue">
+										<input id="Ip" name="Ip" type="text"
+										 class="form-control  required"  placeholder="请输入IP" />
+									</td>
+                                    <th class="formTitle"> 端口号</th>
+                                    <td class="formValue">
+                                        <input id="Port" name="Port" type="text"
+                                               class="form-control digits required" placeholder="请输入端口号" />
+                                    </td>
+								</tr>
+
+                                <tr>
+                                    <th class="formTitle"> 功能码</th>
+                                    <td class="formValue">
+                                        <input id="FunCode" name="FunCode" type="text"
+                                               class="form-control digits required" placeholder="请输入功能码" />
+                                    </td>
+                                    <th class="formTitle"> </th>
+                                    <td class="formValue">
+                                       
+                                    </td>
+                                </tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 起始寄存器地址</th>
+									<td class="formValue">
+										<input id="StartAddr" name="StartAddr" type="text"
+										 class="form-control digits required"  placeholder="请输入起始寄存器地址" />
+									</td>
+                                    <th class="formTitle"> 寄存器地址长度</th>
+                                    <td class="formValue">
+                                        <input id="AddrLength" name="AddrLength" type="text"
+                                               class="form-control digits required" placeholder="请输入寄存器地址长度" />
+                                    </td>
+								</tr>
+					 	  	
+								<tr>
+                                    <th class="formTitle"> 超时时间s</th>
+                                    <td class="formValue">
+                                        <input id="Timeout" name="Timeout" type="text"
+                                               class="form-control digits required" placeholder="请输入超时时间s" />
+                                    </td>
+									<th class="formTitle"> 周期s</th>
+									<td class="formValue">
+										<input id="Period" name="Period" type="text"
+										 class="form-control isNumber required"  placeholder="请输入周期s" />
+									</td>
+								</tr>
+					   
+							</table>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="gridPanel">
+            <div class="btn-group">
+                <a id="JF-add" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+                <a id="JF-edit" class="btn btn-primary dropdown-text" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a>
+                <a id="JF-delete" class="btn btn-primary dropdown-text" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+            </div>
+            <table id="gridList"></table>
+            <div id="gridPager"></div>
+        </div>
+    </div>
+</form>
+

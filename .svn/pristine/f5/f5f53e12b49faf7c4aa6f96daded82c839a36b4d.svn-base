@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JFine.Job</name>
+    </assembly>
+    <members>
+        <member name="M:JFine.Job.ITaskJob.RunJob(System.Collections.Generic.Dictionary{System.String,System.String},System.String,System.String)">
+            <summary>
+            执行任务
+            </summary>
+            <param name="dataMap">数据：ID：任务ID；ScheduleType：ScheduleType；ExecuteContent：可执行内容；ExecuteParam：参数（@par1='string',@par2=10）</param>
+            <param name="jobName">任务名称</param>
+            <param name="id">任务id</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Job.QuartzParameter">
+            <summary>
+            Quartz参数
+            </summary>
+        </member>
+        <member name="M:JFine.Job.ScheduleTask.CreateTaskJob(JFine.Domain.Models.SysCommon.Job_ScheduleEntity)">
+            <summary>
+            创建任务
+            </summary>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Job.ScheduleTask.CreateSample``1(JFine.Domain.Models.SysCommon.Job_ScheduleEntity)">
+            <summary>
+            创建简单任务
+            </summary>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Job.ScheduleTask.CreateComplex``1(JFine.Domain.Models.SysCommon.Job_ScheduleEntity)">
+            <summary>
+            创建复杂任务
+            </summary>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Job.ScheduleTask.ResumeTaskJob(System.String)">
+            <summary>
+            重启任务
+            </summary>
+            <param name="taskid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Job.ScheduleTask.PauseTaskJob(System.String)">
+            <summary>
+            暂停任务
+            </summary>
+            <param name="taskid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Job.ScheduleTask.CloseTaskJob(System.String)">
+            <summary>
+            关闭/删除任务
+            </summary>
+            <param name="taskid"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

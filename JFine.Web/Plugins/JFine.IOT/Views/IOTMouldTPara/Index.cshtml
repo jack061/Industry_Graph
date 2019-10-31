@@ -1,0 +1,169 @@
+﻿
+ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2019-08-09 14:44:17
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    var bindid = $.request("bindid");
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/IOT/IOTMouldTPara/GetGridJson?bindid=" + bindid,
+            height: $(window).height() - 140,
+            colModel: [
+					  	
+					{ label: "主键", name: "Id", width: 150, align: 'left', hidden: true },
+	  	
+					{ label: "BindId", name: "BindId", width: 150, align: 'left', hidden: true },
+	  	
+					{ label: "编码", name: "Code", width: 150, align: 'left' },
+	  	
+					{ label: "名称", name: "Name", width: 150, align: 'left' },
+	  	
+					{ label: "值", name: "Value", width: 150, align: 'left' },
+	  	
+					{ label: "上下限类型", name: "LimitType", width: 150, align: 'left' },
+	  	
+					{ label: "上限", name: "LimitUp", width: 150, align: 'left' },
+	  	
+					{ label: "下限", name: "LimitDown", width: 150, align: 'left' },
+	  	
+					{ label: "创建日期", name: "CreateDate", width: 150, align: 'left' },
+	  	
+					{ label: "创建用户名称", name: "CreateUserName", width: 150, align: 'left' },
+ 
+            ],
+			pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+			var queryJson = {
+                keyword: $("#txt_keyword").val()
+            }
+		    $gridList.jqGrid('setGridParam', {
+		         postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+		    }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增工艺标准参数",
+            url: "/IOT/IOTMouldTPara/Form?bindid=" + bindid,
+            width: ($(window).width() * 0.8) + "px",
+            height: ($(window).height() * 0.7) + "px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+		//var parentId = top.$.jfinetab.getCurrentTabId();
+        //top.$.jfinetab.addTabContent("/IOT/IOTMouldTPara/Form2", "工艺标准参数--新增", parentId + "_add", parentId);
+    }
+    function btn_edit() {
+		var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue))
+        {
+			$.modalOpen({
+				id: "Form",
+				title: "修改工艺标准参数",
+				url: "/IOT/IOTMouldTPara/Form?keyValue=" + keyValue,
+				width: ($(window).width() * 0.8) + "px",
+				 height: ($(window).height() * 0.7) + "px",
+				callBack: function (iframeId) {
+					top.frames[iframeId].submitForm();
+				}
+			});
+        }
+		//var parentId = top.$.jfinetab.getCurrentTabId();
+        //var Id = $("#gridList").jqGridRowValue().Id;
+        //if ($.checkedArray(Id)) {
+        //    top.$.jfinetab.addTabContent("/IOT/IOTMouldTPara/Form2?keyValue=" + Id, "工艺标准参数--修改", parentId + "_edit", parentId);
+       // }
+        
+    }
+    function btn_delete() {
+	  var keyValue = $("#gridList").jqGridRowValue().Id;
+	 if ($.checkedArray(keyValue))
+        {
+			 $.deleteForm({
+				url: "/IOT/IOTMouldTPara/DeleteForm",
+				param: { keyValue: keyValue },
+				success: function () {
+					$.currentWindow().$("#gridList").trigger("reloadGrid");
+				}
+			});
+        }
+        
+    }
+    function btn_details() { 
+		var keyValue = $("#gridList").jqGridRowValue().Id;      
+		if ($.checkedArray(keyValue))
+		 {
+			$.modalOpen({
+				id: "Details",
+				title: "查看工艺标准参数",
+				url: "/IOT/IOTMouldTPara/Details?keyValue=" + keyValue,
+				width: "550px",
+				height: "620px",
+				btn: null,
+			});
+		  }
+
+		//var parentId = top.$.jfinetab.getCurrentTabId();
+		//var Id = $("#gridList").jqGridRowValue().Id;
+		//if ($.checkedArray(Id)) {
+		//    top.$.jfinetab.addTabContent("/IOT/IOTMouldTPara/Details2?keyValue=" + Id, "工艺标准参数--查看", parentId + "_view", parentId);
+		//}
+    
+    }
+	function refreshGrid() {
+        $("#gridList").trigger("reloadGrid");
+	 }      
+</script>
+
+<div style="font-size:12pt;">当前模具：<span>@ViewBag.mouldCode : @ViewBag.mouldName</span></div>
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="JF-add"  class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+            <a id="JF-edit" class="btn btn-primary dropdown-text" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a>
+            <a id="JF-delete" class="btn btn-primary dropdown-text"  onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+            <a id="JF-Details" class="btn btn-primary dropdown-text"  onclick="btn_details()"><i class="fa fa-search-plus"></i>查看</a>
+        </div>
+        <div id="toolbar" class="btn-group">
+		</div>
+		<script>$('#toolbar').authorizeButton()</script>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+	<div id="gridPager"></div>
+</div>
+

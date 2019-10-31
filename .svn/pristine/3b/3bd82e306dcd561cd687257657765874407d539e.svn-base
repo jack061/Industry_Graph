@@ -1,0 +1,603 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>平台介绍</title>
+    <link href="~/Content/css/framework-font.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-ui.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery/jquery-2.0.3.min.js"></script>
+    <script src="~/Content/js/bootstrap/bootstrap.min.js"></script>
+    <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
+    <link href="~/Content/js/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-ui.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>平台设计</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content" style="overflow:hidden;">
+                    <img src="~/Content/images/平台设计.png"  style="width:100%;"/>
+                </div>
+            </div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>功能模块</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content" style="overflow:hidden;">
+                    <img src="~/Content/images/功能模块.png" style="width:100%;" />
+                </div>
+            </div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>JFine技术</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content" style="overflow:hidden;">
+                    <div style="float: left; width: 50%;">
+                        <p>1、前端技术</p>
+                        <p>JS框架：jquery-2.0.3、Bootstrap.js、JQuery UI</p>
+                        <p>CSS框架：Bootstrap v3.3.4</p>
+                        <p>客户端验证：jQuery Validation Plugin 1.9.0。</p>
+                        <p>在线编辑器：ckeditor、simditor</p>
+                        <p>上传文件：Uploadify v3.2.1</p>
+                        <p>动态页签：Jerichotab</p>
+                        <p>数据表格：jqGrid、Bootstrap Talbe</p>
+                        <p>对话框：layer-v2.3</p>
+                        <p>下拉选择框：jQuery Select2</p>
+                        <p>树结构控件：jQuery zTree、jQuery wdtree</p>
+                        <p>页面布局：jquery.layout.js 1.4.4</p>
+                        <p>图表插件：echarts、highcharts</p>
+                        <p>日期控件： My97DatePicker + moment.js</p>
+                    </div>
+                    <div style="float: left; width: 50%;">
+                        <p>2、后端技术</p>
+                        <p>核心框架：ASP.NET MVC5、WEB API</p>
+                        <p>持久层框架：EntityFramework 6.0</p>
+                        <p>定时计划任务：Quartz.Net组件</p>
+                        <p>安全支持：过滤器、Sql注入、请求伪造</p>
+                        <p>服务端验证：实体模型验证、自己封装Validator</p>
+                        <p>缓存框架：微软自带Cache、Redis</p>
+                        <p>流程引擎：JFineWorkFlow</p>
+                        <p>日志管理：Log4net、登录日志、操作日志</p>
+                        <p>工具类：NPOI、Newtonsoft.Json、验证码、丰富公共类似、html转pdf：pechkin</p>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>联系信息</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <p>
+                        <i class="fa fa-send-o"></i> 博客：<a href="http://www.superjoy.net" target="_blank">http://www.superjoy.net</a>
+                    </p>
+                    <p>
+                        <i class="fa fa-qq"></i> QQ：<a href="http://wpa.qq.com/msgrd?v=3&uin=851453843&site=qq&menu=yes" target="_blank">superjoy</a>
+                    </p>
+                    <p>
+                        <i class="fa fa-weixin"></i> 微信：<a href="javascript:;">superjoy</a>
+                    </p>
+                    <p>
+                        <i class="fa fa-credit-card"></i> 支付宝：<a href="javascript:;" class="支付宝信息">superjoy@qq.com / *CrazyJoy</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>开发日志</h5>
+                </div>
+                <div class="ibox-content no-padding">
+                    <div class="panel-body">
+                        <div class="panel-group" id="version">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v3_3_003">v3.3.3</a><code class="pull-right">2019.06.29</code>
+                                    </h4>
+                                </div>
+                                <div id="v3_3_003" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                IOT下添加MQTT模块
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v3_3_002">v3.3.2</a><code class="pull-right">2019.06.26</code>
+                                    </h4>
+                                </div>
+                                <div id="v3_3_002" class="panel-collapse collapse ">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                添加IOT插件
+                                            </li>
+                                            <li>
+                                                IOT下添加Modbus模块
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v3_3_001">v3.3.0</a><code class="pull-right">2019.06.19</code>
+                                    </h4>
+                                </div>
+                                <div id="v3_3_001" class="panel-collapse collapse ">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                添加功能模块方法权限管理
+                                            </li>
+                                            <li>
+                                                添加功能模块方法操作日志
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v3_2_005">v3.2.5</a><code class="pull-right">2019.05.14</code>
+                                    </h4>
+                                </div>
+                                <div id="v3_2_005" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                添加AI文本智能识别模块
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v3_2_003">v3.2.3</a><code class="pull-right">2019.05.06</code>
+                                    </h4>
+                                </div>
+                                <div id="v3_2_003" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                添加AI票据识别模块
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v3_2_002">v3.2.2</a><code class="pull-right">2019.04.10</code>
+                                    </h4>
+                                </div>
+                                <div id="v3_2_002" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                添加报表管理模块
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v3_2_001">v3.2.1</a><code class="pull-right">2019.02.23</code>
+                                    </h4>
+                                </div>
+                                <div id="v3_2_001" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                流程管理模块功能基本完善，整体项目升级到V3.2
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v3_001">v3.0.1</a><code class="pull-right">2018.5.18</code>
+                                    </h4>
+                                </div>
+                                <div id="v3_001" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                重构整个项目--插件化
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_019">v2.0.19</a><code class="pull-right">2017.12.14</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_019" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                添加SSO项目-完成系统间用户验证
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_018">v2.0.18</a><code class="pull-right">2017.12.12</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_018" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                创建流程实例管理
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_017">v2.0.17</a><code class="pull-right">2017.11.07</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_017" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                项目管理--文件管理、团队管理
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_016">v2.0.16</a><code class="pull-right">2017.11.04</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_016" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                创建项目管理
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_015">v2.0.15</a><code class="pull-right">2017.10.10</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_015" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                完善日志
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_014">v2.0.14</a><code class="pull-right">2017.9.30</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_014" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                流程表单管理
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_013">v2.0.13</a><code class="pull-right">2017.9.26</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_013" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                创建流程管理项目---前台gooflow;
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_012">v2.0.12</a><code class="pull-right">2017.9.22</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_012" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                业务调度
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_011">v2.0.11</a><code class="pull-right">2017.9.14</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_011" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                标的配置功能
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_010">v2.0.10</a><code class="pull-right">2017.9.04</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_010" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                编码功能
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_009">v2.0.9</a><code class="pull-right">2017.8.25</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_009" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                创建招投标项目
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_008">v2.0.8</a><code class="pull-right">2017.8.05</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_008" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                菜单添加按钮权限、用户添加角色;
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_007">v2.0.7</a><code class="pull-right">2017.8.03</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_007" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                基础模块基本完成：组织、角色、职位、岗位、用户、数据字典;
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_006">v2.0.6</a><code class="pull-right">2017.7.29</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_006" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                T4模板
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_005">v2.0.5</a><code class="pull-right">2017.2.21</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_005" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                基本完成组织权限功能，初步调通;
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_004">v2.0.4</a><code class="pull-right">2017.2.6</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_004" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                完善Common 基础结构层;
+                                            </li>
+                                            <li>
+                                                添加日志模块;
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_003">v2.0.3</a><code class="pull-right">2017.1.21-22</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_003" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>
+                                                完善Common 基础结构层(JFine.Web、JFine.Image);<br />
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_002">v2.0.2</a><code class="pull-right">2017.1.20</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_002" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>对解决方案的整体进行了层次搭建:<br />
+                                                01 Common 基础结构层(JFine.Common、JFine.Ioc、JFine.Log、JFine.Util);<br />
+                                                02 Business 业务逻辑层（JFine.Job）;<br />
+                                                03 Data 数据层;<br />
+                                                04 Application 应用层(JFine.Web);
+                                            </li>
+                                            <li>开始搭建基础结构层的JFine.Common类库<br />
+                                            主要完成了config、DotnetFile、Encrypt、Image、Message等模块</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_001">v2.0.1</a><code class="pull-right">2017.1.19</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_001" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>搭建了主界面</li>
+                                            <li>搭建了登录界面</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v2_000">v2.0.0</a><code class="pull-right">2017.1.6</code>
+                                    </h4>
+                                </div>
+                                <div id="v2_000" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ol>
+                                            <li>创建了解决方案</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $(".collapse-link").click(function () {
+                var o = $(this).closest("div.ibox"),
+                    e = $(this).find("i"),
+                    i = o.find("div.ibox-content");
+                i.slideToggle();
+                e.toggleClass("fa-chevron-up").toggleClass("fa-chevron-down");
+                o.toggleClass("").toggleClass("border-bottom");
+            });
+        })
+    </script>
+</body>
+</html>

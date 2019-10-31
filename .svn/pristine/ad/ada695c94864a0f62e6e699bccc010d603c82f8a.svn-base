@@ -1,0 +1,168 @@
+$(window).load(function () {
+    $(".loading").fadeOut()
+})
+$(function () {
+    //updateData();
+    //init();
+    SpeedGraph();
+    receiveData();
+   
+
+})
+function init() {
+    window.setInterval(updateData, 5000);
+}
+
+function updateData() {
+    //根据Id获取最新的一条数据
+    var $table = $(".navboxall");
+    $.each($table, function () {
+        var deviceId = $(this).attr("deviceId");
+        var $this = $(this);
+        $.ajax({
+            url: '/GatewayVal/GetNewestData',
+            data: {
+                queryJson: JSON.stringify({ deviceId: deviceId })
+            },
+            async: false,
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $this.find("div[id='" + data[i]["ParameterCode"] + "'] span:eq(1)").text(data[i]["ParameterValue"]);
+                    //$this.find("tr[id='" + data[i]["ParameterCode"] + "'] td:eq(1) span").text(data[i]["ParameterValue"]);
+                }
+            }
+        })
+    })
+}
+
+function receiveData() {
+    // Declare a proxy to reference the hub. 
+    modbusHub = $.connection.modbus;
+    // Create a function that the hub can call to broadcast messages
+    //StartBid
+    modbusHub.client.ReceiveData = function (deviceId, paraCode, data, dataTime) {
+        console.log("接收到数据");
+        //$("#deviceId").val(deviceId);
+        //$("#paraCode").val(paraCode);
+        //$("#data").val(data);
+        var reg = /T/g;
+        dataTime = dataTime.replace(reg, ' ');
+        //$("#dataTime").val(dataTime);
+        //$("#data").append("设备Id:" + deviceId + ";参数编码:" + paraCode + ";数值：" + data + ";时间：" + dataTime + "<br>");
+        $(".navboxall[deviceId='" + deviceId + "']").find("div[id='" + paraCode + "'] span:eq(1)").text(data);
+    };
+    // Start the connection.
+    $.connection.hub.start().done(function () {
+        console.log("modbusHub已连接");
+    });
+}
+
+function SpeedGraph() {
+    // 公共配置
+    Highcharts.setOptions({
+        chart: {
+            type: 'solidgauge'
+        },
+        title: null,
+        pane: {
+            center: ['50%', '85%'],
+            size: '140%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                innerRadius: '60%',
+                outerRadius: '100%',
+                shape: 'arc'
+            }
+        },
+        tooltip: {
+            enabled: false
+        },
+        yAxis: {
+            stops: [
+                [0.1, '#55BF3B'], // green
+                [0.5, '#DDDF0D'], // yellow
+                [0.9, '#DF5353'] // red
+            ],
+            lineWidth: 0,
+            minorTickInterval: null,
+            tickPixelInterval: 400,
+            tickWidth: 0,
+            title: {
+                y: -70
+            },
+            labels: {
+                y: 16
+            }
+        },
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true
+                }
+            }
+        }
+    });
+    // 速度仪表
+    var chart1 = Highcharts.chart('container-speed', {
+        yAxis: {
+            min: 0,
+            max: 200,
+            title: {
+                text: '速度'
+            }
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: '速度',
+            data: [80],
+            dataLabels: {
+                format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                    '<span style="font-size:12px;color:silver">km/h</span></div>'
+            },
+            tooltip: {
+                valueSuffix: ' km/h'
+            }
+        }]
+    });
+    // 定时刷新数据
+    setInterval(function () {
+        var point,
+            newVal,
+            inc;
+        if (chart1) {
+            point = chart1.series[0].points[0];
+            inc = Math.round((Math.random() - 0.5) * 100);
+            newVal = point.y + inc;
+            if (newVal < 0 || newVal > 200) {
+                newVal = point.y - inc;
+            }
+            point.update(newVal);
+        }
+    }, 2000);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

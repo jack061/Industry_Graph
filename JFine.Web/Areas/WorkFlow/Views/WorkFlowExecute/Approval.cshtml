@@ -1,0 +1,324 @@
+﻿@*------------------------------------------------------------------------------
+    *     此代码由T4模板自动生成
+    *	   生成时间 2017-12-24 14:41:17
+    *     ©为之团队
+    *------------------------------------------------------------------------------*@
+
+
+@{
+    ViewBag.Title = "审批";
+    Layout = "~/Views/Shared/_Form2.cshtml";
+}
+<script>
+    var taskId = '@ViewBag.taskId';// 数据Id
+    var instanceId = '@ViewBag.instanceId';// 任务实例Id
+    var isEdit = '@ViewBag.wfNode.isEdit';
+    var ApprovalType = @ViewBag.wfNode.ApprovalType;
+    var ApprovalMsgType = @ViewBag.wfNode.ApprovalMsgType;
+    var OptionDisplay = '@ViewBag.wfNode.OptionDisplay';
+    $(function () {
+        initControl();
+        if (!!taskId) {
+            $.ajax({
+                url: "/WorkFlow/WorkFlowTask/GetFormJson",
+                data: { keyValue: taskId },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+
+    //初始化组件
+    function initControl() {
+        //审批结果
+        $("#Result").bindSelect();
+        $(".collapse-link").click(function () {
+            var o = $(this).closest("div.ibox"),
+                e = $(this).find("i"),
+                i = o.find("div.ibox-content");
+            i.slideToggle();
+            e.toggleClass("fa-chevron-up").toggleClass("fa-chevron-down");
+            o.toggleClass("").toggleClass("border-bottom");
+        });
+        //审批类型
+        if(ApprovalType == 1)
+        {
+            $("#wf_approval").remove();
+        }else if(ApprovalType == 2)
+        {
+
+        }else if(ApprovalType == 3)
+        {
+
+        }
+
+        //审批留言
+        if(ApprovalType != 1)
+        {
+            
+            if(ApprovalMsgType == 1)
+            {
+                $("#Comment").removeClass("required");
+            }else if(ApprovalMsgType == 2)
+            {
+                $("#Comment").addClass("required");
+                
+            }else if(ApprovalMsgType == 3)
+            {
+                $("#Comment").removeClass("required");
+            }else if(ApprovalMsgType == 4)
+            {
+                $("#Comment").addClass("required");
+            }
+        }
+       
+
+        //审批记录
+        if(OptionDisplay == 'True')
+        {
+            $("#wf_approval_record").show();
+            gridList();
+        }
+
+    }
+
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/WorkFlow/WorkFlowTask/GetTaskRecord?Id=" + instanceId,
+            colModel: [
+
+					{ label: " 来自", name: "OwnerName", width: 130, align: 'left', hidden: true },
+
+                    { label: " 状态", name: "Status", width: 60, align: 'left' },
+
+					{ label: " 任务标题", name: "Title", width: 150, align: 'left' },
+
+					{ label: " 接收时间", name: "BeginTime", width: 130, align: 'left' },
+
+                    { label: " 处理人", name: "ReceiverName", width: 100, align: 'left' },
+
+					{ label: " 处理结果", name: "Result", width: 150, align: 'left' },
+
+					{ label: " 处理意见", name: "Comment", width: 150, align: 'left' },
+
+                    { label: " 处理时间", name: "EndTime", width: 130, align: 'left' },
+
+					
+
+            ],
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $gridList.setGridWidth($(window).width() - 77);
+    }
+
+    // 先保存业务数据再处理流程（共分两步完成）
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+
+        if(ApprovalType != 1)
+        {
+            if(ApprovalMsgType == 3 || ApprovalMsgType == 4)
+            {
+                 if ($("#FileURL").val() == '' || $("#FileURL").val() == '&nbsp;')
+                 {
+                     $.modalAlert("请先上传附件", "warning");
+                     return false;
+                 }
+            }
+        }
+
+        //提交表单
+        if(isEdit == 'True')
+        {
+            $("#wf_iframe")[0].contentWindow.submitForm(function (callBack) {
+                var postData = $("#form1").formSerialize();
+                $.submitForm({
+                    url: "/WorkFlow/WorkFlowTask/SubmitForm",
+                    param: postData,
+                    success: function (data) {
+                        if (!!callBack) {
+                            //data.data为返回的数据ID
+                            callBack();
+                        }
+                    }
+                });
+
+            });
+        }else
+        {
+            var postData = $("#form1").formSerialize();
+            $.submitForm({
+                url: "/WorkFlow/WorkFlowTask/SubmitForm",
+                param: postData,
+                success: function () {
+                    var parentTabId = top.$.jfinetab.getCurrentTabParentId();
+                    var resultPage = top.$.jfinetab.getTabContentFromId(parentTabId);
+                    resultPage.refreshGrid();
+                    top.$.jfinetab.closeCurrentTab();
+                }
+            })
+        }
+
+    }
+
+    //打开上传附件窗口
+    function open_upload() {
+        $.modalOpen({
+            id: "UpLoadForm",
+            title: "上传附件",
+            url: "/SysCommon/Common/UpLoadBF?modelName=WFApproval&elementId=wf",
+            width: "550px",
+            height: "570px",
+            btn: null
+        });
+    }
+
+    //附件窗口回调刷新文件列表
+    function refreshFiles(result) {
+        if (result.elementId == "wf") {
+            var displayStr = "<a style='color:blue;' href='" + result.path + "'>" + result.filename_o + "</a>";
+            $("#fileInfo").html(displayStr);
+            $("#FileName").val(result.filename_o);
+            $("#FileURL").val(result.path);
+        } else
+        {//默认iframe
+            $("#wf_iframe")[0].contentWindow.refreshFiles(result);
+        }
+
+    }
+
+    //关闭Form
+    function closeForm() {
+        top.$.jfinetab.closeCurrentTab();
+    }
+</script>
+
+<form id="form1">
+    <input type="hidden" id="Id" name="Id" value="" />
+    <input type="hidden" id="BindID" name="BindID" value="" />
+    <input type="hidden" id="DataID" name="DataID" value="" />
+    <input type="hidden" id="WFID" name="WFID" value="" />
+    <input type="hidden" id="PreWFSID" name="PreWFSID" value="" />
+    <input type="hidden" id="WFSID" name="WFSID" value="" />
+    <div id="jfine-form-container" class="jfine-form-container" border="0">
+        <table id="jfine-form-maintable" class="jfineui jfine-form-maintable" style="table-layout: fixed;"
+               border="0" cellspacing="0" cellpadding="0" align="center">
+            <tbody>
+                <tr id="jfine-form-titlebg" class="jfine-form-titlebg">
+                    <td>
+                        <table align="center" border="0" style="margin: 0px auto; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td class="jfine-form-header_l">
+                                        <span class="jfine-form-logo">
+                                            <img src="/Content/images/formlogo.png" />
+                                        </span>
+                                    </td>
+                                    <td class="jfine-form-header_c">
+                                        <span class="jfine-form-header-title">@(string.IsNullOrWhiteSpace(ViewBag.ApprovalTitle) ? "单据审核" : ViewBag.ApprovalTitle)</span>
+                                    </td>
+                                    <td class="jfine-form-header_r">
+                                        <div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-info dropdown-text" onclick="submitForm()"><i class="fa fa-send"></i>提交</a>
+                                                <a class="btn btn-warning dropdown-text" onclick="closeForm()"><i class="fa fa-minus"></i>关闭</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="jfine-form-formcontent" class="jfine-form-titlebg" style="">
+                    <td>
+                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5 style="font-weight: bold;">单据信息</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div id="project_div" class="ibox-content">
+                                    <iframe id="approval_iframe" name="approval_iframe" width="100%" frameborder=0 height="100%" src="@ViewBag.FormURL" onload="this.height = approval_iframe.document.body.scrollHeight + 30"></iframe>
+                                    @*@Html.Action("Details", "SupplierBase", new { keyValue = @ViewBag.Id })*@
+                                </div>
+                            </div>
+
+                            <div id="wf_approval_record" style="display:none;" class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5 style="font-weight: bold;">审批记录</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="gridPanel">
+                                        <table id="gridList"></table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="wf_approval" class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5 style="font-weight: bold;">审批信息</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <table class="form">
+                                        <tr>
+                                            <th class="formTitle"> 审批结果</th>
+                                            <td class="formValue">
+                                                <select id="Result" name="Result" class="form-control required">
+                                                    <option value="通过">通过</option>
+                                                    <option value="不通过">不通过</option>
+                                                </select>
+                                            </td>
+                                            <th class="formTitle"> </th>
+                                            <td class="formValue"></td>
+
+                                        </tr>
+                                        <tr>
+                                            <th class="formTitle"> 附件资料</th>
+                                            <td class="formValue" colspan="3">
+                                                <div id="fileInfo" style="display: inline-block;margin-right:8px;"></div>
+                                                <a class="btn btn-primary dropdown-text" href="javascript:open_upload()"><i class="fa fa-upload"></i>上传</a>
+                                                <input id="FileName" name="FileName" type="hidden" class="form-control" />
+                                                <input id="FileURL" name="FileURL" type="hidden" class="form-control" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 审批意见</th>
+                                            <td class="formValue" colspan="3">
+                                                <textarea id="Comment" name="Comment" rows="4" class="form-control required" placeholder="请输入审批意见"></textarea>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>

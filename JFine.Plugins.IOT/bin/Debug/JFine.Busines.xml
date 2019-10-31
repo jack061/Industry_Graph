@@ -1,0 +1,2482 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JFine.Busines</name>
+    </assembly>
+    <members>
+        <member name="T:JFine.Busines.Supplier.SupplierPurchaseORGBLL">
+            <summary>
+            SupplierPurchaseORGBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.Supplier.SupplierPurchaseORGBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseORGBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseORGBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseORGBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseORGBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseORGBLL.GetPageApprovalList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseORGBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseORGBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseORGBLL.SaveForm(System.String,JFine.Domain.Models.Supplier.SupplierPurchaseORGEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseORGBLL.Approval(JFine.Domain.Models.Supplier.SupplierPurchaseORGEntity)">
+            <summary>
+            审核数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.Supplier.SupplierLinkmanBLL">
+            <summary>
+            SupplierLinkmanBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.Supplier.SupplierLinkmanBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierLinkmanBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierLinkmanBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierLinkmanBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierLinkmanBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierLinkmanBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierLinkmanBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierLinkmanBLL.SaveForm(System.String,JFine.Domain.Models.Supplier.SupplierLinkmanEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.Supplier.SupplierFilesBLL">
+            <summary>
+            SupplierFilesBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.Supplier.SupplierFilesBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierFilesBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierFilesBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierFilesBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierFilesBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierFilesBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierFilesBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierFilesBLL.SaveForm(System.String,JFine.Domain.Models.Supplier.SupplierFilesEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.Supplier.SupplierBaseBLL">
+            <summary>
+            SupplierBaseBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.Supplier.SupplierBaseBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.GetPageListBySql(JFine.Common.UI.Pagination,System.String,System.Int32)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <param name="flag">0:供应商列表；1、供应商资源库（状态为通过的供应商）</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.GetExtForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.SaveForm(System.String,JFine.Domain.Models.Supplier.SupplierBaseEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.SaveApprovalForm(System.String,JFine.Domain.Models.Supplier.SupplierBaseEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.RegistSupplier(JFine.Domain.Models.Supplier.SupplierBaseEntity,JFine.Domain.Models.Supplier.SupplierLinkmanEntity,System.Web.HttpRequestBase)">
+            <summary>
+            注册供应商
+            </summary>
+            <param name="supplierBaseEntity">供应商基本信息</param>
+            <param name="supplierLinkmanEntity">联系人信息</param>
+            <param name="request">请求上下文</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.SaveForm(System.String,JFine.Domain.Models.Supplier.SupplierBaseEntity,JFine.Domain.Models.Supplier.SupplierLinkmanEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue"></param>
+            <param name="supplierBaseEntity"></param>
+            <param name="supplierLinkmanEntity"></param>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierBaseBLL.SaveForm(System.String,JFine.Domain.Models.Supplier.SupplierBaseEntity,JFine.Domain.Models.Supplier.SupplierLinkmanEntity,System.Collections.Generic.List{JFine.Domain.Models.Supplier.SupplierFilesEntity},System.Collections.Generic.List{JFine.Domain.Models.Supplier.SupplierPurchaseORGEntity})">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue"></param>
+            <param name="supplierBaseEntity">基本信息</param>
+            <param name="supplierLinkmanEntity">联系人信息</param>
+            <param name="filedata">资质文件</param>
+            <param name="purchasedata">采购组织</param>
+        </member>
+        <member name="T:JFine.Busines.Supplier.SupplierPurchaseTypeBLL">
+            <summary>
+            SupplierPurchaseTypeBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.Supplier.SupplierPurchaseTypeBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseTypeBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseTypeBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseTypeBLL.GetPageListBySql(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseTypeBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseTypeBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseTypeBLL.GetPageApprovalList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseTypeBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseTypeBLL.SaveForm(System.String,JFine.Domain.Models.Supplier.SupplierPurchaseTypeEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseTypeBLL.Approval(JFine.Domain.Models.Supplier.SupplierPurchaseTypeEntity)">
+            <summary>
+            审核数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.Supplier.SupplierPurchaseTypeBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="T:JFine.Busines.SysCommon.ApprovalDeliverRecordBLL">
+            <summary>
+            ApprovalDeliverRecordBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SysCommon.ApprovalDeliverRecordBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalDeliverRecordBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalDeliverRecordBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalDeliverRecordBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalDeliverRecordBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalDeliverRecordBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalDeliverRecordBLL.DeleteForm(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalDeliverRecordBLL.SaveForm(System.String,JFine.Domain.Models.SysCommon.ApprovalDeliverRecordEntity)">
+            <summary>
+            保存表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SysCommon.ApprovalLogBLL">
+            <summary>
+            ApprovalLogBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SysCommon.ApprovalLogBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalLogBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalLogBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalLogBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalLogBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalLogBLL.GetFormByColumn(System.String,System.String)">
+            <summary>
+            根据键值获取实体
+            </summary>
+            <param name="columnName">列名</param>
+            <param name="columnVal">列值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalLogBLL.DeleteForm(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ApprovalLogBLL.SaveForm(System.String,JFine.Domain.Models.SysCommon.ApprovalLogEntity)">
+            <summary>
+            保存表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SysCommon.MessageRemindBLL">
+            <summary>
+            MessageRemindBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SysCommon.MessageRemindBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.MessageRemindBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.MessageRemindBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.MessageRemindBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.MessageRemindBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.MessageRemindBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.MessageRemindBLL.DeleteForm(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.MessageRemindBLL.SaveForm(System.String,JFine.Domain.Models.SysCommon.MessageRemindEntity)">
+            <summary>
+            保存表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.MessageRemindBLL.SaveMessage(System.String,System.String,System.Collections.Generic.List{JFine.Domain.Models.SystemManage.UserEntity})">
+            <summary>
+            保存信息
+            </summary>
+            <param name="type">类型：email/phone</param>
+            <param name="message">发送内容</param>
+            <param name="number">用户列表</param>
+        </member>
+        <member name="T:JFine.Busines.SysCommon.ScheduleLogBLL">
+            <summary>
+            ScheduleLogBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SysCommon.ScheduleLogBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ScheduleLogBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ScheduleLogBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ScheduleLogBLL.GetPageListBySql(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ScheduleLogBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ScheduleLogBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ScheduleLogBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ScheduleLogBLL.SaveForm(System.String,JFine.Domain.Models.SysCommon.ScheduleLogEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.ScheduleLogBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="T:JFine.Busines.SysCommon.SysAreaBLL">
+            <summary>
+            SysAreaBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SysCommon.SysAreaBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysAreaBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysAreaBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysAreaBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysAreaBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysAreaBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysAreaBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysAreaBLL.SaveForm(System.String,JFine.Domain.Models.SysCommon.SysAreaEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SysCommon.SysBankBLL">
+            <summary>
+            SysBankBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SysCommon.SysBankBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysBankBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysBankBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysBankBLL.GetPageListBySql(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysBankBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysBankBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysBankBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysBankBLL.SaveForm(System.String,JFine.Domain.Models.SysCommon.SysBankEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysBankBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="T:JFine.Busines.SysCommon.SysNoticeBLL">
+            <summary>
+            SysNoticeBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SysCommon.SysNoticeBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysNoticeBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysNoticeBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysNoticeBLL.GetPageListBySql(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysNoticeBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysNoticeBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysNoticeBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysNoticeBLL.SaveForm(System.String,JFine.Domain.Models.SysCommon.SysNoticeEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.SysNoticeBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="T:JFine.Busines.SysManage.SysActionBLL">
+            <summary>
+            SysActionBLL
+            </summary>	
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionBLL.GetPageListBySql(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionBLL.SaveForm(System.String,JFine.Domain.Models.SysManage.SysActionEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionBLL.AddAction2Cache(JFine.Domain.Models.SysManage.SysActionEntity)">
+            <summary>
+            添加ACTION到缓存列表
+            </summary>
+            <param name="sysActionEntity"></param>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionBLL.DelActionFromCache(System.String)">
+            <summary>
+            根据Id删除缓存中的
+            </summary>
+            <param name="Id"></param>
+        </member>
+        <member name="T:JFine.Busines.SysManage.SysActionRightBLL">
+            <summary>
+            SysActionRightBLL
+            </summary>	
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.GetPageListBySql(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.GetRoleActionRightList(JFine.Common.UI.Pagination,System.String,System.String)">
+            <summary>
+            角色对应的功能权限列表 --分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.GetActionRightRoleList(JFine.Common.UI.Pagination,System.String,System.String)">
+            <summary>
+             功能权限对应的角色列表 --分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.ActionUnionRole(JFine.Common.UI.Pagination,System.String,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.GetUserAction(System.String)">
+            <summary>
+            获取用户功能权限
+            </summary>
+            <param name="roleIds">集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.SaveForm(System.String,JFine.Domain.Models.SysManage.SysActionRightEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.DeleteBindData(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="bindId">bindId</param>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.AddAction2Cache(JFine.Domain.Models.SysManage.SysActionRightEntity)">
+            <summary>
+            添加ACTION到缓存列表
+            </summary>
+            <param name="sysActionEntity"></param>
+        </member>
+        <member name="M:JFine.Busines.SysManage.SysActionRightBLL.DelActionFromCache(System.String)">
+            <summary>
+            根据Id删除缓存中的
+            </summary>
+            <param name="Id"></param>
+        </member>
+        <member name="T:JFine.Busines.SysManage.UserPurchaseOrgBLL">
+            <summary>
+            UserPurchaseOrgBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SysManage.UserPurchaseOrgBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseOrgBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseOrgBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseOrgBLL.GetPageListBySql(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseOrgBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseOrgBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseOrgBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseOrgBLL.GetListByUserId(System.String)">
+            <summary>
+            根据用户Id获取所在采购组织列表
+            </summary>
+            <param name="UserId">用户Id</param>
+            <returns>采购组织列表</returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseOrgBLL.GetListByUserId(System.String,System.String@,System.String@)">
+            <summary>
+            根据用户Id获取所在采购组织列表
+            </summary>
+            <param name="UserId">用户Id</param>
+            <param name="codes">返回编码字符串（用逗号隔开）</param>
+            <param name="names">返回名称字符串（用逗号隔开）</param>
+            <returns>采购组织列表</returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseOrgBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseOrgBLL.SaveForm(System.String,JFine.Domain.Models.SysManage.UserPurchaseOrgEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseOrgBLL.SaveUserPurOrg(System.String,System.String)">
+            <summary>
+            添加用户角色
+            </summary>
+            <param name="keyValue">用户Id</param>
+            <param name="roleList">角色列表</param>
+        </member>
+        <member name="T:JFine.Busines.SysConfig.SysConfigBLL">
+            <summary>
+            SysConfigBLL
+            </summary>	
+        </member>
+        <member name="M:JFine.Busines.SysConfig.SysConfigBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysConfig.SysConfigBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysConfig.SysConfigBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysConfig.SysConfigBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysConfig.SysConfigBLL.GetFromCode(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="code">编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysConfig.SysConfigBLL.GetCurrentConfig">
+            <summary>
+            获取当前系统配置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysConfig.SysConfigBLL.UpdateCurrentConfig(JFine.Domain.Models.SysConfig.SysConfigEntity)">
+            <summary>
+            更新当前系统配置缓存
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="M:JFine.Busines.SysConfig.SysConfigBLL.DeleteForm(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SysConfig.SysConfigBLL.SaveForm(System.String,JFine.Domain.Models.SysConfig.SysConfigEntity)">
+            <summary>
+            保存表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="sysConfigEntity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PermissionBLL.GetModlesUnionRole(System.String,System.Int32)">
+            <summary>
+            获取全部菜单-关联角色
+            </summary>
+            <param name="roleId">角色Id</param>
+            <param name="category">1:角色；2：职位；3：岗位</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PermissionBLL.GetModlesOprateUnionRole(System.String,System.Int32)">
+            <summary>
+            获取全部菜单操作-关联角色
+            </summary>
+            <param name="roleId">角色Id</param>
+            <param name="category">1:角色；2：职位；3：岗位</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PermissionBLL.GetModuleList(System.String,System.Int32)">
+            <summary>
+            获取授权功能
+            </summary>
+            <param name="userId">用户Id</param>
+            <param name="type">0:PC;1:Mobile</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PermissionBLL.GetModuleButtonMList(System.String)">
+            <summary>
+            根据菜单id获取授权功能按钮
+            </summary>
+            <param name="userId">用户Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PermissionBLL.GetModuleButtonList(System.String)">
+            <summary>
+            根据用户id获取授权功能按钮
+            </summary>
+            <param name="userId">用户Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ModuleBLL.GetList(System.String)">
+            <summary>
+            获取功能列表
+            </summary>
+            <param name="parentId">父级主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ModuleBLL.GetEntity(System.String)">
+            <summary>
+            获取功能实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ModuleBLL.ExistEnCode(System.String,System.String)">
+            <summary>
+            功能编号不能重复
+            </summary>
+            <param name="enCode">编号</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ModuleBLL.ExistFullName(System.String,System.String)">
+            <summary>
+            功能名称不能重复
+            </summary>
+            <param name="fullName">名称</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ModuleBLL.DeleteForm(System.String)">
+            <summary>
+            删除功能
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ModuleBLL.SaveForm(System.String,JFine.Domain.Models.SystemManage.ModuleEntity)">
+            <summary>
+            保存表单
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="moduleEntity">功能实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SystemManage.ModuleOperateBLL">
+            <summary>
+            描 述：系统按钮
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ModuleOperateBLL.GetList">
+            <summary>
+            按钮列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ModuleOperateBLL.GetList(System.String)">
+            <summary>
+            按钮列表
+            </summary>
+            <param name="moduleId">查询字符串json</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ModuleOperateBLL.GetEntity(System.String)">
+            <summary>
+            按钮实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ModuleOperateBLL.DeleteForm(System.String)">
+            <summary>
+            删除功能
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ModuleOperateBLL.SaveForm(System.String,JFine.Domain.Models.SystemManage.ModuleOperateEntity)">
+            <summary>
+            保存表单
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="moduleEntity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ModuleOperateBLL.CopyForm(System.String,System.String)">
+            <summary>
+            复制按钮
+            </summary>
+            <param name="KeyValue">主键</param>
+            <param name="moduleId">功能主键</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SystemManage.RightBLL">
+            <summary>
+            权限相关操作
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RightBLL.SaveMember(JFine.Code.AuthorizeTypeEnum,System.String,System.String)">
+            <summary>
+            添加成员
+            </summary>
+            <param name="authorizeType">权限分类</param>
+            <param name="objectId">对象Id</param>
+            <param name="userIds">成员Id：1,2,3,4</param>
+        </member>
+        <member name="T:JFine.Busines.SysCommon.Bid_BD_ConfigBLL">
+            <summary>
+            Bid_BD_ConfigBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SysCommon.Bid_BD_ConfigBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Bid_BD_ConfigBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Bid_BD_ConfigBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Bid_BD_ConfigBLL.GetNextExpand(System.String,System.String)">
+            <summary>
+            根据类别条目获取下一个扩展字段
+            </summary>
+            <param name="itemId">类别</param>
+            <param name="itemId">条目编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Bid_BD_ConfigBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Bid_BD_ConfigBLL.DeleteForm(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Bid_BD_ConfigBLL.SaveForm(System.String,JFine.Domain.Models.SysCommon.Bid_BD_ConfigEntity)">
+            <summary>
+            保存表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SysCommon.Job_ScheduleBLL">
+            <summary>
+            Job_ScheduleBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SysCommon.Job_ScheduleBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Job_ScheduleBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Job_ScheduleBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Job_ScheduleBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Job_ScheduleBLL.DeleteForm(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Job_ScheduleBLL.SaveForm(System.String,JFine.Domain.Models.SysCommon.Job_ScheduleEntity)">
+            <summary>
+            保存表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Job_ScheduleBLL.ResumeTask(System.String)">
+            <summary>
+            重启任务
+            </summary>
+            <param name="taskId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysCommon.Job_ScheduleBLL.PauseTask(System.String)">
+            <summary>
+            暂停任务
+            </summary>
+            <param name="taskId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SystemManage.DutyBLL">
+            <summary>
+            岗位管理
+            </summary>
+        </member>
+        <member name="F:JFine.Busines.SystemManage.DutyBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.DutyBLL.GetList(System.String)">
+            <summary>
+            岗位列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.DutyBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            岗位列表
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.DutyBLL.GetAllList(System.String)">
+            <summary>
+            岗位列表all
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.DutyBLL.GetForm(System.String)">
+            <summary>
+            岗位实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.DutyBLL.ExistEnCode(System.String,System.String)">
+            <summary>
+            岗位编号不能重复
+            </summary>
+            <param name="enCode">编号</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.DutyBLL.ExistFullName(System.String,System.String)">
+            <summary>
+            岗位名称不能重复
+            </summary>
+            <param name="fullName">名称</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.DutyBLL.DeleteForm(System.String)">
+            <summary>
+            删除岗位
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.DutyBLL.SaveForm(System.String,JFine.Domain.Models.SystemManage.RoleEntity)">
+            <summary>
+            保存岗位表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="roleEntity">岗位实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SystemManage.ItemsBLL">
+            <summary>
+            ItemsBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SystemManage.ItemsBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ItemsBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ItemsBLL.GetListFromCode(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ItemsBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ItemsBLL.DeleteForm(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ItemsBLL.SaveForm(System.String,JFine.Domain.Models.SystemManage.ItemsEntity)">
+            <summary>
+            保存表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SystemManage.ItemsDetailBLL">
+            <summary>
+            ItemsDetailBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SystemManage.ItemsDetailBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ItemsDetailBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ItemsDetailBLL.RemoveForm(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ItemsDetailBLL.SaveForm(System.String,JFine.Domain.Models.SystemManage.ItemsDetailEntity)">
+            <summary>
+            保存表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SystemManage.EncodeRuleBLL">
+            <summary>
+            EncodeRuleBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SystemManage.EncodeRuleBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.EncodeRuleBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.EncodeRuleBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.EncodeRuleBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.EncodeRuleBLL.DeleteForm(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.EncodeRuleBLL.SaveForm(System.String,JFine.Domain.Models.SystemManage.EncodeRuleEntity)">
+            <summary>
+            保存表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SystemManage.JobBLL">
+            <summary>
+            描 述：职位管理
+            </summary>
+        </member>
+        <member name="F:JFine.Busines.SystemManage.JobBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.JobBLL.GetList">
+            <summary>
+            职位列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.JobBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            职位列表
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.JobBLL.GetEntity(System.String)">
+            <summary>
+            职位实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.JobBLL.ExistEnCode(System.String,System.String)">
+            <summary>
+            职位编号不能重复
+            </summary>
+            <param name="enCode">编号</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.JobBLL.ExistFullName(System.String,System.String)">
+            <summary>
+            职位名称不能重复
+            </summary>
+            <param name="fullName">名称</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.JobBLL.RemoveForm(System.String)">
+            <summary>
+            删除职位
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.JobBLL.SaveForm(System.String,JFine.Domain.Models.SystemManage.RoleEntity)">
+            <summary>
+            保存职位表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="jobEntity">职位实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.LogBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.LogBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            日志列表
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.LogBLL.GetEntity(System.String)">
+            <summary>
+            日志实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.LogBLL.RemoveLog(System.String,System.String)">
+            <summary>
+            清空日志
+            </summary>
+            <param name="categoryId">日志分类</param>
+            <param name="keepTime">保留时间段内</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.LogBLL.WriteLog(JFine.Domain.Models.SystemManage.LogEntity)">
+            <summary>
+            写日志
+            </summary>
+            <param name="logEntity">对象</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.LogBLL.WriteLogList(System.Collections.Generic.List{JFine.Domain.Models.SystemManage.LogEntity})">
+            <summary>
+            写日志
+            </summary>
+            <param name="logEntity">对象</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.LogBLL.InsertLog(JFine.Domain.Models.SystemManage.LogEntity)">
+            <summary>
+            写日志
+            </summary>
+            <param name="logEntity">对象</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.LogBLL.AddLog(JFine.Domain.Models.SystemManage.LogEntity)">
+            <summary>
+            写日志
+            </summary>
+            <param name="logEntity">对象</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.LogBLL.StartLogQueue">
+            <summary>
+            检测日志队列，保存到数据库
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.GetList">
+            <summary>
+            组织列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.GetEntity(System.String)">
+            <summary>
+            组织实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.GetDeptListJoinUser(System.String)">
+            <summary>
+            用户关联兼职部门
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.GetUserParttimeDeptList(System.String)">
+            <summary>
+            获取用户兼职部门列表
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.ExistFullName(System.String,System.String)">
+            <summary>
+            公司名称不能重复
+            </summary>
+            <param name="organizeName">公司名称</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.ExistEnCode(System.String,System.String)">
+            <summary>
+            编码不能重复
+            </summary>
+            <param name="enCode">外文名称</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.ExistShortName(System.String,System.String)">
+            <summary>
+            简称不能重复
+            </summary>
+            <param name="shortName">中文名称</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.DeleteForm(System.String)">
+            <summary>
+            删除组织
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.SaveForm(System.String,JFine.Domain.Models.SystemManage.OrganizeEntity)">
+            <summary>
+            保存组织表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="organizeEntity">组织实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.SaveUserDept(System.String,System.String)">
+            <summary>
+            添加用户部门（主要用于兼职部门）
+            </summary>
+            <param name="keyValue">用户Id</param>
+            <param name="roleList">部门列表</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.GetAllParentOrgNames(System.String,System.Boolean,System.String)">
+            <summary>
+            所有上级名称
+            </summary>
+            <param name="BindId">当前组织的父级Id</param>
+            <param name="split">分隔字符串</param>
+            <param name="reverse">是否倒置</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.GetAllParents(System.String,System.Collections.Generic.List{JFine.Domain.Models.SystemManage.OrganizeEntity},System.Collections.Generic.List{JFine.Domain.Models.SystemManage.OrganizeEntity}@)">
+            <summary>
+            获取所有父级组织
+            </summary>
+            <param name="BindId">当前组织的父级Id</param>
+            <param name="allList">组织列表</param>
+            <param name="parentsList">返回值-所有父级组织列表</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.GetAllChild(System.String,System.Collections.Generic.List{JFine.Domain.Models.SystemManage.OrganizeEntity},System.Collections.Generic.List{JFine.Domain.Models.SystemManage.OrganizeEntity}@)">
+            <summary>
+            获取所有的下级组织
+            </summary>
+            <param name="Id">当前组织Id</param>
+            <param name="allList">组织列表</param>
+            <param name="childList">返回值--所有下级组织列表</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.AddOrg2Cache(JFine.Domain.Models.SystemManage.OrganizeEntity)">
+            <summary>
+            添加组织到缓存列表
+            </summary>
+            <param name="organizeEntity"></param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.OrganizeBLL.DelOrgFromCache(System.String)">
+            <summary>
+            根据Id删除缓存中的
+            </summary>
+            <param name="Id"></param>
+        </member>
+        <member name="T:JFine.Busines.SystemManage.PostBLL">
+            <summary>
+            职位管理
+            </summary>
+        </member>
+        <member name="F:JFine.Busines.SystemManage.PostBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PostBLL.GetList(System.String)">
+            <summary>
+            职位列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PostBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            职位列表
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PostBLL.GetAllList(System.String)">
+            <summary>
+            职位列表all
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PostBLL.GetForm(System.String)">
+            <summary>
+            职位实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PostBLL.ExistEnCode(System.String,System.String)">
+            <summary>
+            职位编号不能重复
+            </summary>
+            <param name="enCode">编号</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PostBLL.ExistFullName(System.String,System.String)">
+            <summary>
+            职位名称不能重复
+            </summary>
+            <param name="fullName">名称</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PostBLL.DeleteForm(System.String)">
+            <summary>
+            删除职位
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.PostBLL.SaveForm(System.String,JFine.Domain.Models.SystemManage.RoleEntity)">
+            <summary>
+            保存职位表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="roleEntity">职位实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SystemManage.RoleBLL">
+            <summary>
+            描 述：角色管理
+            </summary>
+        </member>
+        <member name="F:JFine.Busines.SystemManage.RoleBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.GetList(System.String)">
+            <summary>
+            角色列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.GetList(System.String,System.Int32)">
+            <summary>
+            角色列表
+            </summary>
+            <param name="queryJson"></param>
+            <param name="category">分类(1:角色；2：职位；3：岗位；4：工作组)</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            角色列表
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.GetAllList(System.String)">
+            <summary>
+            角色列表all
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.GetMemberList(System.String,System.Int32)">
+            <summary>
+            获取成员列表
+            </summary>
+            <param name="objectId">对象Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.GetObjectList(System.String,System.Int32)">
+            <summary>
+            获取对象列表
+            </summary>
+            <param name="UserId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.GetObjectStr(System.String,System.Int32)">
+            <summary>
+            获取对象列表
+            </summary>
+            <param name="UserId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.GetUserRoleName(System.String,System.Int32)">
+            <summary>
+            获取用户角色名称
+            </summary>
+            <param name="UserId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.GetUserRoleCode(System.String,System.Int32)">
+            <summary>
+            获取用户角色编码
+            </summary>
+            <param name="UserId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.GetForm(System.String)">
+            <summary>
+            角色实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.ExistEnCode(System.String,System.String)">
+            <summary>
+            角色编号不能重复
+            </summary>
+            <param name="enCode">编号</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.ExistFullName(System.String,System.String)">
+            <summary>
+            角色名称不能重复
+            </summary>
+            <param name="fullName">名称</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.DeleteForm(System.String)">
+            <summary>
+            删除角色
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.SaveForm(System.String,JFine.Domain.Models.SystemManage.RoleEntity)">
+            <summary>
+            保存角色表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="roleEntity">角色实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.RoleBLL.SaveUserRole(System.String,System.String)">
+            <summary>
+            添加用户角色
+            </summary>
+            <param name="keyValue">用户Id</param>
+            <param name="roleList">角色列表</param>
+        </member>
+        <member name="T:JFine.Busines.SystemManage.ServerInfo">
+            <summary>
+            服务器信息
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.ServerInfo.getServerInfo">
+            <summary>
+            获取实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.AppName">
+            <summary>
+            应用名称
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.AppDir">
+            <summary>
+            应用目录
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.ComputerUserName">
+            <summary>
+            计算机用户名
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.ComputerMachineName">
+            <summary>
+            计算机名称
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.ServerName">
+            <summary>
+            服务器名称
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.ServiceDomainName">
+            <summary>
+            域名
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.ServerIP">
+            <summary>
+            服务器Ip
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.ServerPort">
+            <summary>
+            服务器端口
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.ServerTime">
+            <summary>
+            服务器时间
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.ServerOS">
+            <summary>
+            服务器操作系统
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.ServerCUP">
+            <summary>
+            服务器CUP
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.ServerMemory">
+            <summary>
+            服务器内存
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.WebServer">
+            <summary>
+            WEB服务器
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.Session">
+            <summary>
+            SESSION
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.Cache">
+            <summary>
+            CACHE
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.NetVersion">
+            <summary>
+            .net版本
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.AppCount">
+            <summary>
+            Application总数
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.CupType">
+            <summary>
+            CPU类型
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.ProcessDuration">
+            <summary>
+            进程时间
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.ServerDuration">
+            <summary>
+            开机时间
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.dataBase">
+            <summary>
+            数据库大小
+            </summary>	
+        </member>
+        <member name="P:JFine.Busines.SystemManage.ServerInfo.onlinerCount">
+            <summary>
+            在线用户数
+            </summary>	
+        </member>
+        <member name="T:JFine.Busines.SystemManage.ServerInfo.SingletonHelp">
+            <summary>
+            静态内部类---实现单例模式
+            </summary>
+        </member>
+        <member name="T:JFine.Busines.SystemManage.UserBLL">
+            <summary>
+            描 述：用户管理
+            </summary>
+        </member>
+        <member name="F:JFine.Busines.SystemManage.UserBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetTable(System.String)">
+            <summary>
+            用户列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetList">
+            <summary>
+            用户列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetList(System.String,System.String)">
+            <summary>
+            返回用户列表
+            </summary>
+            <param name="queryJson">查询字符串</param>
+            <param name="type">类型：role/dept</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetListByRole(System.String)">
+            <summary>
+            返回用户列表
+            </summary>
+            <param name="queryJson">查询字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetListByDuty(System.String)">
+            <summary>
+            返回用户列表
+            </summary>
+            <param name="queryJson">查询字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetListByPost(System.String)">
+            <summary>
+            返回用户列表
+            </summary>
+            <param name="queryJson">查询字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetListByWorkGroup(System.String)">
+            <summary>
+            返回用户列表
+            </summary>
+            <param name="queryJson">查询字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            用户列表
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetUserList(System.Text.StringBuilder)">
+            <summary>
+            用户列表
+            </summary>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetPageList_DT(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            用户列表
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetListByRPD(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            返回用户列表
+            </summary>
+            <param name="queryJson">查询字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetAllTable">
+            <summary>
+            用户列表（ALL）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetForm(System.String)">
+            <summary>
+            用户实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetExpandForm(System.String)">
+            <summary>
+            用户实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetFormByQuery(System.String)">
+            <summary>
+            用户实体
+            </summary>
+            <param name="queryJson">查询字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetUserByAccount(System.String)">
+            <summary>
+            用户实体
+            </summary>
+            <param name="account">账号</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetExpandUserByAccount(System.String)">
+            <summary>
+            用户实体
+            </summary>
+            <param name="account">账号</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetUserByWeChatId(System.String)">
+            <summary>
+            用户实体
+            </summary>
+            <param name="weChatUserId">微信用户Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetPurchaseOrgListJoinUser(System.String)">
+            <summary>
+            获取用户所在招标组织
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.GetOnlinerAll(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            用户列表
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.ExistAccount(System.String,System.String)">
+            <summary>
+            账户不能重复
+            </summary>
+            <param name="account">账户值</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.DeleteForm(System.String)">
+            <summary>
+            删除用户
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.SaveForm(System.String,JFine.Domain.Models.SystemManage.UserEntity)">
+            <summary>
+            保存用户表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="userEntity">用户实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.ResetPassword(System.String)">
+            <summary>
+            重置用户登录密码
+            </summary>
+            <param name="keyValue">主键值</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.ModifyPassword(System.String,System.String,System.String)">
+            <summary>
+            修改用户登录密码
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.ModifyPassword(System.String,System.String)">
+            <summary>
+            修改用户登录密码
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.UpdateState(System.String,System.Int32)">
+            <summary>
+            修改用户状态
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="State">状态：1-启动；0-禁用</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.UnlockAccount(System.String)">
+            <summary>
+            解锁账号
+            </summary>
+            <param name="keyValue">主键值</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.CheckLogin(System.String,System.String)">
+            <summary>
+            登录验证
+            </summary>
+            <param name="username">用户名</param>
+            <param name="password">密码</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserBLL.UpdateIMUserList(System.String,System.Boolean,JFine.Domain.Models.SystemManage.UserEntity)">
+            <summary>
+            更新实时通信用户列表
+            </summary>
+        </member>
+        <member name="T:JFine.Busines.SystemManage.UserGroupBLL">
+            <summary>
+            描 述：用户组管理
+            </summary>
+        </member>
+        <member name="F:JFine.Busines.SystemManage.UserGroupBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserGroupBLL.GetList">
+            <summary>
+            用户组列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserGroupBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            用户组列表
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserGroupBLL.GetAllList">
+            <summary>
+            用户组列表(ALL)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserGroupBLL.GetEntity(System.String)">
+            <summary>
+            用户组实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserGroupBLL.ExistEnCode(System.String,System.String)">
+            <summary>
+            组编号不能重复
+            </summary>
+            <param name="enCode">编号</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserGroupBLL.ExistFullName(System.String,System.String)">
+            <summary>
+            组名称不能重复
+            </summary>
+            <param name="fullName">名称</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserGroupBLL.RemoveForm(System.String)">
+            <summary>
+            删除用户组
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:JFine.Busines.SystemManage.UserGroupBLL.SaveForm(System.String,JFine.Domain.Models.SystemManage.RoleEntity)">
+            <summary>
+            保存用户组表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="userGroupEntity">用户组实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Busines.SysManage.UserPurchaseTypeBLL">
+            <summary>
+            UserPurchaseTypeBLL
+            </summary>	
+        </member>
+        <member name="F:JFine.Busines.SysManage.UserPurchaseTypeBLL.cacheKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseTypeBLL.GetList">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseTypeBLL.GetListBySql(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseTypeBLL.GetPageListBySql(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseTypeBLL.GetList(System.String)">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseTypeBLL.GetPageList(JFine.Common.UI.Pagination,System.String)">
+            <summary>
+            列表--分页
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseTypeBLL.GetForm(System.String)">
+            <summary>
+            实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseTypeBLL.SaveForm(System.String,JFine.Domain.Models.SysManage.UserPurchaseTypeEntity)">
+            <summary>
+            保存数据
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseTypeBLL.SaveUserPurType(System.String,System.String)">
+            <summary>
+            添加用户采购类别
+            </summary>
+            <param name="keyValue">用户Id</param>
+            <param name="typeList">采购类别列表</param>
+        </member>
+        <member name="M:JFine.Busines.SysManage.UserPurchaseTypeBLL.DeleteForm(System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+    </members>
+</doc>

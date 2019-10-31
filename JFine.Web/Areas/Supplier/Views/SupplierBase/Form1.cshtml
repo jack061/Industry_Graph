@@ -1,0 +1,328 @@
+﻿
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2018-03-06 11:18:45
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+	    initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/Supplier/SupplierBase/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+
+	//初始化组件
+    function initControl() {
+        
+    }
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        var postData = $("#form1").formSerialize();
+        $.submitForm({
+            url: "/Supplier/SupplierBase/SaveForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+</script>
+
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <table class="form">
+			  	
+			<tr>
+                <th class="formTitle"> 主键</th>
+                <td class="formValue">
+                    <input id="Id" name="Id" type="text"
+					 class="form-control  required"  placeholder="请输入主键" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> BindId</th>
+                <td class="formValue">
+                    <input id="BindId" name="BindId" type="text"
+					 class="form-control  required"  placeholder="请输入BindId" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <input id="SupNo" name="SupNo" type="text"
+					 class="form-control  required"  placeholder="请输入" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 密码</th>
+                <td class="formValue">
+                    <input id="PassWord" name="PassWord" type="text"
+					 class="form-control  required"  placeholder="请输入密码" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 重复密码</th>
+                <td class="formValue">
+                    <input id="RepassWord" name="RepassWord" type="text"
+					 class="form-control  required"  placeholder="请输入重复密码" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 公司名称</th>
+                <td class="formValue">
+                    <input id="SupName" name="SupName" type="text"
+					 class="form-control  required"  placeholder="请输入公司名称" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 公司曾用名</th>
+                <td class="formValue">
+                    <input id="SupName1" name="SupName1" type="text"
+					 class="form-control  required"  placeholder="请输入公司曾用名" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 企业类别</th>
+                <td class="formValue">
+                    <input id="SupType" name="SupType" type="text"
+					 class="form-control  required"  placeholder="请输入企业类别" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 企业性质</th>
+                <td class="formValue">
+                    <input id="Property" name="Property" type="text"
+					 class="form-control  required"  placeholder="请输入企业性质" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 公司网址</th>
+                <td class="formValue">
+                    <input id="URL" name="URL" type="text"
+					 class="form-control  required"  placeholder="请输入公司网址" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 省</th>
+                <td class="formValue">
+                    <input id="Area" name="Area" type="text"
+					 class="form-control  required"  placeholder="请输入省" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 市</th>
+                <td class="formValue">
+                    <input id="Area1" name="Area1" type="text"
+					 class="form-control  required"  placeholder="请输入市" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 县区</th>
+                <td class="formValue">
+                    <input id="Area2" name="Area2" type="text"
+					 class="form-control  required"  placeholder="请输入县区" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 街道</th>
+                <td class="formValue">
+                    <input id="Area3" name="Area3" type="text"
+					 class="form-control  required"  placeholder="请输入街道" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 注册地址</th>
+                <td class="formValue">
+                    <input id="DetailAddress" name="DetailAddress" type="text"
+					 class="form-control  required"  placeholder="请输入注册地址" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 法人</th>
+                <td class="formValue">
+                    <input id="LegalPerson" name="LegalPerson" type="text"
+					 class="form-control  required"  placeholder="请输入法人" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 身份证号</th>
+                <td class="formValue">
+                    <input id="IDNumber" name="IDNumber" type="text"
+					 class="form-control  required"  placeholder="请输入身份证号" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 注册资金（万元）</th>
+                <td class="formValue">
+                    <input id="RegisteredCapital" name="RegisteredCapital" type="text"
+					 class="form-control isNumber required"  placeholder="请输入注册资金（万元）" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 开户行</th>
+                <td class="formValue">
+                    <input id="Bank" name="Bank" type="text"
+					 class="form-control  required"  placeholder="请输入开户行" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 银行账号</th>
+                <td class="formValue">
+                    <input id="Account" name="Account" type="text"
+					 class="form-control  required"  placeholder="请输入银行账号" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 税号</th>
+                <td class="formValue">
+                    <input id="TaxNo" name="TaxNo" type="text"
+					 class="form-control  required"  placeholder="请输入税号" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 公司成立时间</th>
+                <td class="formValue">
+                    <input id="EstablishDate" name="EstablishDate" type="text"
+					 class="form-control Wdate required" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" placeholder="请输入公司成立时间" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 采购列别</th>
+                <td class="formValue">
+                    <input id="PurchaseCategory" name="PurchaseCategory" type="text"
+					 class="form-control  required"  placeholder="请输入采购列别" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 经营范围</th>
+                <td class="formValue">
+                    <input id="BusinessScope" name="BusinessScope" type="text"
+					 class="form-control  required"  placeholder="请输入经营范围" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 公司描述</th>
+                <td class="formValue">
+                    <input id="CompanyDES" name="CompanyDES" type="text"
+					 class="form-control  required"  placeholder="请输入公司描述" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 是否阅读条款</th>
+                <td class="formValue">
+                    <input id="IfRead" name="IfRead" type="text"
+					 class="form-control  required"  placeholder="请输入是否阅读条款" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 承诺书</th>
+                <td class="formValue">
+                    <input id="PromiseName" name="PromiseName" type="text"
+					 class="form-control  required"  placeholder="请输入承诺书" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 承诺书URL</th>
+                <td class="formValue">
+                    <input id="PromiseURL" name="PromiseURL" type="text"
+					 class="form-control  required"  placeholder="请输入承诺书URL" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建日期</th>
+                <td class="formValue">
+                    <input id="CreateDate" name="CreateDate" type="text"
+					 class="form-control Wdate required" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" placeholder="请输入创建日期" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建用户账户</th>
+                <td class="formValue">
+                    <input id="CreateUserId" name="CreateUserId" type="text"
+					 class="form-control  required"  placeholder="请输入创建用户账户" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建用户名称</th>
+                <td class="formValue">
+                    <input id="CreateUserName" name="CreateUserName" type="text"
+					 class="form-control  required"  placeholder="请输入创建用户名称" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 最后修改时间</th>
+                <td class="formValue">
+                    <input id="UpdateDate" name="UpdateDate" type="text"
+					 class="form-control Wdate required" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" placeholder="请输入最后修改时间" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 最后修改用户</th>
+                <td class="formValue">
+                    <input id="UpdateUserId" name="UpdateUserId" type="text"
+					 class="form-control  required"  placeholder="请输入最后修改用户" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 最后修改用户名称</th>
+                <td class="formValue">
+                    <input id="UpdateUserName" name="UpdateUserName" type="text"
+					 class="form-control  required"  placeholder="请输入最后修改用户名称" />
+				</td>
+            </tr>
+   
+        </table>
+    </div>
+</form>

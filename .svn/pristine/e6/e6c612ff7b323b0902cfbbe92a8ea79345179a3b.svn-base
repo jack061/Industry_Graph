@@ -1,0 +1,105 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Data.dll" #>
+<#@ assembly name="System.Data.DataSetExtensions.dll" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ include file="$(ProjectDir)DbHelper.ttinclude"  #>
+<#@ include file="..\ModelAuto.ttinclude"  #>
+
+
+<# 
+	var tableName=config.ModuleCode+"Entity";
+	var PreNameSpace = config.PreNameSpace;
+	var NameSpace = config.NameSpace;
+ #>
+ <# 
+ string solutionsPath = Host.ResolveAssemblyReference("$(SolutionDir)");
+		string projectPath = Host.ResolveAssemblyReference("$(ProjectDir)");
+		var path = Path.GetDirectoryName(Host.TemplateFile);
+	var currentPath = "Domain@Models@"+NameSpace;
+	if(config.isFolder)
+	{
+		if(config.isAddProject)
+		{
+			path = solutionsPath+ config.PluginName +"\\Domain\\Models\\"+NameSpace;
+			VSManagementStrategy vstrategy = new VSManagementStrategy(Host,currentPath);
+			vstrategy.CreateFolderFromPath();
+			//vstrategy.setCurrentProjectItem();//获取当前项目
+		}else
+		{
+			path = path+"\\Domain\\Models\\"+NameSpace;
+		}
+		
+	}
+	if (Directory.Exists(path) == false)//
+	{
+		Directory.CreateDirectory(path);
+	}
+	 var OutFileManager = new Manager(Host, GenerationEnvironment, true,currentPath) { OutputPath =  path};
+	 OutFileManager.strategy.setCurrentProjectItem();
+  #>
+ //开始输出每个文件
+ <# 
+        OutFileManager.StartBlock(tableName+".cs");
+ #>
+/********************************************************************************
+**文 件 名:<#=tableName#>
+**命名空间:<#=PreNameSpace#>.Busines.<#=NameSpace#>
+**描    述:
+**
+**
+**版 本 号:V1.0.0.0
+**创 建 人:此代码由T4模板自动生成
+**创建日期:<#=DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")#>
+**修 改 人:
+**修改日期:
+**修改描述:
+**
+**
+**版权所有: ©为之团队
+*********************************************************************************/
+using System;
+using JFine.Domain.Models;
+namespace <#=PreNameSpace#>.Domain.Models.<#=NameSpace#>
+{	
+	/// <summary>
+	/// <#=tableName#>
+	/// </summary>	
+	public class <#=tableName#>:BaseEntity<<#=tableName#>>, ICreate, IModify
+	{
+
+		/// <summary>
+        /// 默认构造函数
+        /// </summary>
+        public <#=tableName#>()
+		{
+            this.Id= System.Guid.NewGuid().ToString();
+
+ 		}
+
+	#region 实体成员
+
+<# foreach(DbColumn column in DbHelper.GetDbColumns(config.ConnectionString, config.DbDatabase, config.TableName)){#>	  
+	  /// <summary>
+	  /// <#=column.Remark #>
+	  /// </summary>	
+	  public <#= column.CSharpType#><# if(column.CommonType.IsValueType && column.IsNullable){#>?<#}#> <#=column.ColumnName#> { get; set; }
+
+<#}#> 
+  #endregion
+    }
+}
+
+<# OutFileManager.EndBlock(); #>
+<# OutFileManager.Process(true); #>
+
+
+
+

@@ -1,0 +1,280 @@
+﻿@*------------------------------------------------------------------------------
+    *     此代码由T4模板自动生成
+    *	   生成时间 2019-06-24 17:56:05
+    *     ©为之团队
+    *------------------------------------------------------------------------------*@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/Modbus/ModbusGateway/GetGridJson",
+            height: $(window).height() - 138,
+            colModel: [
+
+					{ label: "主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+					{
+					    label: "状态", name: "Status", width: 80, align: 'left', formatter: function (cellvalue, options, rowObject) {
+					        if (cellvalue == '0') {
+					            return '<span class=\"label label-warning\">未启动</span>';
+					        } else if (cellvalue == '1')
+					        {
+					            return '<span class=\"label label-success\">已启动</span>';
+					        } else if (cellvalue == '2')
+					        {
+					            return '<span class=\"label label-default\">已挂起</span>';
+					        } else {
+					            return "暂无状态";
+					        }
+					    }
+					},
+
+                    { label: "IP", name: "Ip", width: 150, align: 'left' },
+
+					{ label: "端口号", name: "Port", width: 150, align: 'left' },
+
+					{ label: "超时时间s", name: "Timeout", width: 150, align: 'left' },
+
+					{ label: "起始寄存器地址", name: "StartAddr", width: 150, align: 'left' },
+
+					{ label: "寄存器地址长度", name: "AddrLength", width: 150, align: 'left' },
+
+					{ label: "周期s", name: "Period", width: 150, align: 'left' },
+
+					{ label: "创建日期", name: "CreateDate", width: 150, align: 'left' },
+
+					{ label: "创建用户名称", name: "CreateUserName", width: 150, align: 'left' }
+
+            ],
+            pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+            var queryJson = {
+                keyword: $("#txt_keyword").val()
+            }
+            $gridList.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+            }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+        var parentId = top.$.jfinetab.getCurrentTabId();
+        top.$.jfinetab.addTabContent("/Modbus/ModbusGateway/Form2", "Modbus网关--新增", parentId + "_add", parentId);
+    }
+    function btn_edit() {
+        var parentId = top.$.jfinetab.getCurrentTabId();
+        var Id = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(Id)) {
+            top.$.jfinetab.addTabContent("/Modbus/ModbusGateway/Form2?keyValue=" + Id, "Modbus网关--修改", parentId + "_edit", parentId);
+        }
+
+    }
+    function btn_delete() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            $.deleteForm({
+                url: "/Modbus/ModbusGateway/DeleteForm",
+                param: { keyValue: keyValue },
+                success: function () {
+                    $.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+            });
+        }
+
+    }
+    function btn_details() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            $.modalOpen({
+                id: "Details",
+                title: "查看Modbus网关",
+                url: "/Modbus/ModbusGateway/Details?keyValue=" + keyValue,
+                width: "550px",
+                height: "620px",
+                btn: null,
+            });
+        }
+
+        //var parentId = top.$.jfinetab.getCurrentTabId();
+        //var Id = $("#gridList").jqGridRowValue().Id;
+        //if ($.checkedArray(Id)) {
+        //    top.$.jfinetab.addTabContent("/Modbus/ModbusGateway/Details2?keyValue=" + Id, "Modbus网关--查看", parentId + "_view", parentId);
+        //}
+
+    }
+
+    //一键启动
+    function btn_onekey_start() {
+        $.submitAjax({
+            url: "/Modbus/ModbusGateway/OnekeyStart",
+            //param: { keyValue: keyValue },
+            success: function () {
+                refreshGrid();
+            }
+        });
+
+    }
+
+    //一键挂起
+    function btn_onekey_suspend() {
+
+        $.confirmSubmitForm({
+            prompt: "确定要挂起所有采集任务吗？",
+            url: "/Modbus/ModbusGateway/OnekeySuspend",
+            //param: { keyValue: keyValue },
+            success: function () {
+                refreshGrid();
+            }
+        });
+
+    }
+
+    //一键恢复
+    function btn_onekey_recover() {
+        $.confirmSubmitForm({
+            prompt: "确定要恢复所有采集任务吗？",
+            url: "/Modbus/ModbusGateway/OnekeyRecover",
+            //param: { keyValue: keyValue },
+            success: function () {
+                refreshGrid();
+            }
+        });
+
+    }
+
+    //启动
+    function btn_start() {
+        $.submitAjax({
+            url: "/Modbus/ModbusGateway/Start",
+            param: { keyValue: keyValue },
+            success: function () {
+                refreshGrid();
+            }
+        });
+
+    }
+
+    //挂起
+    function btn_suspend() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            $.confirmSubmitForm({
+                prompt: "确定要挂起该采集任务吗？",
+                url: "/Modbus/ModbusGateway/Suspend",
+                param: { keyValue: keyValue },
+                success: function () {
+                    refreshGrid();
+                }
+            });
+        }
+
+    }
+    //恢复
+    function btn_recover() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            $.confirmSubmitForm({
+                prompt: "确定要恢复该采集任务吗？",
+                url: "/Modbus/ModbusGateway/Recover",
+                param: { keyValue: keyValue },
+                success: function () {
+                    refreshGrid();
+                }
+            });
+        }
+
+    }
+
+    //一键启动
+    function btn_mqtt_start() {
+        $.submitAjax({
+            url: "/Modbus/ModbusGateway/MQTTStart",
+            //param: { keyValue: keyValue },
+            success: function () {
+                refreshGrid();
+            }
+        });
+
+    }
+
+    //启动ModbusServer
+    function btn_modbusServerstart() {
+        $.submitAjax({
+            url: "/Modbus/ModbusGateway/ModbusServerStart",
+            param: {},
+            success: function () {
+                refreshGrid();
+            }
+        });
+
+    }
+
+    function btn_test() {
+        var parentId = top.$.jfinetab.getCurrentTabId();
+        top.$.jfinetab.addTabContent("/Modbus/ModbusGateway/Test", "Modbus网关实时数据", parentId + "_data", parentId);
+
+    }
+    function refreshGrid() {
+        $("#gridList").trigger("reloadGrid");
+    }
+</script>
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="JF-add" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+            <a id="JF-edit" class="btn btn-primary dropdown-text" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a>
+            <a id="JF-delete" class="btn btn-primary dropdown-text" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+            <a id="JF-Details" class="btn btn-primary dropdown-text" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看</a>
+        </div>
+        <div class="btn-group">
+            <a id="JF-start" class="btn btn-primary dropdown-text" onclick="btn_onekey_start()"><i class="fa fa-paper-plane-o"></i>一键启动</a>
+            <a id="JF-start" class="btn btn-primary dropdown-text" onclick="btn_onekey_suspend()"><i class="fa fa-minus"></i>一键挂起</a>
+            <a id="JF-start" class="btn btn-primary dropdown-text" onclick="btn_onekey_recover()"><i class="fa fa-reply"></i>一键恢复</a>
+        </div>
+        <div class="btn-group">
+            <a id="JF-start" class="btn btn-primary dropdown-text" onclick="btn_start()"><i class="fa fa-paper-plane-o"></i>启动</a>
+            <a id="JF-start" class="btn btn-primary dropdown-text" onclick="btn_suspend()"><i class="fa fa-minus"></i>挂起</a>
+            <a id="JF-start" class="btn btn-primary dropdown-text" onclick="btn_recover()"><i class="fa fa-reply"></i>恢复</a>
+        </div>
+        <div class="btn-group">
+            <a id="JF-start" class="btn btn-primary dropdown-text" onclick="btn_modbusServerstart()"><i class="fa fa-paper-plane-o"></i>启动ModbusServer</a>
+            <a id="JF-start" class="btn btn-primary dropdown-text" onclick="btn_test()"><i class="fa fa-line-chart "></i>查看实时</a>
+        </div>
+        <div id="toolbar" class="btn-group">
+        </div>
+        <script>$('#toolbar').authorizeButton()</script>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>
+

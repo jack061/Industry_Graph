@@ -1,0 +1,242 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Data.dll" #>
+<#@ assembly name="System.Data.DataSetExtensions.dll" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ include file="$(ProjectDir)DbHelper.ttinclude"  #>
+<#@ include file="..\ModelAuto.ttinclude"  #>
+
+<# 
+	var tableName=config.ModuleCode+"Controller";
+	var bll_class=config.ModuleCode+"BLL";
+	var bll_name = config.ModuleCode.Substring(0, 1).ToLower() + config.ModuleCode.Substring(1)+"Bll";
+	var entity=config.ModuleCode+"Entity";
+	var name = config.ModuleCode.Substring(0, 1).ToLower() + config.ModuleCode.Substring(1)+"Entity";
+	var PreNameSpace = config.PreNameSpace;
+	var NameSpace = config.NameSpace;
+	var ModuleCode = config.ModuleCode;
+	var PublishPluginName = config.PublishPluginName;
+ #>
+ <#
+	string solutionsPath = Host.ResolveAssemblyReference("$(SolutionDir)");
+		string projectPath = Host.ResolveAssemblyReference("$(ProjectDir)");
+		var path = Path.GetDirectoryName(Host.TemplateFile);
+	var currentPath = "Areas@"+NameSpace+"@Controllers";
+	if(config.isFolder)
+	{
+		if(config.isAddProject)
+		{
+			path = solutionsPath+ config.PluginName +"\\Areas\\"+NameSpace+"\\Controllers";
+			VSManagementStrategy vstrategy = new VSManagementStrategy(Host,currentPath);
+			vstrategy.CreateFolderFromPath();
+		}else
+		{
+			path = path+"\\"+NameSpace+"\\Controllers";
+		}
+		
+	}
+	if (Directory.Exists(path) == false)//
+	{
+		Directory.CreateDirectory(path);
+	}
+	 var OutFileManager = new Manager(Host, GenerationEnvironment, true,currentPath) { OutputPath = path};
+	 OutFileManager.strategy.setCurrentProjectItem();
+ #>
+ //开始输出每个文件
+ <# 
+        OutFileManager.StartBlock(tableName+".cs");
+ #>
+/********************************************************************************
+**文 件 名:<#=tableName#>
+**命名空间:<#=PreNameSpace#>.Busines.<#=NameSpace#>
+**描    述:
+**
+**
+**版 本 号:V1.0.0.0
+**创 建 人:此代码由T4模板自动生成
+**创建日期:<#=DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")#>
+**修 改 人:
+**修改日期:
+**修改描述:
+**
+**
+**版权所有: ©为之团队
+*********************************************************************************/
+using <#=PreNameSpace#>.Busines.<#=NameSpace#>;
+using JFine.Common.UI;
+using JFine.Common.Json;
+using <#=PreNameSpace#>.Domain.Models.<#=NameSpace#>;
+using JFine.Web.Base.MVC.Handler;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Data;
+
+namespace <#=PreNameSpace#>.Areas.<#=NameSpace#>.Controllers
+{	
+	/// <summary>
+	/// <#=tableName#>
+	/// </summary>	
+	public class <#=tableName#>:JFControllerBase
+	{
+		 private <#=bll_class#> <#=bll_name#> = new <#=bll_class#>();
+
+        #region View
+        //
+        // GET: /<#=NameSpace#>/
+        public override ActionResult Index()
+        {
+            return View("~/Plugins/<#=PublishPluginName#>/Views/<#=ModuleCode#>/Index.cshtml");
+        }
+
+        /// <summary>
+        /// Form表单
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize]
+        public override ActionResult Form()
+        {
+            ViewBag.Id = Request["keyValue"];
+            return View("~/Plugins/<#=PublishPluginName#>/Views/<#=ModuleCode#>/Form.cshtml");
+        }
+
+        #endregion
+
+        #region 数据获取
+        /// <summary>
+        /// 功能列表 
+        /// </summary>
+        /// <param name="keyword">关键字</param>
+        /// <returns>返回树形Json</returns>
+        [HttpGet]
+        [HandlerAjaxOnly]
+        public ActionResult GetTreeSelectJson(string keyword)
+        {
+            var data = <#=bll_name#>.GetList().ToList();
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                data = data.TreeWhere(t => t.Name.Contains(keyword), "");
+            }
+            var treeList = new List<TreeSelectModel>();
+            foreach (<#=entity#> item in data)
+            {
+                TreeSelectModel treeModel = new TreeSelectModel();
+                treeModel.id = item.Id;
+                treeModel.text = item.Name;
+                treeModel.parentId = item.BindId;
+                treeList.Add(treeModel);
+            }
+            return Content(treeList.TreeSelectJson());
+        
+		}
+
+		/// <summary>
+        /// 列表 
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <returns></returns>
+		[HttpGet]
+        [HandlerAjaxOnly]
+        public ActionResult GetGridJson(Pagination pagination, string queryJson)
+        {
+            var data = new
+            {
+                rows = <#=bll_name#>.GetPageList(pagination, queryJson),
+                total = pagination.total,
+                page = pagination.page,
+                records = pagination.records
+            };
+            return Content(data.ToJson());
+        }
+        /// <summary>
+        /// 获取目录级功能列表 
+        /// </summary>
+        /// <param name="keyword">关键字</param>
+        /// <returns>返回树形Json</returns>
+        [HttpGet]
+        public ActionResult GetTreeGridJson(string keyword)
+        {
+            var data = <#=bll_name#>.GetList().ToList();
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                data = data.TreeWhere(t => t.Name.Contains(keyword), "");
+            }
+            var treeList = new List<TreeGridModel>();
+            foreach (<#=entity#> item in data)
+            {
+                TreeGridModel treeModel = new TreeGridModel();
+                bool hasChildren = data.Count(t => t.BindId == item.Id) == 0 ? false : true;
+                treeModel.id = item.Id;
+                treeModel.isLeaf = hasChildren;
+                treeModel.parentId = item.BindId;
+                treeModel.expanded = hasChildren;
+                treeModel.entityJson = item.ToJson();
+                treeList.Add(treeModel);
+            }
+            return Content(treeList.TreeGridJson());
+        }
+
+        /// <summary>
+        /// 功能实体 返回对象Json
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetFormJson(string keyValue)
+        {
+            var data = <#=bll_name#>.GetForm(keyValue);
+            return Content(data.ToJson());
+        }
+        #endregion
+
+        #region 数据处理
+        
+
+        /// <summary>
+        /// 保存功能表单
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="<#=entity#>">功能实体</param>
+        /// <returns></returns>
+        [HttpPost]
+        [HandlerAjaxOnly]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult SaveForm(string keyValue, <#=entity#> <#=name#>)
+        {
+            <#=bll_name#>.SaveForm(keyValue, <#=name#>);
+            return Success("保存成功。");
+        }
+
+		/// <summary>
+        /// 删除功能
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        [HttpPost]
+        [HandlerAjaxOnly]
+        [HandlerAuthorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteForm(string keyValue)
+        {
+            <#=bll_name#>.DeleteForm(keyValue);
+            return Success("删除成功。");
+        }
+
+        #endregion
+
+    }
+}
+
+<# OutFileManager.EndBlock(); #>
+<# OutFileManager.Process(true); #>

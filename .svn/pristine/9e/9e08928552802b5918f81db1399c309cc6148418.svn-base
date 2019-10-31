@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+
+    var keyValue = $.request("keyValue");
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridRoleList");
+        $gridList.dataGrid({
+            url: "/SysManage/Role/GetRoleListJoinUser?userId="+keyValue,
+            height: $(window).height() - 60,
+            multiselect: true,
+            rownumbers: false,
+            colModel: [
+                { label: "主键", name: "Id", hidden: true, key: true },
+                { label: '角色名称', name: 'Name', width: 150, align: 'left' },
+                { label: '角色编号', name: 'Code', width: 150, align: 'left' },
+                {
+                    label: '角色类型', name: 'TypeName', width: 80, align: 'left'
+                },
+                {
+                    label: '归属机构', name: 'OrganizeName', width: 150, align: 'left'
+                },         
+                { label: '备注', name: 'Description', width: 300, align: 'left' },
+                { label: 'Category', name: 'Category', hidden: true },
+                { label: 'UserId', name: 'UserId', hidden: true }
+            ],
+            loadComplete: function () {
+                var rows = $gridList.jqGrid("getDataIDs");
+                if (rows != undefined) {
+                    for (var i in rows) {
+                        var rowData = $gridList.jqGrid('getRowData', rows[i]);
+                        if (rowData.UserId != undefined & rowData.UserId != '') {
+                            //$("#gridRoleList").setSelection(rows[i]);
+                            $("#gridRoleList").jqGrid('setSelection', rows[i]);
+                        }
+                    }
+                }
+
+            }
+        });
+     
+    }
+    function submitForm() {
+        var roleListJson = $("#gridRoleList").jqGridRows();
+        if (roleListJson != undefined && roleListJson.length > 0) {
+            $.submitForm({
+                url: "/SysManage/Role/SaveUserRole?keyValue=" + keyValue,
+                param: { "roleListJson": JSON.stringify(roleListJson) },
+                success: function () {
+                    $.currentWindow().$("#gridRoleList").resetSelection();
+                    $.currentWindow().$("#gridRoleList").trigger("reloadGrid");
+                }
+            })
+        } else
+        {
+            $.modalAlert("至少选择一个角色！","warning");
+        }
+    }
+</script>
+
+<div class="gridPanel">
+    <table id="gridRoleList"></table>
+</div>

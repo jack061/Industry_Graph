@@ -1,0 +1,320 @@
+﻿
+    @*<link href="~/Content/css/framework-font.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-ui.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery/jquery-2.0.3.min.js"></script>
+    <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
+    <link href="~/Content/js/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
+    <script src="~/Content/js/charts/Chart.js"></script>*@
+    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_Index.cshtml";
+    }
+    <script>
+        $(function () {
+            gridList();
+            gridList2();
+        })
+        function gridList() {
+            var $gridList = $("#gridList");
+            $gridList.dataGrid({
+                url: "/TN_XM/TN_HT_CG/GetGridJson",
+                height: 161,
+                width: 823,
+                colModel: [
+
+                        { label: "主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+                        { label: "BindId", name: "BindId", width: 150, align: 'left', hidden: true },
+
+                        { label: "采购组织", name: "CGOrganization", width: 150, align: 'left', hidden: true },
+
+                        { label: "合同编码", name: "Code", width: 150, align: 'left', hidden: true },
+
+                        { label: "设备包", name: "CPpackage", width: 60, align: 'left' },
+
+                        { label: "合同名称", name: "Name", width: 150, align: 'left' },
+
+                        { label: "合同类型", name: "HTType", width: 150, align: 'left', hidden: true },
+
+                        { label: "合同金额", name: "Amount", width: 90, align: 'left' },
+
+                        { label: "支付方式", name: "PayType", width: 150, align: 'left', hidden: true },
+
+                        { label: "已付金额", name: "paidAmount", width: 90, align: 'left' },
+
+                        { label: "未付金额", name: "unpaidAmount", width: 90, align: 'left' },
+
+                        {
+                            label: "支付比例", name: "PayProportion", width: 90, align: 'left',
+                            formatter: function (cellvalue, options, rowObject) {
+                                var paid = parseFloat(rowObject.paidAmount) / parseFloat(rowObject.Amount) * 100;
+                                var per = paid.toFixed(2);
+                                return per + "%";
+                            }
+                        },
+
+                        { label: "资金来源", name: "FundSource", width: 150, align: 'left', hidden: true },
+
+                        { label: "计划终止日期", name: "EndTime", width: 150, align: 'left', hidden: true },
+
+                        { label: "供应商", name: "Supplier", width: 150, align: 'left', hidden: true },
+
+                        { label: "币种", name: "currency", width: 150, align: 'left', hidden: true },
+
+                        { label: "合同签订日期", name: "SigningDate", width: 150, align: 'left', hidden: true },
+
+                        { label: "部门", name: "Department", width: 150, align: 'left', hidden: true },
+
+                        { label: "人员", name: "Personnel", width: 150, align: 'left', hidden: true },
+
+                        { label: "交货地点", name: "Place", width: 150, align: 'left', hidden: true },
+
+                        { label: "预付款", name: "AdvancePayment", width: 150, align: 'left', hidden: true },
+
+                        { label: "预付款限额 ", name: "Limit", width: 150, align: 'left', hidden: true },
+
+                        { label: "合同状态", name: "HTState", width: 150, align: 'left', hidden: true },
+
+                        { label: "创建时间", name: "CreateDate", width: 150, align: 'left', hidden: true },
+
+                        { label: "创建人ID", name: "CreateUserId", width: 150, align: 'left', hidden: true },
+
+                        { label: "创建人姓名", name: "CreateUserName", width: 150, align: 'left', hidden: true },
+
+                        { label: "更新时间", name: "UpdateDate", width: 150, align: 'left', hidden: true },
+
+                        { label: "更新人ID", name: "UpdateUserId", width: 150, align: 'left', hidden: true },
+
+                        { label: "更新人姓名", name: "UpdateUserName", width: 150, align: 'left', hidden: true },
+
+                ],
+                pager: "#gridPager",
+                sortname: 'CreateDate desc',
+                viewrecord: true
+            });
+
+            beforeSelectRow: function gridList2(id, e) { }
+
+        }
+        function gridList2() {
+            var $gridList = $("#gridList2");
+            $gridList.dataGrid({
+                url: "/TN_XM/TN_XM/GetGridJson3",
+                postData: { queryJson: JSON.stringify(queryJson) },
+                height: 270,
+                colModel: [
+
+                        { label: "主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+                        { label: "BindId", name: "BindId", width: 150, align: 'left', hidden: true },
+
+                        { label: "主项目名称", name: "BaseName", width: 200, align: 'left' },
+
+                        { label: "子项目名称", name: "BaseSubName", width: 200, align: 'left' },
+
+                        {
+                            label: "项目编码", name: "Code", width: 200, align: 'left',
+                            formatter: function (cellvalue, options, rowObject) {
+                                var code = rowObject.RulesCode + "-" + rowObject.Code;
+                                return code;
+                            }, hidden: true
+                        },
+
+                        { label: "编码前缀", name: "RulesCode", width: 200, align: 'left', hidden: true },
+
+                        { label: "项目实施内容", name: "Name", width: 150, align: 'left' },
+
+                        { label: "所属公司", name: "CompanyName", width: 150, align: 'left' },
+
+                        { label: "设备包", name: "CPpackage", width: 150, align: 'left', hidden: true },
+
+                        { label: "项目状态", name: "ProjectState", width: 150, align: 'left' },
+
+                        { label: "创建日期", name: "CreateDate", width: 150, align: 'left', hidden: true },
+
+                        { label: "创建用户", name: "CreateUserName", width: 150, align: 'left', hidden: true },
+
+                        { label: "开始时间", name: "BeginDate", width: 150, align: 'left', hidden: true },
+
+                        { label: "结束时间", name: "EndDate", width: 150, align: 'left', hidden: true },
+
+                        { label: "项目描述", name: "DEC", width: 150, align: 'left', hidden: true },
+
+                        { label: "项目负责人", name: "Principal", width: 150, align: 'left', hidden: true },
+
+                        { label: "项目负责人电话", name: "Phone", width: 150, align: 'left', hidden: true },
+
+                        { label: "施工单位", name: "ConstructionUnit", width: 150, align: 'left', hidden: true },
+
+                        { label: "施工单位负责人", name: "CPrincipal", width: 150, align: 'left', hidden: true },
+
+                        { label: "施工单位负责人电话", name: "CPhone", width: 150, align: 'left', hidden: true },
+
+                        { label: "备注", name: "Remark", width: 150, align: 'left', hidden: true },
+
+                ],
+                pager: "#gridPager2",
+                sortname: 'CreateDate desc',
+                viewrecords: true
+            });
+        }
+    </script>
+<body>
+    <div id="areascontent">
+        <div class="rows" style="overflow: hidden;">
+            <div style="float: left; width: 65%; margin-right: 1%;">
+                @*<div style="height: 265px; border: 1px solid #e6e6e6; background-color: #fff;">*@
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-thumbs-o-up fa-lg" style="padding-right: 5px;"></i>采购合同</div>
+                        <div class="gridPanel">
+                            <table id="gridList"></table> 
+                            <div id="gridPager"></div>
+                        </div>
+                    </div>
+                @*</div>*@
+            </div>
+            <div style="float: right; width: 34%;">
+                <div style="height: 265px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-send fa-lg" style="padding-right: 5px;"></i>平台快讯</div>
+                        @*<div class="gridPanel">
+                            <table id="gridList"></table>
+                            <div id="gridPager"></div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="rows" style="margin-bottom: 1%; border: 1px solid #e6e6e6; overflow: hidden; padding-left: 1px;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                </div>
+                <div class="panel-body">
+                </div>
+            </div>
+        </div>*@
+        <div class="rows" style="margin-bottom: 1%; overflow: hidden;">
+        </div>
+        <div class="rows" style="margin-bottom: 1%; border: 1px solid #e6e6e6; overflow: hidden; padding-left: 1px;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    亚行项目
+                </div>
+                <div class="gridPanel">
+                    <table id="gridList2"></table>
+                    <div id="gridPager2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        #copyrightcontent {
+            height: 30px;
+            line-height: 29px;
+            overflow: hidden;
+            position: absolute;
+            top: 100%;
+            margin-top: -30px;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #e6e6e6;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .dashboard-stats {
+            float: left;
+            width: 20%;
+        }
+
+        .dashboard-stats-item {
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+            cursor: pointer;
+            height: 105px;
+            margin-right: 25px;
+            margin-bottom: 10px;
+            padding: 20px 20px;
+        }
+
+            .dashboard-stats-item .m-top-none {
+                margin-top: 2px;
+            }
+
+            .dashboard-stats-item h2 {
+                font-size: 35px;
+                font-family: inherit;
+                line-height: 1.1;
+                font-weight: 500;
+            }
+
+            .dashboard-stats-item h5 {
+                font-size: 14px;
+                font-family: inherit;
+                margin-top: 3px;
+                line-height: 1.1;
+            }
+
+
+            .dashboard-stats-item .stat-icon {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 30px;
+                opacity: .3;
+            }
+
+        .dashboard-stats i.fa.stats-icon {
+            width: 50px;
+            padding: 20px;
+            font-size: 50px;
+            text-align: center;
+            color: #fff;
+            height: 50px;
+            border-radius: 10px;
+        }
+
+        .panel-default {
+            border: none;
+            border-radius: 0px;
+            margin-bottom: 0px;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+        }
+
+            .panel-default > .panel-heading {
+                color: #777;
+                background-color: #fff;
+                border-color: #e6e6e6;
+                padding: 10px 10px;
+            }
+
+            .panel-default > .panel-body {
+                padding: 10px;
+                padding-bottom: 0px;
+            }
+
+                .panel-default > .panel-body ul {
+                    overflow: hidden;
+                    padding: 0;
+                    margin: 0px;
+                    margin-top: -5px;
+                }
+
+                    .panel-default > .panel-body ul li {
+                        line-height: 27px;
+                        list-style-type: none;
+                        /*white-space: nowrap;*/
+                        text-overflow: ellipsis;
+                    }
+
+                        .panel-default > .panel-body ul li .time {
+                            color: #a1a1a1;
+                            float: right;
+                            padding-right: 5px;
+                        }
+    </style>
+</body>
+</html>

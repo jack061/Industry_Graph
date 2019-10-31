@@ -1,0 +1,96 @@
+﻿using JFine.Job;
+using JFine.Web.App_Start;
+using Quartz;
+using Quartz.Impl;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Data.Entity.Infrastructure.Interception;
+using System.Linq;
+using System.Reflection;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Optimization;
+using System.Web.Routing;
+using System.Web.SessionState;
+
+namespace JFine.Web
+{
+    public class MvcApplication : System.Web.HttpApplication
+    {
+        private ApplicationBLL applicationBLL = new ApplicationBLL();
+        protected void Application_Start()
+        {
+            AreaRegistration.RegisterAllAreas();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            DbInterception.Add(new EFIntercepterLogging());
+            StartScheduler();
+            InitApplication();
+        }
+
+        /// <summary>
+        /// 应用数据初始化
+        /// </summary>
+        private void InitApplication()
+        {
+            //applicationBLL.RegistPluginRoutes();//需要实现IRouteProvider接口
+            //applicationBLL.InitCache();
+            applicationBLL.StartCheckOnlineQueue();
+            applicationBLL.StartCheckOnLineIsOverdue();
+            applicationBLL.StartLog2DB();
+        }
+
+        /// <summary>
+        /// 作业调度
+        /// </summary>
+        /// 
+        public IScheduler sched;
+        protected void StartScheduler()
+        {
+            NameValueCollection properties = new QuartzParameter().GetQuartzPara();
+            ISchedulerFactory schedFact = new StdSchedulerFactory(properties);
+            // get a scheduler
+            sched = schedFact.GetScheduler();
+            //Start
+            sched.Start();
+
+        }
+
+        /// <summary>
+        /// 重写Init通过StateServer实现应用间Session共享
+        /// </summary>
+        public override void Init()
+        {
+            base.Init();
+            foreach (string moduleName in this.Modules)
+            {
+                string appName = "JFine_JOY";
+                IHttpModule module = this.Modules[moduleName];
+                SessionStateModule ssm = module as SessionStateModule;
+                if (ssm != null)
+                {
+                    FieldInfo storeInfo = typeof(SessionStateModule).GetField("_store", BindingFlags.Instance | BindingFlags.NonPublic);
+                    SessionStateStoreProviderBase store = (SessionStateStoreProviderBase)storeInfo.GetValue(ssm);
+                    if (store == null)//In IIS7 Integrated mode, module.Init() is called later
+                    {
+                        FieldInfo runtimeInfo = typeof(HttpRuntime).GetField("_theRuntime", BindingFlags.Static | BindingFlags.NonPublic);
+                        HttpRuntime theRuntime = (HttpRuntime)runtimeInfo.GetValue(null);
+                        FieldInfo appNameInfo = typeof(HttpRuntime).GetField("_appDomainAppId", BindingFlags.Instance | BindingFlags.NonPublic);
+                        appNameInfo.SetValue(theRuntime, appName);
+                    }
+                    else
+                    {
+                        Type storeType = store.GetType();
+                        if (storeType.Name.Equals("OutOfProcSessionStateStore"))
+                        {
+                            FieldInfo uribaseInfo = storeType.GetField("s_uribase", BindingFlags.Static | BindingFlags.NonPublic);
+                            uribaseInfo.SetValue(storeType, appName);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

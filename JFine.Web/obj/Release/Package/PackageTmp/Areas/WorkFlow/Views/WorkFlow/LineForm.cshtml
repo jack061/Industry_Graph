@@ -1,0 +1,215 @@
+﻿@*------------------------------------------------------------------------------
+    *     此代码由T4模板自动生成
+    *	   生成时间 2017-09-27 22:52:13
+    *     ©为之团队
+    *------------------------------------------------------------------------------*@
+
+
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var Id = $.request("Id");
+    var currTabId = top.$.jfinetab.getCurrentTabId();
+    var currTabContent = top.$.jfinetab.getTabContentFromId(currTabId);
+    var lineInfo = currTabContent.flowDesigner.$lineData[Id];
+    //var selectList = [{ value: '=', text: '等于' }, { value: '>', text: '大于' }, { value: '<', text: '小于' }, { value: '>=', text: '大于等于' }, { value: '<=', text: '小于等于' }, { value: '<>', text: '不等于' }, { value: 'like', text: '包含' }, { value: 'notlike', text: '不包含' }, { value: '*=', text: '全部等于' }, { value: '*>', text: '全部大于' }, { value: '*<', text: '全部小于' }, { value: '*>=', text: '全部大于等于' }, { value: '*<=', text: '全部小于等于' }, { value: '*<>', text: '全部不等于' }, { value: '*like', text: '全部包含' }, { value: '*notlike', text: '全部不包含' }];
+    var selectList = [{ value: '=', text: '等于' }, { value: '>', text: '大于' }, { value: '<', text: '小于' }, { value: '>=', text: '大于等于' }, { value: '<=', text: '小于等于' }, { value: '<>', text: '不等于' }, { value: 'like', text: '包含' }, { value: 'notlike', text: '不包含' }];
+    var selectTypeList = [{ value: 'S', text: '字符串' }, { value: 'N', text: '数值' }];
+
+    $(function () {       
+
+        initSelectControl();
+        if (!!Id && !!lineInfo) {
+            $("#Id").val(Id);
+            $("#Name").val(lineInfo.name);
+            $("#form1").formSerialize(lineInfo.setting);
+            initCondition(lineInfo.setting)
+        }
+    });
+
+    //初始化组件
+    function initSelectControl() {
+        
+    }
+
+    function submitForm() {
+        
+        if (!$('#form1').formValid()) {
+           // return false;
+        }
+        var ConditionColumnArr = new Array();
+        var ConditionColumn = $("input[name='ConditionColumnSub']").each(function () {
+            ConditionColumnArr.push($(this).val());
+        });
+        var ConditionArr = new Array();
+        var Condition = $("select[name='ConditionSub']").each(function () {
+            ConditionArr.push($(this).val());
+        });
+        var ConditionTypeArr = new Array();
+        var ConditionType = $("select[name='ConditionTypeSub']").each(function () {
+            ConditionTypeArr.push($(this).val());
+        });
+        var ConditionParameterArr = new Array();
+        var ConditionParameter = $("input[name='ConditionParameterSub']").each(function () {
+            ConditionParameterArr.push($(this).val());
+        });
+        var postData = $("#form1").formSerialize();
+        delete postData["__RequestVerificationToken"];
+        postData.ConditionColumn =getTextByDelimiter( ConditionColumnArr,",");
+        postData.Condition = getTextByDelimiter( ConditionArr,",");
+        postData.ConditionType = getTextByDelimiter( ConditionTypeArr,",");
+        postData.ConditionParameter = getTextByDelimiter(ConditionParameterArr, ",");
+        currTabContent.LineCallBack(Id, $("#Name").val(), postData);
+        $.modalClose();
+    }
+
+    //条件初始化
+    function initCondition(data)
+    {
+        if (!!data && !!data.Condition) {
+            data.ConditionColumn = data.ConditionColumn.split(",");
+            data.Condition = data.Condition.split(",");
+            data.ConditionType = data.ConditionType.split(",");
+            data.ConditionParameter = data.ConditionParameter.split(",");
+            for (var i = 0; i < data.Condition.length; i++) {
+                var guid = $.fn.guid();
+
+                var condition_tr = '<tr id="' + guid
+                    + '"><td> <input name="ConditionColumnSub" type="text" class="form-control required" value="' + data.ConditionColumn[i] + '" /></td>'
+                     + ' <td><select name="ConditionSub" type="text" class="form-control required" ></select></td>'
+                     + ' <td><select name="ConditionTypeSub" type="text" class="form-control required" ></select></td>'
+                     + '<td><input name="ConditionParameterSub" type="text" class="form-control required"  value="' + data.ConditionParameter[i] + '" /></td>'
+                     + '<td><a id="JF-del" class="btn btn-xs btn-danger dropdown-text" onclick="btn_delete(\'' + guid + '\')"><i class="fa fa-trash-o"></i>删除</a></td>'
+                    + ' </tr>';
+                $("#condition_table").append(condition_tr);
+
+                $('#' + guid + '').children("td:eq(1)").find("select[name='ConditionSub']").bindSelect({
+                    id: 'value',
+                    text: 'text',
+                    data: selectList
+                });
+                $('#' + guid + '').children("td:eq(2)").find("select[name='ConditionTypeSub']").bindSelect({
+                    id: 'value',
+                    text: 'text',
+                    data: selectTypeList
+                });
+                $('#' + guid + '').children("td:eq(1)").find("select").val(data.Condition[i]).trigger("change");
+                $('#' + guid + '').children("td:eq(2)").find("select").val(data.ConditionType[i]).trigger("change");
+            }
+        } else
+        {
+            var guid = $.fn.guid();
+
+            var condition_tr = '<tr id="' + guid
+                + '"><td> <input name="ConditionColumnSub" type="text" class="form-control required" /></td>'
+                 + ' <td><select name="ConditionSub" type="text" class="form-control required" ></select></td>'
+                 + ' <td><select name="ConditionTypeSub" type="text" class="form-control required" ></select></td>'
+                 + '<td><input name="ConditionParameterSub" type="text" class="form-control required" /></td>'
+                 + '<td><a id="JF-del" class="btn btn-xs btn-danger dropdown-text" onclick="btn_delete(\'' + guid + '\')"><i class="fa fa-trash-o"></i>删除</a></td>'
+                + ' </tr>';
+            $("#condition_table").append(condition_tr);
+
+            $('#' + guid + '').children("td:eq(1)").find("select[name='ConditionSub']").bindSelect({
+                id: 'value',
+                text: 'text',
+                data: selectList
+            });
+            $('#' + guid + '').children("td:eq(2)").find("select[name='ConditionTypeSub']").bindSelect({
+                id: 'value',
+                text: 'text',
+                data: selectTypeList
+            });
+        }
+    }
+
+    //添加条件
+    function btn_add()
+    {
+        var guid = $.fn.guid();
+        var condition_tr = '<tr id="'+ guid
+            + '"><td> <input name="ConditionColumnSub" type="text" class="form-control required" /></td>'
+             + ' <td><select name="ConditionSub" type="text" class="form-control required" ></select></td>'
+             + ' <td><select name="ConditionTypeSub" type="text" class="form-control required" ></select></td>'
+             + '<td><input name="ConditionParameterSub" type="text" class="form-control required" /></td>'
+             + '<td><a id="JF-del" class="btn btn-xs btn-danger dropdown-text" onclick="btn_delete(\'' + guid + '\')"><i class="fa fa-trash-o"></i>删除</a></td>'
+            + ' </tr>';
+        $("#condition_table").append(condition_tr);
+
+        $('#' + guid + '').children("td:eq(1)").find("select[name='ConditionSub']").bindSelect({
+            id: 'value',
+            text: 'text',
+            data: selectList
+        });
+        $('#' + guid + '').children("td:eq(2)").find("select[name='ConditionTypeSub']").bindSelect({
+            id: 'value',
+            text: 'text',
+            data: selectTypeList
+        });
+    }
+    //删除条件
+    function btn_delete(index)
+    {
+        $("#" + index).remove();
+    }
+
+    function getTextByDelimiter(arr, delimiter) {
+        var str = "";
+        $.each(arr,function (index, value) {
+            str += value + delimiter;
+        });
+        //去掉最后一个分割符
+        if (str.length > 0) {
+            str = str.substr(0, str.length - 1);
+        }
+        return str;
+    }
+</script>
+
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <table class="form">
+
+            <tr>
+                <th class="formTitle">连线Id</th>
+                <td class="formValue">
+                    <input id="Id" name="Id" type="text" class="form-control required" readonly="readonly" />
+                </td>
+            </tr>
+
+            <tr>                
+                <th class="formTitle"> 标题</th>
+                <td class="formValue">
+                    <input id="Name" name="Name" type="text" class="form-control required" placeholder="请输入标题" />
+                </td>
+            </tr> 
+
+            <tr>
+                <th class="formTitle"> 流转条件</th>
+                <td class="formValue">
+                    <div style="margin-top: 2px; width: 20%; float: left; height: 180px; background-image: url(/Content/images/wf_condition.png) !important; background-repeat: no-repeat; ">
+                    </div>
+                    <div style="margin-top: 2px; width: 80%; float: right; height: 155px;overflow-y:auto;">
+                        <table id="condition_table">
+                            <tr>
+                                <th>字段</th>
+                                <th>条件</th>
+                                <th>类型</th>
+                                <th>参数</th>
+                                <th></th>
+                            </tr>
+                        </table>
+                        <a id="JF-add" class="btn btn-xs btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+                    </div>
+                    <div style="margin-top: 2px; width: 80%; float: right; height: 20px;">
+                        <input id="ConditionResult" name="ConditionResult" type="text" class="form-control required" />
+                    </div>
+                   
+                </td>
+            </tr> 
+
+
+        </table>
+    </div>
+</form>

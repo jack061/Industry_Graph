@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JFine.Sequence</name>
+    </assembly>
+    <members>
+        <member name="M:JFine.Sequence.Sequence.getSequence(System.String,System.Int32)">
+            <summary>
+            根据键值获取序列号
+            </summary>
+            <param name="sequencename">名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Sequence.Sequence.createSequenceKey(System.String,System.Int32)">
+            <summary>
+            根据键值创建序列
+            </summary>
+            <param name="sequencename"></param>
+        </member>
+        <member name="M:JFine.Sequence.Sequence.getSequenceAutoAddZero(System.String,System.Int32,System.Int32)">
+            <summary>
+            根据key值获取序列号后根据位数前导补零
+            </summary>
+            <param name="sequenceName">序列号key</param>
+            <param name="num">位数  不足左补零</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Sequence.SequenceHelper">
+            <summary>
+            序列编码帮助类
+            </summary>
+        </member>
+        <member name="M:JFine.Sequence.SequenceHelper.getRuleCode(System.String)">
+            <summary>
+            根据编码规则获取编码
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Sequence.SequenceHelper.getSnowflakeID">
+            <summary>
+            获取雪花算法序列
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

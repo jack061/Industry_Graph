@@ -1,0 +1,133 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>错误页-@ViewBag.number</title>
+    <link href="~/Content/css/framework-font.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery/jquery-2.0.3.min.js"></script>
+    <script src="~/Content/js/bootstrap/bootstrap.min.js"></script>
+    <link href="~/Content/js/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-index.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
+    <style>
+        .page {
+            position: relative;
+            min-height: 100vh;
+            overflow: visible;
+            background: #f1f4f5;
+        }
+
+        .page-content {
+            padding: 20px 20px;
+        }
+
+        body.layout-full {
+            height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .page-errors .page-error {
+            height: 100vh;
+            overflow: auto;
+        }
+
+        .page-error .error-mark {
+            margin-bottom: 33px;
+        }
+
+        .page-error header .icon:before {
+            margin-bottom: 20px;
+            font-size: 120px;
+        }
+
+        .page-error header h1 {
+            font-size: 120px;
+            color: #76838f;
+        }
+
+        .page-error header h3 {
+            margin-top: 30px;
+        }
+
+        .page-error header p {
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .vertical-align-bottom, .vertical-align-middle {
+            display: inline-block;
+            max-width: 100%;
+            font-size: 14px;
+        }
+
+        .vertical-align-middle {
+            vertical-align: middle;
+        }
+
+        .text-center {
+            text-align: center !important;
+        }
+
+        .vertical-align {
+            font-size: 0;
+        }
+
+        main.site-page .page-error .page-copyright {
+            display: none;
+        }
+
+        .wrapper {
+            min-height: 100%;
+            background-color: #ecf0f5;
+            z-index: 800;
+        }
+
+        .content {
+            min-height: 250px;
+            padding: 15px;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .copyright {
+            text-align: center;
+            /*color: #fff;*/
+            position: absolute;
+            top: 100%;
+            margin-top: -60px;
+            width: 97%;
+            font-family: Microsoft Yahei;
+            line-height: 25px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="page-errors layout-full">
+    <div class="page vertical-align text-center page-error">
+        <div class="page-content vertical-align-middle">
+            <!--中间内容-->
+            <header>
+                <h1 class="text-yellow">@ViewBag.number</h1>
+                <div class="error-content">
+                    <h3><i class="fa fa-warning text-yellow"></i> @ViewBag.title</h3>
+                    <p>
+                        @ViewBag.message
+                    </p>
+                </div>
+            </header>
+        </div>
+    </div>
+    <div class="copyright">
+        JFine开发团队出品
+    </div>
+</body>
+</html>

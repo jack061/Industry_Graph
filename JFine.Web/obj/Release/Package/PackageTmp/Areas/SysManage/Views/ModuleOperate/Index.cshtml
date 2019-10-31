@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+<script>
+    $(function () {
+        $('#layout').layout();
+        treeView();
+        gridList();
+    });
+    function treeView() {
+        $("#moduleTree").treeview({
+            url: "/SysManage/Module/GetTreeJson",
+            onnodeclick: function (item) {
+                $("#txt_keyword").val('');
+                $('#btn_search').trigger("click");
+            }
+        });
+    }
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            height: $(window).height() - 128,
+            styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式  
+            colModel: [
+                { label: '主键', name: 'Id', hidden: true },
+                { label: '编码', name: 'Code', width: 80, align: 'left' },
+                { label: '名称', name: 'Name', width: 80, align: 'left' },
+                {
+                    label: '图标', name: 'Icon', width: 80, align: 'left',
+                    formatter: function (cellvalue) {
+                        return "<i class=\"" + cellvalue + "\"></i>";
+                    }
+                },
+                {
+                    label: '是否有效', name: 'IsValid', width: 80, align: 'left',
+                    formatter: function (cellvalue) {
+                        return cellvalue == true ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+                { label: '描述', name: 'Description', width: 150, align: 'left' },
+                { label: '备注', name: 'Mark', width: 150, align: 'left' }
+            ],
+            pager: "#gridPager",
+            sortname: 'Sort asc',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+            var queryJson = {
+                moduleId: $("#moduleTree").getCurrentNode().id,
+                keyword: $("#txt_Keyword").val()
+            }
+            $gridList.jqGrid('setGridParam', {
+                url: "/SysManage/ModuleOperate/GetGridJson",
+                postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+            }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+        var currentNode = $("#moduleTree").getCurrentNode();
+        if (currentNode == undefined || currentNode == null) {
+            $.modalAlert("请先选择右侧的菜单！", "warning");
+        } else
+        {
+            var moduleId = $("#moduleTree").getCurrentNode().id;
+            $.modalOpen({
+                id: "Form",
+                title: "新增菜单",
+                url: "/SysManage/ModuleOperate/Form?BindId=" + moduleId,
+                width: "700px",
+                height: "440px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].submitForm();
+                }
+            });
+        }
+        
+    }
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        $.modalOpen({
+            id: "Form",
+            title: "修改菜单",
+            url: "/SysManage/ModuleOperate/Form?keyValue=" + keyValue,
+            width: "700px",
+            height: "440px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_delete() {
+        $.deleteForm({
+            url: "/SysManage/ModuleOperate/DeleteForm",
+            param: { keyValue: $("#gridList").jqGridRowValue().Id },
+            success: function () {
+                $.currentWindow().$("#gridList").resetSelection();
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+    function btn_details() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        $.modalOpen({
+            id: "Details",
+            title: "查看菜单",
+            url: "/SysManage/ModuleOperate/Details?keyValue=" + keyValue,
+            width: "700px",
+            height: "490px",
+            btn: null,
+        });
+    }
+</script>
+
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+    <div class="ui-layout-west">
+        <div id="moduleTree"></div>
+    </div>
+    <div class="ui-layout-center">
+        <div class="topPanel">
+            <div class="toolbar">
+                <div class="btn-group">
+                    <a class="btn btn-primary" onclick="$.reload()"><span class="fa fa-refresh"></span></a>
+                </div>
+                <div class="btn-group">
+                    <!--<a id="JF-add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建菜单</a>-->
+                    <a id="JF-add" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建按钮</a>
+                </div>
+                <div class="operate">
+                    <ul class="nav nav-pills">
+                        <li class="first">已选中<span>1</span>项</li>
+                        @*<li><a id="JF-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改按钮</a></li>*@
+                        <li><a id="JF-edit" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改按钮</a></li>
+                        <li><a id="JF-delete" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除按钮</a></li>
+                        <li><a id="JF-Details" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看按钮</a></li>
+                        <li class="split"></li>
+                        <li><a id="JF-modulebutton" authorize="yes" onclick="btn_modulebutton()"><i class="fa fa-gavel"></i>按钮管理</a></li>
+                    </ul>
+                    <a href="javascript:;" class="close"></a>
+                </div>
+                <script>$('.toolbar').authorizeButton()</script>
+            </div>
+            <div class="search">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input id="txt_keyword" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;">
+                                <span class="input-group-btn">
+                                    <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="gridPanel">
+            <table id="gridList"></table>
+            <div id="gridPager"></div>
+        </div>
+    </div>
+</div>

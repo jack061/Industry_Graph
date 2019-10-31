@@ -1,0 +1,230 @@
+﻿
+ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2019-07-01 17:21:43
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/IOT/IOTDeviceWarn/GetGridJson",
+            height: $(window).height() - 138,
+            colModel: [
+					  	
+					{ label: "主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+					{ label: "设备ID", name: "BindId", width: 150, align: 'left', hidden: true },
+	  	
+					{ label: "DealStatus", name: "DealStatus", width: 150, align: 'left', hidden: true },
+
+                    {
+                        label: "预警状态", name: "WStatus", width: 100, align: 'left',
+                        formatter: function (cellValue, options, rowObject) {
+                            //状态
+                            var status_s = '';
+                            if (rowObject.ConfirmStatus == '未确认') {
+                                status_s += '<span class=\"label label-default\">' + rowObject.ConfirmStatus + '</span>';
+                            } else if (rowObject.ConfirmStatus == '已忽略') {
+                                status_s += '<span class=\"label label-warning\">' + rowObject.ConfirmStatus + '</span>';
+                            } else {
+                                status_s += '<span class=\"label label-success\">' + rowObject.ConfirmStatus + '</span>';
+                            }
+                            if (rowObject.DealStatus == '未处理') {
+                                status_s += '<span class=\"label label-default\" style="margin-left:5px;">' + rowObject.DealStatus + '</span>';
+                            } else if (rowObject.DealStatus == '已忽略') {
+                                status_s += '<span class=\"label label-warning\" style="margin-left:5px;">' + rowObject.DealStatus + '</span>';
+                            } else {
+                                status_s += '<span class=\"label label-success\" style="margin-left:5px;">' + rowObject.DealStatus + '</span>';
+                            }
+                            return status_s;
+                        }
+                    },
+
+					{ label: "设备编码", name: "DeviceCode", width: 80, align: 'left' },
+
+                    { label: "设备名称", name: "DeviceName", width: 100, align: 'left' },
+
+					{ label: "预警编码", name: "Code", width: 90, align: 'left' },
+
+					{ label: "预警位置", name: "Position", width: 100, align: 'left' },
+
+					{ label: "上限值", name: "MinValue", width: 60, align: 'left' },
+
+                    { label: "下限值", name: "MaxValue", width: 60, align: 'left' },
+
+                    { label: "设备值", name: "DeviceValue", width: 60, align: 'left' },
+
+					{ label: "预警内容描述", name: "DES", width: 150, align: 'left' },
+
+					{ label: "预警类别编码", name: "CategoryCode", width: 60, align: 'left' },
+
+					{ label: "预警类别名称", name: "CategoryName", width: 70, align: 'left' },
+
+					{ label: "预警时间", name: "WarningDate", width: 130, align: 'left' },
+
+					{ label: "确认状态", name: "ConfirmStatus", width: 80, align: 'left', hidden: true },
+
+					{ label: "确认人", name: "ConfirmManName", width: 80, align: 'left' },
+
+					{ label: "确认时间", name: "ConfirmDate", width: 130, align: 'left' },
+
+					{ label: "处理状态", name: "DealStatus", width: 80, align: 'left', hidden: true },
+
+					{ label: "处理人", name: "DealManName", width: 80, align: 'left' },
+
+					{ label: "处理时间", name: "DealDate", width: 130, align: 'left' },
+
+					{ label: "处理结果", name: "Result", width: 150, align: 'left' }
+ 
+            ],
+			pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+			var queryJson = {
+                keyword: $("#txt_keyword").val()
+            }
+		    $gridList.jqGrid('setGridParam', {
+		         postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+		    }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增设备预警",
+            url: "/IOT/IOTDeviceWarn/Form",
+            width: ($(window).width() * 0.8) + "px",
+            height: ($(window).height() * 0.7) + "px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+		//var parentId = top.$.jfinetab.getCurrentTabId();
+        //top.$.jfinetab.addTabContent("/IOT/IOTDeviceWarn/Form2", "设备预警--新增", parentId + "_add", parentId);
+    }
+    function btn_edit() {
+		var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue))
+        {
+			$.modalOpen({
+				id: "Form",
+				title: "修改设备预警",
+				url: "/IOT/IOTDeviceWarn/Form?keyValue=" + keyValue,
+				width: ($(window).width() * 0.8) + "px",
+				 height: ($(window).height() * 0.7) + "px",
+				callBack: function (iframeId) {
+					top.frames[iframeId].submitForm();
+				}
+			});
+        }
+		//var parentId = top.$.jfinetab.getCurrentTabId();
+        //var Id = $("#gridList").jqGridRowValue().Id;
+        //if ($.checkedArray(Id)) {
+        //    top.$.jfinetab.addTabContent("/IOT/IOTDeviceWarn/Form2?keyValue=" + Id, "设备预警--修改", parentId + "_edit", parentId);
+       // }
+        
+    }
+    function btn_delete() {
+	  var keyValue = $("#gridList").jqGridRowValue().Id;
+	 if ($.checkedArray(keyValue))
+        {
+			 $.deleteForm({
+				url: "/IOT/IOTDeviceWarn/DeleteForm",
+				param: { keyValue: keyValue },
+				success: function () {
+					$.currentWindow().$("#gridList").trigger("reloadGrid");
+				}
+			});
+        }
+        
+    }
+
+    function btn_warn() {
+        var parentId = top.$.jfinetab.getCurrentTabId();
+        var Id = $("#gridList").jqGridRowValue().Id;
+        var DealStatus = $("#gridList").jqGridRowValue().DealStatus;
+        if ($.checkedArray(Id)) {
+            if (DealStatus == "未处理") {
+                top.$.jfinetab.addTabContent("/IOT/IOTDeviceWarn/WarningForm?keyValue=" + Id, "预警--处理", parentId + "_warn", parentId);
+            } else {
+                $.modalAlert("请选择未处理的数据", "warning");
+
+            }
+
+        }
+
+    }
+
+    function btn_details() { 
+		var keyValue = $("#gridList").jqGridRowValue().Id;      
+		if ($.checkedArray(keyValue))
+		 {
+			$.modalOpen({
+				id: "Details",
+				title: "查看设备预警",
+				url: "/IOT/IOTDeviceWarn/Details?keyValue=" + keyValue,
+				width: "550px",
+				height: "620px",
+				btn: null,
+			});
+		  }
+
+		//var parentId = top.$.jfinetab.getCurrentTabId();
+		//var Id = $("#gridList").jqGridRowValue().Id;
+		//if ($.checkedArray(Id)) {
+		//    top.$.jfinetab.addTabContent("/IOT/IOTDeviceWarn/Details2?keyValue=" + Id, "设备预警--查看", parentId + "_view", parentId);
+		//}
+    
+    }
+	function refreshGrid() {
+        $("#gridList").trigger("reloadGrid");
+	 }      
+</script>
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="JF-add"  class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+            <a id="JF-edit" class="btn btn-primary dropdown-text" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a>
+            <a id="JF-delete" class="btn btn-primary dropdown-text"  onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+            <a id="JF-add" class="btn btn-primary dropdown-text" onclick="btn_warn()"><i class="fa fa-plus"></i>预警处理</a>
+            <a id="JF-Details" class="btn btn-primary dropdown-text"  onclick="btn_details()"><i class="fa fa-search-plus"></i>查看</a>
+        </div>
+        <div id="toolbar" class="btn-group">
+		</div>
+		<script>$('#toolbar').authorizeButton()</script>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+	<div id="gridPager"></div>
+</div>
+

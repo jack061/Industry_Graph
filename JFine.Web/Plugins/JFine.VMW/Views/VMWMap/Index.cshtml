@@ -1,0 +1,190 @@
+﻿
+ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2019-02-21 17:17:18
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/VMW/VMWMap/GetGridJson",
+            height: $(window).height() - 138,
+            colModel: [
+					  	
+					{ label: "主键", name: "Id", width: 150, align: 'left',hidden:true },
+	  	
+					{ label: "编码", name: "Code", width: 100, align: 'left' },
+	  	
+					{ label: "名称", name: "Name", width: 130, align: 'left' },
+	  	
+					{ label: "ImageURL", name: "ImageURL", width: 150, align: 'left', hidden: true },
+
+                    {
+                        label: "地图", name: "", width: 150, align: 'left',
+                        formatter: function (cellvalue, options, rowObject) {
+                            return '<img style="height:60px;" src="' + rowObject.ImageURL + '"/>';
+                        }
+                    },
+
+                    { label: "EPSG", name: "EPSG", width: 80, align: 'left' },
+	  	
+					{ label: "范围左", name: "R_Left", width: 80, align: 'left', hidden: true },
+	  	
+					{ label: "范围下", name: "R_Bottom", width: 80, align: 'left', hidden: true },
+	  	
+					{ label: "范围右", name: "R_Right", width: 80, align: 'left', hidden: true },
+	  	
+					{ label: "范围上", name: "R_Top", width: 80, align: 'left', hidden: true },
+
+                    {
+                        label: "范围", name: "R_", width: 200, align: 'left',
+                        formatter: function (cellvalue, options, rowObject)
+                        {
+                            return '[' + rowObject.R_Left + ',' + rowObject.R_Bottom + ',' + rowObject.R_Right + ',' + rowObject.R_Top + ']';
+                        }
+                    },
+	  	
+					{ label: "版本", name: "Version", width: 60, align: 'left' },
+	  	
+					{ label: "备注", name: "Remark", width: 150, align: 'left' },
+
+                    { label: "创建人", name: "CreateUserName", width: 90, align: 'left' },
+	  	
+					{ label: "创建日期", name: "CreateDate", width: 130, align: 'left' },
+	  	
+					
+ 
+            ],
+			pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+			var queryJson = {
+                keyword: $("#txt_keyword").val()
+            }
+		    $gridList.jqGrid('setGridParam', {
+		         postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+		    }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+        //$.modalOpen({
+        //    id: "Form",
+        //    title: "新增地图",
+        //    url: "/VMW/VMWMap/Form",
+        //    width: ($(window).width() * 0.8) + "px",
+        //    height: ($(window).height() * 0.7) + "px",
+        //    callBack: function (iframeId) {
+        //        top.frames[iframeId].submitForm();
+        //    }
+        //});
+		var parentId = top.$.jfinetab.getCurrentTabId();
+        top.$.jfinetab.addTabContent("/VMW/VMWMap/Form2", "地图--新增", parentId + "_add", parentId);
+    }
+    function btn_edit() {
+		//var keyValue = $("#gridList").jqGridRowValue().Id;
+        //if ($.checkedArray(keyValue))
+        //{
+		//	$.modalOpen({
+		//		id: "Form",
+		//		title: "修改地图",
+		//		url: "/VMW/VMWMap/Form?keyValue=" + keyValue,
+		//		width: ($(window).width() * 0.8) + "px",
+		//		 height: ($(window).height() * 0.7) + "px",
+		//		callBack: function (iframeId) {
+		//			top.frames[iframeId].submitForm();
+		//		}
+		//	});
+        //}
+		var parentId = top.$.jfinetab.getCurrentTabId();
+        var Id = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(Id)) {
+            top.$.jfinetab.addTabContent("/VMW/VMWMap/Form2?keyValue=" + Id, "地图--修改", parentId + "_edit", parentId);
+        }
+        
+    }
+    function btn_delete() {
+	  var keyValue = $("#gridList").jqGridRowValue().Id;
+	 if ($.checkedArray(keyValue))
+        {
+			 $.deleteForm({
+				url: "/VMW/VMWMap/DeleteForm",
+				param: { keyValue: keyValue },
+				success: function () {
+					$.currentWindow().$("#gridList").trigger("reloadGrid");
+				}
+			});
+        }
+        
+    }
+    function btn_details() { 
+		//var keyValue = $("#gridList").jqGridRowValue().Id;      
+		//if ($.checkedArray(keyValue))
+		// {
+		//	$.modalOpen({
+		//		id: "Details",
+		//		title: "查看地图",
+		//		url: "/VMW/VMWMap/Details?keyValue=" + keyValue,
+		//		width: "550px",
+		//		height: "620px",
+		//		btn: null,
+		//	});
+		//  }
+
+		var parentId = top.$.jfinetab.getCurrentTabId();
+		var Id = $("#gridList").jqGridRowValue().Id;
+		if ($.checkedArray(Id)) {
+		    top.$.jfinetab.addTabContent("/VMW/VMWMap/Details2?keyValue=" + Id, "地图--查看", parentId + "_view", parentId);
+		}
+    
+    }
+	function refreshGrid() {
+        $("#gridList").trigger("reloadGrid");
+	 }      
+</script>
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="JF-add"  class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+            <a id="JF-edit" class="btn btn-primary dropdown-text" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a>
+            <a id="JF-delete" class="btn btn-primary dropdown-text"  onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+            <a id="JF-Details" class="btn btn-primary dropdown-text"  onclick="btn_details()"><i class="fa fa-search-plus"></i>预览</a>
+        </div>
+        <div id="toolbar" class="btn-group">
+		</div>
+		<script>$('#toolbar').authorizeButton()</script>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+	<div id="gridPager"></div>
+</div>
+

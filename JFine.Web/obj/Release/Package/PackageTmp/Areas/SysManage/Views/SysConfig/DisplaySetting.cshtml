@@ -1,0 +1,111 @@
+﻿@*------------------------------------------------------------------------------
+    *     此代码由T4模板自动生成
+    *	   生成时间 2017-12-21 23:19:29
+    *     ©为之团队
+    *------------------------------------------------------------------------------*@
+
+
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form2.cshtml";
+}
+<script>
+    $(function () {
+        initControl();
+        $('.jfine_switch input').bootstrapSwitch();
+    });
+
+    //初始化组件
+    function initControl() {
+        $(".collapse-link").click(function () {
+            var o = $(this).closest("div.ibox"),
+                e = $(this).find("i"),
+                i = o.find("div.ibox-content");
+            i.slideToggle();
+            e.toggleClass("fa-chevron-up").toggleClass("fa-chevron-down");
+            o.toggleClass("").toggleClass("border-bottom");
+        });
+        $('[data-skin]').on('click', function (e) {
+            if ($(this).hasClass('knob'))
+                return
+            e.preventDefault();
+            top.changeSkin($(this).data('skin'));
+        })
+    }
+
+    function submitForm() {
+
+    }
+    //关闭Form
+    function closeForm() {
+        top.$.jfinetab.closeCurrentTab();
+    }
+</script>
+
+<form id="form1">
+    <div id="jfine-form-container" class="jfine-form-container" border="0">
+        <table id="jfine-form-maintable" class="jfineui jfine-form-maintable" style="table-layout: fixed;"
+               border="0" cellspacing="0" cellpadding="0" align="center">
+            <tbody>
+                <tr id="jfine-form-formcontent" class="jfine-form-titlebg" style="">
+                    <td>
+                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h4>主题</h4>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content" style="overflow:hidden;">
+                                    <div class="form-group">
+                                        <ul class="list-unstyled clearfix">
+                                            <li style="float:left; width: 33.33333%; padding: 5px;">
+                                                <a href="javascript:void(0)" data-skin="skin-blue" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+                                                    <div>
+                                                        <span style="display:block; width: 20%; float: left; height: 30px; background: #367fa9"></span>
+                                                        <span class="bg-light-blue" style="display:block; width: 80%; float: left; height: 30px;"></span>
+                                                    </div>
+                                                    <div>
+                                                        <span style="display:block; width: 20%; float: left; height: 60px; background: #222d32"></span>
+                                                        <span style="display:block; width: 80%; float: left; height: 60px; background: #f4f5f7"></span>
+                                                    </div>
+                                                </a>
+                                                <p class="text-center no-margin">深蓝</p>
+                                            </li>
+                                            <li style="float:left; width: 33.33333%; padding: 5px;">
+                                                <a href="javascript:void(0)" data-skin="skin-black" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+                                                    <div style="box-shadow: 0 0 2px rgba(0,0,0,0.1)" class="clearfix">
+                                                        <span style="display:block; width: 20%; float: left; height: 30px; background: #fefefe"></span>
+                                                        <span style="display:block; width: 80%; float: left; height: 30px; background: #fefefe"></span>
+                                                    </div>
+                                                    <div>
+                                                        <span style="display:block; width: 20%; float: left; height: 60px; background: #222"></span>
+                                                        <span style="display:block; width: 80%; float: left; height: 60px; background: #f4f5f7"></span>
+                                                    </div>
+                                                </a>
+                                                <p class="text-center no-margin">白+黑</p>
+                                            </li>
+                                            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0)" data-skin="skin-purple" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover"><div><span style="display:block; width: 20%; float: left; height: 30px;" class="bg-purple-active"></span><span class="bg-purple" style="display:block; width: 80%; float: left; height: 30px;"></span></div><div><span style="display:block; width: 20%; float: left; height: 60px; background: #222d32"></span><span style="display:block; width: 80%; float: left; height: 60px; background: #f4f5f7"></span></div></a><p class="text-center no-margin">深紫</p></li>
+                                            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0)" data-skin="skin-green" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover"><div><span style="display:block; width: 20%; float: left; height: 30px;" class="bg-green-active"></span><span class="bg-green" style="display:block; width: 80%; float: left; height: 30px;"></span></div><div><span style="display:block; width: 20%; float: left; height: 60px; background: #222d32"></span><span style="display:block; width: 80%; float: left; height: 60px; background: #f4f5f7"></span></div></a><p class="text-center no-margin">深绿</p></li>
+                                            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0)" data-skin="skin-red" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover"><div><span style="display:block; width: 20%; float: left; height: 30px;" class="bg-red-active"></span><span class="bg-red" style="display:block; width: 80%; float: left; height: 30px;"></span></div><div><span style="display:block; width: 20%; float: left; height: 60px; background: #222d32"></span><span style="display:block; width: 80%; float: left; height: 60px; background: #f4f5f7"></span></div></a><p class="text-center no-margin">深红</p></li>
+                                            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0)" data-skin="skin-yellow" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover"><div><span style="display:block; width: 20%; float: left; height: 30px;" class="bg-yellow-active"></span><span class="bg-yellow" style="display:block; width: 80%; float: left; height: 30px;"></span></div><div><span style="display:block; width: 20%; float: left; height: 60px; background: #222d32"></span><span style="display:block; width: 80%; float: left; height: 60px; background: #f4f5f7"></span></div></a><p class="text-center no-margin">深黄</p></li>
+                                            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0)" data-skin="skin-blue-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover"><div><span style="display:block; width: 20%; float: left; height: 30px; background: #367fa9"></span><span class="bg-light-blue" style="display:block; width: 80%; float: left; height: 30px;"></span></div><div><span style="display:block; width: 20%; float: left; height: 60px; background: #f9fafc"></span><span style="display:block; width: 80%; float: left; height: 60px; background: #f4f5f7"></span></div></a><p class="text-center no-margin" style="font-size: 12px">亮蓝</p></li>
+                                            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0)" data-skin="skin-black-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover"><div style="box-shadow: 0 0 2px rgba(0,0,0,0.1)" class="clearfix"><span style="display:block; width: 20%; float: left; height: 30px; background: #fefefe"></span><span style="display:block; width: 80%; float: left; height: 30px; background: #fefefe"></span></div><div><span style="display:block; width: 20%; float: left; height: 60px; background: #f9fafc"></span><span style="display:block; width: 80%; float: left; height: 60px; background: #f4f5f7"></span></div></a><p class="text-center no-margin" style="font-size: 12px">小白白</p></li>
+                                            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0)" data-skin="skin-purple-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover"><div><span style="display:block; width: 20%; float: left; height: 30px;" class="bg-purple-active"></span><span class="bg-purple" style="display:block; width: 80%; float: left; height: 30px;"></span></div><div><span style="display:block; width: 20%; float: left; height: 60px; background: #f9fafc"></span><span style="display:block; width: 80%; float: left; height: 60px; background: #f4f5f7"></span></div></a><p class="text-center no-margin" style="font-size: 12px">亮紫</p></li>
+                                            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0)" data-skin="skin-green-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover"><div><span style="display:block; width: 20%; float: left; height: 30px;" class="bg-green-active"></span><span class="bg-green" style="display:block; width: 80%; float: left; height: 30px;"></span></div><div><span style="display:block; width: 20%; float: left; height: 60px; background: #f9fafc"></span><span style="display:block; width: 80%; float: left; height: 60px; background: #f4f5f7"></span></div></a><p class="text-center no-margin" style="font-size: 12px">亮绿</p></li>
+                                            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0)" data-skin="skin-red-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover"><div><span style="display:block; width: 20%; float: left; height: 30px;" class="bg-red-active"></span><span class="bg-red" style="display:block; width: 80%; float: left; height: 30px;"></span></div><div><span style="display:block; width: 20%; float: left; height: 60px; background: #f9fafc"></span><span style="display:block; width: 80%; float: left; height: 60px; background: #f4f5f7"></span></div></a><p class="text-center no-margin" style="font-size: 12px">亮红</p></li>
+                                            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0)" data-skin="skin-yellow-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover"><div><span style="display:block; width: 20%; float: left; height: 30px;" class="bg-yellow-active"></span><span class="bg-yellow" style="display:block; width: 80%; float: left; height: 30px;"></span></div><div><span style="display:block; width: 20%; float: left; height: 60px; background: #f9fafc"></span><span style="display:block; width: 80%; float: left; height: 60px; background: #f4f5f7"></span></div></a><p class="text-center no-margin" style="font-size: 12px">亮黄</p></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>

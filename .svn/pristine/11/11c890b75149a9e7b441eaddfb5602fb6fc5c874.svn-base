@@ -1,0 +1,137 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>企业生产设备数据监控</title>
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/jquery.js"></script>
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/echarts.min.js"></script>
+    <script src="/Plugins/JFine.IOT/Content/js/highstock.js"></script>
+    <script src="/Plugins/JFine.IOT/Content/js/jquery.reusable-highcharts.min.js"></script>
+    <script src="/Plugins/JFine.IOT/Content/js/exporting.js"></script>
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/deviceGraph.js?v=asda.12.63"></script>
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/jquery.liMarquee.js"></script>
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/jquery.cxselect.min.js"></script>
+    <script src="~/Content/js/signalR/jquery.signalR-2.2.3.min.js"></script>
+    <script type="text/javascript" src="~/signalr/hubs"></script>
+    <script src="~/Content/js/bootstrap/bootstrap.min.js"></script>
+    <link href="~/Content/js/bootstrap/bootstrap.min.css?v=1.0.3" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/Plugins/JFine.IOT/Content/css/comon0.css">
+</head>
+<body>
+    <div style="background:#000d4a url(/Plugins/JFine.IOT/Content/images/bg.jpg) center top;">
+        <div class="loading">
+            <div class="loadbox"> <img src="/Plugins/JFine.IOT/Content/images/loading.gif"> 页面加载中... </div>
+        </div>
+        <div class="back"></div>
+        <div class="head">
+            <div class="weather"><span id="showTime"></span></div>
+            <h1>生产设备数据图表</h1>
+
+        </div>
+        <script>
+            var t = null;
+            t = setTimeout(time, 1000);/*開始运行*/
+            function time() {
+                clearTimeout(t);/*清除定时器*/
+                dt = new Date();
+                var y = dt.getFullYear();
+                var mt = dt.getMonth() + 1;
+                var day = dt.getDate();
+                var h = dt.getHours();
+                var m = dt.getMinutes();
+                var s = dt.getSeconds();
+                document.getElementById("showTime").innerHTML = y + "年" + mt + "月" + day + "日" + h + "时" + m + "分" + s + "秒";
+                t = setTimeout(time, 1000);
+            }
+
+        </script>
+
+        <style type="text/css">
+            .table1 span {
+                width: 200px;
+            }
+
+            body {
+                overflow: hidden
+            }
+
+            .mainbox {
+                /*overflow:auto;*/
+                height: 650px;
+                float: left;
+            }
+
+                .mainbox ul:first-child {
+                    overflow: auto;
+                    height: 600px;
+                    width: 250px;
+                }
+
+            .graph {
+                overflow: auto;
+                height: 650px;
+            }
+        </style>
+        <div class="mainbox">
+            <ul class="clearfix">
+                <li>
+                    <div class="col-md-3" style="padding-left:0;padding-right:0;">
+                        @for (int i = 0; i < ViewBag.DiviceList.Count; i++)
+                        {
+
+                            <div class="boxall" style="height:60px;margin:5px;width:250px;background:#3343b7ab">
+                                <div class="device_block" deviceName="@ViewBag.DiviceList[i].Name" deviceId="@ViewBag.DiviceList[i].Code" style="text-align:center;font-size:28px;">@ViewBag.DiviceList[i].Name</div>
+
+                            </div>
+
+                        }
+                    </div>
+
+                </li>
+            </ul>
+
+
+        </div>
+
+        <div class="graph">
+            <div style="text-align:center"><span style="color:beige;font-size:xx-large">电机5</span></div>
+            <div class="boxall">
+                <div class="alltitle">电量</div>
+                <div class="navboxall" id="container">
+
+                </div>
+            </div>
+
+            <div class="boxall">
+                <div class="alltitle">温度</div>
+                <div class="navboxall" id="container2">
+
+                </div>
+
+            </div>
+
+            <div class="boxall">
+                <div class="alltitle">湿度</div>
+                <div class="navboxall" id="container3">
+
+                </div>
+
+            </div>
+            <div class="boxall">
+                <div class="alltitle">温度实时</div>
+                <div class="navboxall" id="container4">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+    </script>
+
+
+</body>
+</html>

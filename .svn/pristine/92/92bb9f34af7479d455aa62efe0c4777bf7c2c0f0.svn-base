@@ -1,0 +1,742 @@
+﻿
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2018-03-09 22:47:06
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form2.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    var operation = $.request("operation");
+    $(function () {
+        initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/Supplier/SupplierBase/GetFormExtJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                    if (data.PromiseAttachURL != null && data.PromiseAttachURL != undefined) {
+                        var displayStr = "<a style='color:blue;' href='" + data.PromiseAttachURL + "'>" + data.PromiseAttach + "</a>";
+                        $("#fileInfo").html(displayStr);
+                    }
+                }
+            });
+        }
+        if (operation == 'add')
+        {
+            keyValue = '@ViewBag.Id';
+            var id = '@ViewBag.Id';
+            $("Id").val(id);
+        }        
+        validateRule();
+    });
+    //初始化组件
+    function initControl() {
+        $("#Sex").bindSelect();
+        //企业类别
+        $("#SupType").bindSelect({
+            url: "/SysManage/ItemsDetail/GetSelectJson",
+            id: "text",
+            param: { Code: "GYSLB" }
+        });
+        //企业性质
+        $("#Property").bindSelect({
+            url: "/SysManage/ItemsDetail/GetSelectJson",
+            id: "text",
+            param: { Code: "GYSXZ" }
+        });
+        //招标类别
+        $("#PurchaseCategory").bindSelect({
+            url: "/SysManage/ItemsDetail/GetSelectJson",
+            id: "text",
+            param: { Code: "CG" }
+        });
+        var queryJson = {
+            BindId: "0"
+        }
+        $("#Area").bindSelect({
+            url: "/SysCommon/SysArea/GetSelectJson",
+            param: { queryJson: JSON.stringify(queryJson) },
+            id: "Name",
+            text: "Name",
+            change: function (data) {
+                loadArea1(data);
+            }
+        });
+
+        $("#Area1").bindSelect({
+            id: "Name",
+            text: "Name"
+        });
+        $("#Area2").bindSelect({
+            id: "Name",
+            text: "Name"
+        });
+
+        validateRule();
+        stepChangeEvent();
+
+        initZZList();
+        initOrgList();
+
+    }
+
+    //初始化资质列表
+    function initZZList()
+    {
+        var queryJson = {
+            BindId: (keyValue == "") ? "0" : keyValue
+        }
+        var $gridList = $("#gridList_zh");
+        $gridList.dataGrid({
+            url: "/Supplier/SupplierFiles/GetGridJson?",
+            height: $(window).height() - 380,
+            postData: { queryJson: JSON.stringify(queryJson) },
+            colModel: [
+
+					{ label: " 主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+					{ label: " BindId", name: "BindId", width: 150, align: 'left', hidden: true },
+
+					{ label: " 文件名", name: "FileName", width: 150, align: 'left' },
+
+					{ label: " 文件描述", name: "FileDES", width: 150, align: 'left' },
+
+					{ label: " 文件URL", name: "FileURL", width: 150, align: 'left',hidden:true },
+
+            ],
+            pager: "#gridPager_zh",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $gridList.setGridWidth($(window).width() - 180);
+    }
+
+    //刷新资质列表
+    function refreshZZList()
+    {
+        var $gridList = $("#gridList_zh");
+        var queryJson = {
+            BindId: keyValue
+        }
+        $gridList.jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+        }).trigger('reloadGrid');
+    }
+
+    //初始化采购组织列表
+    function initOrgList() {
+        var queryJson = {
+            BindId: (keyValue == "") ? "0" : keyValue
+        }
+        var $gridList = $("#gridList_organization");
+        $gridList.dataGrid({
+            url: "/Supplier/SupplierPurchaseORG/GetGridJson",
+            height: $(window).height() - 380,
+            postData: { queryJson: JSON.stringify(queryJson) },
+            colModel: [
+
+					{ label: " 主键", name: "Id", width: 150, align: 'left',hidden:true },
+
+					{ label: " BindId", name: "BindId", width: 150, align: 'left',hidden:true },
+
+					{ label: " 组织编码", name: "OrganizeCode", width: 150, align: 'left' },
+
+					{ label: " 组织名称", name: "OrganizeName", width: 150, align: 'left' },
+
+					{ label: " 审批状态", name: "ApprovalStatus", width: 150, align: 'left' },
+
+            ],
+            pager: "#gridPager_organization",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $gridList.setGridWidth($(window).width() - 180);
+    }
+
+    //刷新采购组织列表
+    function refreshOrgList() {
+        var $gridList = $("#gridList_organization");
+        var queryJson = {
+            BindId: keyValue
+        }
+        $gridList.jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+        }).trigger('reloadGrid');
+    }
+
+    //加载市区
+    function loadArea1(data0)
+    {
+        var queryJson = {
+            BindId: (data0.Id == undefined) ? "-1" : data0.Id
+        }
+        $("#Area1").bindSelect({
+            url: "/SysCommon/SysArea/GetSelectJson",
+            param: { queryJson: JSON.stringify(queryJson) },
+            search: true,
+            id: "Name",
+            text: "Name",
+            change: function (data) {
+                loadArea2(data);
+            }
+        });
+    }
+
+    //加载县区
+    function loadArea2(data1) {
+        var queryJson = {
+            BindId: (data1.Id == undefined) ? "-1" : data1.Id
+        }
+        $("#Area2").bindSelect({
+            url: "/SysCommon/SysArea/GetSelectJson",
+            param: { queryJson: JSON.stringify(queryJson) },
+            id: "Name",
+            text: "Name",
+            search: true,
+        });
+    }
+
+    //分步导航验证事件
+    function stepChangeEvent()
+    {
+        $('#wizard').wizard().on('change', function (e, data) {
+            var $finish = $("#btn_finish");
+            var $next = $("#btn_next");
+            if (data.direction == "next") {
+                switch (data.step) {
+                    case 1://step1:校验基本信息
+                        if (!step1_validate()) {
+                            return false;
+                        }
+                        break;
+                    case 2://step2:校验企业信息
+                        if (!step2_validate()) {
+                            return false;
+                        }
+                        break;
+                    case 3://step3:校验资质文件
+                        var ids = $("#gridList_zh").jqGrid('getDataIDs');
+                        if (ids.length > 0) {
+                            return true;
+                        } else {
+                            $.modalAlert("资质文件不能为空！", "error");
+                            return false;
+                        }
+                        break;
+                    case 4://step4:校验采购组织
+                        var ids = $("#gridList_organization").jqGrid('getDataIDs');
+                        if (ids.length > 0) {
+                            return true;
+                        } else {
+                            $.modalAlert("采购组织不能为空！", "error");
+                            return false;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                $finish.hide();
+                $next.show();
+            }
+        });
+    }
+
+    //校验规格
+    function validateRule() {
+        $("#form1").validate({
+            errorPlacement: function (error, element) {
+                element.parents('.formValue').addClass('has-error');
+                element.parents('.has-error').find('i.error').remove();
+                element.parents('.has-error').append('<i class="form-control-feedback fa fa-exclamation-circle error" data-placement="left" data-toggle="tooltip" title="' + error + '"></i>');
+                $("[data-toggle='tooltip']").tooltip();
+                if (element.parents('.input-group').hasClass('input-group')) {
+                    element.parents('.has-error').find('i.error').css('right', '33px')
+                }
+            },
+            success: function (element) {
+                element.parents('.has-error').find('i.error').remove();
+                element.parent().removeClass('has-error');
+            }
+        });
+    }
+
+    //第一步验证：联系人信息
+    function step1_validate()
+    {
+        var result = true;
+        var step1_elements = $('#step-1 .required');
+        for (var i = 0; i < step1_elements.length; i++)
+        {
+            result = result & $("#form1").validate().element($("#" + step1_elements[i].id));
+        }
+
+        return result;
+    }
+
+    //第二布验证：企业基本信息
+    function step2_validate() {
+        var result = true;
+        var step1_elements = $('#step-2 .required');
+        for (var i = 0; i < step1_elements.length; i++) {
+            result = result & $("#form1").validate().element($("#" + step1_elements[i].id));
+        }
+
+        return result;
+    }
+
+    //打开上传附件窗口
+    function open_upload(elementId) {
+        $.modalOpen({
+            id: "UpLoadForm",
+            title: "上传附件",
+            url: "/SysCommon/Common/UpLoadBF?modelName=SupplierBase&elementId=" + elementId,
+            width: "550px",
+            height: "570px",
+            btn: null
+        });
+    }
+
+    //附件窗口回调刷新文件列表
+    function refreshFiles(result) {
+        var displayStr = "<a style='color:blue;' href='" + result.path + "'>" + result.filename_o + "</a>";
+        $("#fileInfo").html(displayStr);
+        $("#"+result.elementId).val(result.filename_o);
+        $("#" + result.elementId + "URL").val(result.path);
+    }
+
+    //数据处理
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        var postData = $("#form1").formSerialize();
+        $('#gridList_zh').jqGrid("endEditRows");
+        $('#gridList_organization').jqGrid("endEditRows");
+        var zzData = $('#gridList_zh').jqGrid("getRowData");
+        var orgData = $('#gridList_organization').jqGrid("getRowData");
+        postData.filedata = zzData;
+        postData.purchasedata = orgData;
+        postData = mvcParamMatch(postData);
+        $.submitForm({
+            url: "/Supplier/SupplierBase/SaveForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+
+
+    //添加资质文件
+    function add_zf() {
+        $.modalOpen({
+            id: "zzForm",
+            title: "新增供应商文件",
+            url: "/Supplier/SupplierFiles/Form?BindId=" + keyValue,
+            width: "600px",
+            height: "500px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+
+    //删除资质文件
+    function del_zf() {
+        var Id = $("#gridList_zh").jqGridRowValue().Id;
+        if ($.checkedArray(Id)) {
+            $.deleteForm({
+                url: "/Supplier/SupplierFiles/DeleteForm",
+                param: { keyValue: Id },
+                success: function () {
+                    refreshZZList();
+                }
+            });
+        }
+    }
+
+    //添加采购组织
+    function add_org()
+    {
+        $.modalOpen({
+            id: "orgForm",
+            title: "新增供应商采购组织",
+            url: "/Supplier/SupplierPurchaseORG/Form?BindId=" + keyValue,
+            width: "400px",
+            height:"200px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+
+    //删除采购组织
+    function del_org()
+    {
+        var Id = $("#gridList_organization").jqGridRowValue().Id;
+        if ($.checkedArray(Id)) {
+            $.deleteForm({
+                url: "/Supplier/SupplierPurchaseORG/DeleteForm",
+                param: { keyValue: Id },
+                success: function () {
+                    refreshOrgList();
+                }
+            });
+        }
+    }
+
+	//关闭Form
+    function closeForm() {
+        top.$.jfinetab.closeCurrentTab();
+    }
+</script>
+
+<form id="form1">
+    <input type="hidden" id="Id" name="Id" value="" />
+    <input type="hidden" id="LinkManId" name="LinkManId" value="" />
+    <div id="jfine-form-container" class="jfine-form-container" border="0">
+        <table id="jfine-form-maintable" class="jfineui jfine-form-maintable" style="table-layout: fixed;"
+               border="0" cellspacing="0" cellpadding="0" align="center">
+            <tbody>
+                <tr id="jfine-form-titlebg" class="jfine-form-titlebg">
+                    <td>
+                        <table align="center" border="0" style="margin: 0px auto; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td class="jfine-form-header_l">
+                                        <span class="jfine-form-logo">
+                                            <img src="/Content/images/formlogo.png" />
+                                        </span>
+                                    </td>
+                                    <td class="jfine-form-header_c">
+                                        <span class="jfine-form-header-title">供应商</span>
+                                    </td>
+                                    <td class="jfine-form-header_r">
+                                        <div>
+                                            <div class="btn-group">
+                                                @*<a class="btn btn-info dropdown-text" onclick="saveForm()"><i class="fa fa-send"></i>暂存</a>*@
+                                                <a class="btn btn-info dropdown-text" onclick="submitForm()"><i class="fa fa-send"></i>提交</a>
+                                                <a class="btn btn-warning dropdown-text" onclick="closeForm()"><i class="fa fa-minus"></i>关闭</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="jfine-form-formcontent" class="jfine-form-titlebg" style="">
+                    <td>
+                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                            <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
+                                <ul class="steps">
+                                    <li data-target="#step-1" class="active"><span class="step">1</span>联系人信息<span class="chevron"></span></li>
+                                    <li data-target="#step-2"><span class="step">2</span>企业信息<span class="chevron"></span></li>
+                                    <li data-target="#step-3"><span class="step">3</span>资质文件<span class="chevron"></span></li>
+                                    <li data-target="#step-4"><span class="step">4</span>采购组织<span class="chevron"></span></li>
+                                </ul>
+                            </div>
+                            <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
+                                <div class="step-pane active" id="step-1" style="margin: 10px; margin-bottom: 0px;">
+                                    <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+                                        <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+                                        联系人基础信息
+                                    </div>
+                                    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                                        <table class="form" style="margin-bottom: 10px;">
+
+                                            <tr>
+                                                <th class="formTitle">供应商账户</th>
+                                                <td class="formValue">
+                                                    <input id="SupNo" name="SupNo" type="text"
+                                                           class="form-control  required" placeholder="请输入" />
+                                                </td>
+                                                <th class="formTitle"> 状态</th>
+                                                <td class="formValue">
+                                                    <input id="Status" name="Status" type="text" class="form-control" value="新建" readonly="readonly" />
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="formTitle"> 密码</th>
+                                                <td class="formValue">
+                                                    <input id="PassWord" name="PassWord" type="password"
+                                                           class="form-control  required" placeholder="请输入密码" />
+                                                </td>
+                                                <th class="formTitle"> 重复密码</th>
+                                                <td class="formValue">
+                                                    <input id="RepassWord" name="RepassWord" type="password"
+                                                           class="form-control  required" placeholder="请输入重复密码" />
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="formTitle"> 姓名</th>
+                                                <td class="formValue">
+                                                    <input id="Name" name="Name" type="text"
+                                                           class="form-control  required" placeholder="请输入姓名" />
+                                                </td>
+                                                <th class="formTitle"> 性别</th>
+                                                <td class="formValue">
+                                                    <select id="Sex" name="Sex" class="form-control required">
+                                                        <option value="男">男</option>
+                                                        <option value="女">女</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="formTitle"> 身份证号</th>
+                                                <td class="formValue">
+                                                    <input id="IDNumber" name="IDNumber" type="text"
+                                                           class="form-control  required" placeholder="请输入身份证号" />
+                                                </td>
+                                                <th class="formTitle"> </th>
+                                                <td class="formValue">
+                                                    
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="formTitle"> 部门</th>
+                                                <td class="formValue">
+                                                    <input id="Department" name="Department" type="text"
+                                                           class="form-control  required" placeholder="请输入部门" />
+                                                </td>
+                                                <th class="formTitle"> 职位</th>
+                                                <td class="formValue">
+                                                    <input id="Post" name="Post" type="text"
+                                                           class="form-control  required" placeholder="请输入职位" />
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="formTitle"> 手机</th>
+                                                <td class="formValue">
+                                                    <input id="Mobile" name="Mobile" type="text"
+                                                           class="form-control  required isPhone" placeholder="请输入手机" />
+                                                </td>
+                                                <th class="formTitle"> 电话</th>
+                                                <td class="formValue">
+                                                    <input id="Phone" name="Phone" type="text"
+                                                           class="form-control" placeholder="请输入电话" />
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="formTitle"> 邮箱</th>
+                                                <td class="formValue">
+                                                    <input id="Email" name="Email" type="text"
+                                                           class="form-control  required email" placeholder="请输入邮箱" />
+                                                </td>
+                                                <th class="formTitle"> </th>
+                                                <td class="formValue"></td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="step-pane" id="step-2" style="margin: 10px; margin-bottom: 0px;">
+                                    <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+                                        <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+                                        企业信息
+                                    </div>
+                                    <table class="form" style="margin-bottom: 10px;">
+
+                                        
+
+                                        <tr>
+                                            <th class="formTitle"> 公司名称</th>
+                                            <td class="formValue">
+                                                <input id="SupName" name="SupName" type="text"
+                                                       class="form-control  required" placeholder="请输入公司名称" />
+                                            </td>
+                                            <th class="formTitle"> 公司曾用名</th>
+                                            <td class="formValue">
+                                                <input id="SupName1" name="SupName1" type="text"
+                                                       class="form-control" placeholder="请输入公司曾用名" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 企业类别</th>
+                                            <td class="formValue">
+                                                <select id="SupType" name="SupType" style="width:60%;" class="form-control  required"></select>
+                                            </td>
+                                            <th class="formTitle"> 企业性质</th>
+                                            <td class="formValue">
+                                                <select id="Property" name="Property" style="width:60%;" class="form-control  required"></select>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <th class="formTitle"> 公司成立时间</th>
+                                            <td class="formValue">
+                                                <input id="EstablishDate" name="EstablishDate" type="text"
+                                                       class="form-control Wdate required" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd'})" placeholder="请输入公司成立时间" />
+                                            </td>
+                                            <th class="formTitle"> 公司网址</th>
+                                            <td class="formValue">
+                                                <input id="URL" name="URL" type="text"
+                                                       class="form-control" placeholder="请输入公司网址" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 公司地址</th>
+                                            <td class="formValue" colspan="3">
+                                                <select id="Area" name="Area" style="width:100px;" class="form-control required"></select>
+                                                <select id="Area1" name="Area1" style="width:100px;" class="form-control required"></select>
+                                                <select id="Area2" name="Area2" style="width:100px;" class="form-control required"></select>
+                                                <input id="Area3" name="Area3" type="text" style="width: 200px;display: inline;" class="form-control  required" placeholder="请输入街道" />
+                                            </td>
+                                        </tr>
+                                        
+
+                                        <tr>
+                                            <th class="formTitle"> 注册地址</th>
+                                            <td class="formValue" colspan="3">
+                                                <input id="DetailAddress" name="DetailAddress" type="text"
+                                                       class="form-control  required" placeholder="请输入注册地址" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 法人</th>
+                                            <td class="formValue">
+                                                <input id="LegalPerson" name="LegalPerson" type="text"
+                                                       class="form-control  required" placeholder="请输入法人" />
+                                            </td>
+                                            <th class="formTitle"> 身份证号</th>
+                                            <td class="formValue">
+                                                <input id="LPIDNumber" name="LPIDNumber" type="text"
+                                                       class="form-control" placeholder="请输入身份证号" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 税号</th>
+                                            <td class="formValue">
+                                                <input id="TaxNo" name="TaxNo" type="text"
+                                                       class="form-control  required" placeholder="请输入税号" />
+                                            </td>
+                                            <th class="formTitle"> 注册资金（万元）</th>
+                                            <td class="formValue">
+                                                <input id="RegisteredCapital" name="RegisteredCapital" type="text"
+                                                       class="form-control isNumber required" placeholder="请输入注册资金（万元）" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 开户行</th>
+                                            <td class="formValue">
+                                                <input id="Bank" name="Bank" type="text"
+                                                       class="form-control  required" placeholder="请输入开户行" />
+                                            </td>
+                                            <th class="formTitle"> 银行账号</th>
+                                            <td class="formValue">
+                                                <input id="Account" name="Account" type="text"
+                                                       class="form-control  required" placeholder="请输入银行账号" />
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <th class="formTitle"> 招标类别</th>
+                                            <td class="formValue" colspan="3">
+                                                <select id="PurchaseCategory" name="PurchaseCategory" style="width:60%;" type="text" class="form-control  required" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 经营范围</th>
+                                            <td class="formValue" colspan="3">
+                                                <textarea id="BusinessScope" name="BusinessScope" class="form-control required" rows="4" placeholder="请输入经营范围"></textarea>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 公司描述</th>
+                                            <td class="formValue" colspan="3">
+                                                <textarea id="CompanyDES" name="CompanyDES" class="form-control" rows="4" placeholder="请输入公司描述"></textarea>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 是否阅读条款</th>
+                                            <td class="formValue">
+                                                <input id="IfRead" name="IfRead" type="text"
+                                                       class="form-control  required" placeholder="请输入是否阅读条款" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 承诺书</th>
+                                            <td class="formValue">
+                                                <div id="fileInfo" style="display: inline-block;margin-right:8px;"></div>
+                                                <a class="btn btn-primary dropdown-text" href="javascript:open_upload('PromiseAttach')"><i class="fa fa-upload"></i>上传承诺书</a>
+                                                <input id="PromiseAttach" name="PromiseAttach" type="hidden" class="form-control" />
+                                                <input id="PromiseAttachURL" name="PromiseAttachURL" type="hidden" class="form-control" />
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                                <div class="step-pane" id="step-3" style="margin: 10px; margin-bottom: 0px;">
+                                    <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+                                        <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+                                        资质文件
+                                    </div>
+                                    <div class="topPanel" style="border-top: none;">
+                                        <div class="btn-group">
+                                            <a class="btn btn-info dropdown-text" onclick="add_zf()"><i class="fa fa-plus"></i>添加</a>
+                                            <a class="btn btn-danger dropdown-text" onclick="del_zf()"><i class="fa fa-minus"></i>删除</a>
+                                        </div>
+                                    </div>
+                                    <div class="gridPanel">
+                                        <table id="gridList_zh"></table>
+                                        <div id="gridPager_zh"></div>
+                                    </div>
+                                </div>
+                                <div class="step-pane" id="step-4" style="margin: 10px; margin-bottom: 0px;">
+                                    <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+                                        <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+                                        采购组织
+                                    </div>
+                                    <div class="topPanel" style="border-top: none;">
+                                        <div class="btn-group">
+                                            <a class="btn btn-info dropdown-text" onclick="add_org()"><i class="fa fa-plus"></i>添加</a>
+                                            <a class="btn btn-danger dropdown-text" onclick="del_org()"><i class="fa fa-minus"></i>删除</a>
+                                        </div>
+                                    </div>
+                                    <div class="gridPanel">
+                                        <table id="gridList_organization"></table>
+                                        <div id="gridPager_organization"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="wizard-form-button" id="wizard-actions">
+                                <a id="btn_last" disabled class="btn btn-default btn-prev">上一步</a>
+                                <a id="btn_next" class="btn btn-default btn-next">下一步</a>
+                                <a id="btn_finish" class="btn btn-default" style="display: none;" onclick="publishNotice()">发布</a>
+                            </div>
+                            
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>

@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5445A3C7-D6E2-4AF9-ACFE-2EA8E6322A2A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JFine.Plugins.IOT</RootNamespace>
+    <AssemblyName>JFine.Plugins.IOT</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HslCommunication, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cdb2261fa039ed67, processorArchitecture=MSIL">
+      <HintPath>..\packages\HslCommunication.7.0.0\lib\net35\HslCommunication.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JFine.Busines, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\JFine.Busines.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Cache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\JFine.Cache.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Code, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\JFine.Code.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\JFine.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\JFine.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\JFine.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\JFine.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Log, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\JFine.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Sequence, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\JFine.Sequence.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Snowflake, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\JFine.Snowflake.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Web.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\JFine.Web.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.3\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MQTTnet, Version=2.8.5.0, Culture=neutral, PublicKeyToken=b69712f52770c0a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\MQTTnet.2.8.5\lib\net461\MQTTnet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Areas\IOT\Controllers\apiController.cs" />
+    <Compile Include="Areas\IOT\Controllers\GatewayValController.cs" />
+    <Compile Include="Areas\IOT\Controllers\IOTDeviceController.cs" />
+    <Compile Include="Areas\IOT\Controllers\IOTDeviceWarnController.cs" />
+    <Compile Include="Areas\IOT\Controllers\IOTHomeController.cs" />
+    <Compile Include="Areas\IOT\IOTAreaRegistration.cs" />
+    <Compile Include="Areas\Modbus\ModbusAreaRegistration.cs" />
+    <Compile Include="Areas\Modbus\Controllers\ModbusGatewayController.cs" />
+    <Compile Include="Areas\Modbus\Controllers\ModbusGatewayParaController.cs" />
+    <Compile Include="Areas\MQTT\Controllers\MQTTGatewayController.cs" />
+    <Compile Include="Areas\MQTT\Controllers\MQTTGatewayTagController.cs" />
+    <Compile Include="Areas\MQTT\MQTTAreaRegistration.cs" />
+    <Compile Include="Busines\IOT\IOTDeviceBLL.cs" />
+    <Compile Include="Busines\IOT\IOTDeviceWarnBLL.cs" />
+    <Compile Include="Busines\Modbus\ModbusServerBLL.cs" />
+    <Compile Include="Busines\MQTT\MQTTBLL.cs" />
+    <Compile Include="Busines\Modbus\ModbusBLL.cs" />
+    <Compile Include="Busines\Modbus\ModbusBLL0.cs" />
+    <Compile Include="Busines\Modbus\ModbusGatewayBLL.cs" />
+    <Compile Include="Busines\Modbus\ModbusGatewayParaBLL.cs" />
+    <Compile Include="Busines\IOT\GatewayValBLL.cs" />
+    <Compile Include="Busines\MQTT\MQTTGatewayBLL.cs" />
+    <Compile Include="Busines\MQTT\MQTTGatewayTagBLL.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Domain\IRepository\IOT\IIOTDeviceRepository.cs" />
+    <Compile Include="Domain\IRepository\IOT\IIOTDeviceWarnRepository.cs" />
+    <Compile Include="Domain\IRepository\Modbus\IModbusGatewayParaRepository.cs" />
+    <Compile Include="Domain\IRepository\Modbus\IModbusGatewayRepository.cs" />
+    <Compile Include="Domain\IRepository\IOT\IGatewayValRepository.cs" />
+    <Compile Include="Domain\IRepository\MQTT\IMQTTGatewayRepository.cs" />
+    <Compile Include="Domain\IRepository\MQTT\IMQTTGatewayTagRepository.cs" />
+    <Compile Include="Domain\Models\IOT\IOTDeviceEntity.cs" />
+    <Compile Include="Domain\Models\IOT\IOTDeviceWarnEntity.cs" />
+    <Compile Include="Domain\Models\Modbus\ModbusGatewayEntity.cs" />
+    <Compile Include="Domain\Models\Modbus\ModbusGatewayParaEntity.cs" />
+    <Compile Include="Domain\Models\IOT\GatewayValEntity.cs" />
+    <Compile Include="Domain\Models\MQTT\MQTTGatewayEntity.cs" />
+    <Compile Include="Domain\Models\MQTT\MQTTGatewayTagEntity.cs" />
+    <Compile Include="Domain\Repository\IOT\IOTDeviceRepository.cs" />
+    <Compile Include="Domain\Repository\IOT\IOTDeviceWarnRepository.cs" />
+    <Compile Include="Domain\Repository\Modbus\ModbusGatewayParaRepository.cs" />
+    <Compile Include="Domain\Repository\Modbus\ModbusGatewayRepository.cs" />
+    <Compile Include="Domain\Repository\IOT\GatewayValRepository.cs" />
+    <Compile Include="Domain\Repository\MQTT\MQTTGatewayRepository.cs" />
+    <Compile Include="Domain\Repository\MQTT\MQTTGatewayTagRepository.cs" />
+    <Compile Include="IOTConstant.cs" />
+    <Compile Include="IOTHubs\WarnHub.cs" />
+    <Compile Include="IOTHubs\ModbusHub.cs" />
+    <Compile Include="Mapping\IOT\IOTDeviceMap.cs" />
+    <Compile Include="Mapping\IOT\IOTDeviceWarnMap.cs" />
+    <Compile Include="Mapping\Modbus\ModbusGatewayMap.cs" />
+    <Compile Include="Mapping\Modbus\ModbusGatewayParaMap.cs" />
+    <Compile Include="Mapping\IOT\GatewayValMap.cs" />
+    <Compile Include="Mapping\MQTT\MQTTGatewayMap.cs" />
+    <Compile Include="Mapping\MQTT\MQTTGatewayTagMap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Content\fonts\data_number.ttf" />
+    <None Include="packages.config" />
+    <None Include="Scripts\jquery-1.10.2.min.map" />
+    <None Include="Views\IOTDeviceWarn\Details.cshtml" />
+    <None Include="Views\IOTDeviceWarn\Details2.cshtml" />
+    <None Include="Views\IOTDeviceWarn\Form.cshtml" />
+    <None Include="Views\IOTDeviceWarn\Form2.cshtml" />
+    <None Include="Views\IOTDeviceWarn\Index.cshtml" />
+    <None Include="Views\IOTDeviceWarn\Index2.cshtml" />
+    <None Include="Views\IOTDeviceWarn\WarningForm.cshtml" />
+    <None Include="Views\IOTDevice\Details.cshtml" />
+    <None Include="Views\IOTDevice\Details2.cshtml" />
+    <None Include="Views\IOTDevice\Form.cshtml" />
+    <None Include="Views\IOTDevice\Form2.cshtml" />
+    <None Include="Views\IOTDevice\Index.cshtml" />
+    <None Include="Views\IOTDevice\Index2.cshtml" />
+    <None Include="Views\IOTHome\DeviceIndex.cshtml" />
+    <None Include="Views\IOTHome\Index.cshtml" />
+    <None Include="Views\ModbusGatewayPara\Details.cshtml" />
+    <None Include="Views\ModbusGatewayPara\Details2.cshtml" />
+    <None Include="Views\ModbusGatewayPara\Form.cshtml" />
+    <None Include="Views\ModbusGatewayPara\Form2.cshtml" />
+    <None Include="Views\ModbusGatewayPara\Index.cshtml" />
+    <None Include="Views\ModbusGatewayPara\Index2.cshtml" />
+    <None Include="Views\GatewayVal\Details.cshtml" />
+    <None Include="Views\GatewayVal\Details2.cshtml" />
+    <None Include="Views\GatewayVal\Form.cshtml" />
+    <None Include="Views\GatewayVal\Form2.cshtml" />
+    <None Include="Views\GatewayVal\Index.cshtml" />
+    <None Include="Views\GatewayVal\Index2.cshtml" />
+    <None Include="Views\ModbusGateway\Details.cshtml" />
+    <None Include="Views\ModbusGateway\Details2.cshtml" />
+    <None Include="Views\ModbusGateway\Test.cshtml" />
+    <None Include="Views\ModbusGateway\Form.cshtml" />
+    <None Include="Views\ModbusGateway\Form2.cshtml" />
+    <None Include="Views\ModbusGateway\Index.cshtml" />
+    <None Include="Views\ModbusGateway\Index2.cshtml" />
+    <None Include="Views\MQTTGatewayTag\Details.cshtml" />
+    <None Include="Views\MQTTGatewayTag\Details2.cshtml" />
+    <None Include="Views\MQTTGatewayTag\Form.cshtml" />
+    <None Include="Views\MQTTGatewayTag\Form2.cshtml" />
+    <None Include="Views\MQTTGatewayTag\Index.cshtml" />
+    <None Include="Views\MQTTGatewayTag\Index2.cshtml" />
+    <None Include="Views\MQTTGateway\Details.cshtml" />
+    <None Include="Views\MQTTGateway\Details2.cshtml" />
+    <None Include="Views\MQTTGateway\Form.cshtml" />
+    <None Include="Views\MQTTGateway\Form2.cshtml" />
+    <None Include="Views\MQTTGateway\Index.cshtml" />
+    <None Include="Views\MQTTGateway\Index2.cshtml" />
+    <None Include="Views\web.config" />
+    <None Include="插件信息.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\css\comon0.css" />
+    <Content Include="Content\images\bg.jpg" />
+    <Content Include="Content\images\head_bg.png" />
+    <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\js\echarts.min.js" />
+    <Content Include="Content\js\jquery.cxselect.min.js" />
+    <Content Include="Content\js\jquery.js" />
+    <Content Include="Content\js\jquery.liMarquee.js" />
+    <Content Include="Content\js\deviceIndex.js" />
+    <Content Include="Content\js\js.js" />
+    <Content Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.3.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.3.min.js" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)\JFine.Web\Plugins\JFine.IOT
+xcopy /e /r /y $(ProjectDir)\Views $(SolutionDir)\JFine.Web\Plugins\JFine.IOT\Views
+xcopy /e /r /y $(ProjectDir)\Content $(SolutionDir)\JFine.Web\Plugins\JFine.IOT\Content
+copy $(ProjectDir)\插件信息.json $(SolutionDir)\JFine.Web\Plugins\JFine.IOT</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

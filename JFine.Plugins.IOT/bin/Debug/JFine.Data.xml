@@ -1,0 +1,1118 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JFine.Data</name>
+    </assembly>
+    <members>
+        <member name="T:JFine.Data.Common.ConvertExtension">
+            <summary>
+            转换扩展类
+            </summary>
+        </member>
+        <member name="M:JFine.Data.Common.ConvertExtension.DataFillDynamic(System.Data.IDataReader)">
+            <summary>
+            将DataReader数据转为Dynamic对象
+            </summary>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.ConvertExtension.DataFillDynamicList(System.Data.IDataReader)">
+            <summary>
+            获取模型对象集合
+            </summary>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.ConvertExtension.IDataReaderToList``1(System.Data.IDataReader)">
+            <summary>
+            将IDataReader转换为 集合
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.ConvertExtension.IDataReaderToDataTable(System.Data.IDataReader)">
+            <summary>
+             将IDataReader转换为DataTable
+            </summary>
+            <param name="dr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.ConvertExtension.GetPropertyInfo``1(``0)">
+            <summary>
+            获取实体类键值（缓存）
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Data.Common.DatabaseType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
+        <member name="F:JFine.Data.Common.DatabaseType.SqlServer">
+            <summary>
+            数据库类型：SqlServer
+            </summary>
+        </member>
+        <member name="F:JFine.Data.Common.DatabaseType.MySql">
+            <summary>
+            数据库类型：MySql
+            </summary>
+        </member>
+        <member name="F:JFine.Data.Common.DatabaseType.Oracle">
+            <summary>
+            数据库类型：Oracle
+            </summary>
+        </member>
+        <member name="T:JFine.Data.Common.DbFactory">
+            <summary>
+            数据库建立工厂
+            </summary>
+        </member>
+        <member name="M:JFine.Data.Common.DbFactory.Base(System.String,JFine.Data.Common.DatabaseType)">
+            <summary>
+            连接数据库
+            </summary>
+            <param name="connString">连接字符串</param>
+            <param name="DbType">数据库类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbFactory.Base(JFine.Data.Common.DatabaseType)">
+            <summary>
+            连接基础库
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbFactory.Base">
+            <summary>
+            连接基础库
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbFactory.GetDbType">
+            <summary>
+            数据库类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Data.Common.DbHelper">
+            <summary>
+            数据库访问
+            </summary>
+        </member>
+        <member name="M:JFine.Data.Common.DbHelper.#ctor(System.Data.Common.DbConnection)">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:JFine.Data.Common.DbHelper.Close">
+            <summary>
+            关闭数据库连接
+            </summary>
+        </member>
+        <member name="M:JFine.Data.Common.DbHelper.ExecuteReader(System.Data.CommandType,System.String)">
+            <summary>
+            执行SQL返回 DataReader
+            </summary>
+            <param name="cmdType">命令的类型</param>
+            <param name="strSql">Sql语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbHelper.ExecuteReader(System.Data.CommandType,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            执行SQL返回 DataReader
+            </summary>
+            <param name="cmdType">命令的类型</param>
+            <param name="strSql">Sql语句</param>
+            <param name="dbParameter">Sql参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbHelper.ExecuteScalar(System.Data.CommandType,System.String)">
+            <summary>
+            执行查询，并返回查询所返回的结果集
+            </summary>
+            <param name="cmdType">命令的类型</param>
+            <param name="strSql">Sql语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbHelper.ExecuteScalar(System.Data.CommandType,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            执行查询，并返回查询所返回的结果集
+            </summary>
+            <param name="cmdType">命令的类型</param>
+            <param name="strSql">Sql语句</param>
+            <param name="dbParameter">Sql参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbHelper.PrepareCommand(System.Data.Common.DbConnection,System.Data.IDbCommand,System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            为即将执行准备一个命令
+            </summary>
+            <param name="conn">SqlConnection对象</param>
+            <param name="cmd">SqlCommand对象</param>
+            <param name="isOpenTrans">DbTransaction对象</param>
+            <param name="cmdType">执行命令的类型（存储过程或T-SQL，等等）</param>
+            <param name="cmdText">存储过程名称或者T-SQL命令行, e.g. Select * from Products</param>
+            <param name="dbParameter">执行命令所需的sql语句对应参数</param>
+        </member>
+        <member name="P:JFine.Data.Common.DbHelper.DbType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
+        <member name="P:JFine.Data.Common.DbHelper.dbConnection">
+            <summary>
+            数据库连接对象
+            </summary>
+        </member>
+        <member name="P:JFine.Data.Common.DbHelper.dbCommand">
+            <summary>
+            执行命令对象
+            </summary>
+        </member>
+        <member name="T:JFine.Data.Common.DbParameters">
+            <summary>
+            SQL参数
+            </summary>
+        </member>
+        <member name="M:JFine.Data.Common.DbParameters.GetDbParmCharacter">
+            <summary>
+            根据配置文件中所配置的数据库类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbParameters.CreateDbParameter">
+            <summary>
+            根据配置文件中所配置的数据库类型
+            来创建相应数据库的参数对象
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbParameters.CreateDbParameter(System.String,System.Object)">
+            <summary>
+            根据配置文件中所配置的数据库类型
+            来创建相应数据库的参数对象
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbParameters.CreateDbParameter(System.String,System.Object,System.Data.DbType)">
+            <summary>
+            根据配置文件中所配置的数据库类型
+            来创建相应数据库的参数对象
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbParameters.ToDbParameter(System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            转换对应的数据库参数
+            </summary>
+            <param name="dbParameter">参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.JFEntityTypeConfiguration`1.PostInitialize">
+            <summary>
+            向构造方法中添加自定义方法
+            </summary>
+        </member>
+        <member name="T:JFine.Data.EF.MySqlDatabase">
+            <summary>
+            DbBase类
+            </summary>
+        </member>
+        <member name="T:JFine.Data.IDatabase">
+            <summary>
+            操作数据库接口
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EF.MySqlDatabase.BeginTrans">
+            <summary>
+            事务开始
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EF.MySqlDatabase.Commit">
+            <summary>
+            提交当前操作的结果
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EF.MySqlDatabase.Rollback">
+            <summary>
+            把当前操作回滚成未提交状态
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EF.MySqlDatabase.Close">
+            <summary>
+            关闭连接 内存回收
+            </summary>
+        </member>
+        <member name="P:JFine.Data.EF.MySqlDatabase.dbcontext">
+            <summary>
+            获取 当前使用的数据访问上下文对象
+            </summary>
+        </member>
+        <member name="P:JFine.Data.EF.MySqlDatabase.dbTransaction">
+            <summary>
+            事务对象
+            </summary>
+        </member>
+        <member name="T:JFine.Data.EF.SqlServerDatabase">
+            <summary>
+            DbBase类
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EF.SqlServerDatabase.BeginTrans">
+            <summary>
+            事务开始
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EF.SqlServerDatabase.Commit">
+            <summary>
+            提交当前操作的结果
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EF.SqlServerDatabase.Rollback">
+            <summary>
+            把当前操作回滚成未提交状态
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EF.SqlServerDatabase.Close">
+            <summary>
+            关闭连接 内存回收
+            </summary>
+        </member>
+        <member name="P:JFine.Data.EF.SqlServerDatabase.dbcontext">
+            <summary>
+            获取 当前使用的数据访问上下文对象
+            </summary>
+        </member>
+        <member name="P:JFine.Data.EF.SqlServerDatabase.dbTransaction">
+            <summary>
+            事务对象
+            </summary>
+        </member>
+        <member name="T:JFine.Data.Common.IDbContext">
+            <summary>
+            数据库连接接口 
+            </summary>
+        </member>
+        <member name="T:JFine.Data.EF.MySqlDbContext">
+            <summary>
+            MySql 上下文
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EF.MySqlDbContext.#ctor(System.String)">
+            <summary>
+            初始化一个 使用指定数据连接名称或连接串 的数据访问上下文类 的新实例
+            </summary>
+            <param name="connString"></param>
+        </member>
+        <member name="T:JFine.Data.EF.SqlServerDbContext">
+            <summary>
+            SqlServer上下文
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EF.SqlServerDbContext.#ctor(System.String)">
+            <summary>
+            初始化一个 使用指定数据连接名称或连接串 的数据访问上下文类 的新实例
+            </summary>
+            <param name="connString"></param>
+            
+        </member>
+        <member name="M:JFine.Data.Common.DbContextUtil.DeleteSql(System.String,System.Object,System.Object[])">
+            <summary>
+            删除SQL语句
+            </summary>
+            <param name="tableName"></param>
+            <param name="propertyName"></param>
+            <param name="propertyValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbContextUtil.GetEntitySet``1(System.Data.Entity.DbContext)">
+            <summary>
+            获取实体映射对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbcontext"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbContextUtil.BuilderProc(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            存储过程语句
+            </summary>
+            <param name="procName">存储过程名称</param>
+            <param name="dbParameter">执行命令所需的sql语句对应参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Common.DbContextUtil.BuilderProc(System.String)">
+            <summary>
+            存储过程语句
+            </summary>
+            <param name="procName">存储过程名称</param>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Data.EL.DataFactory">
+            <summary>
+            连接数据库服务工厂
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.DataFactory.SqlDataBase">
+            <summary>
+            链接 SqlServer 数据库
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Data.EL.IDbHelper">
+            <summary>
+            数据库通用操作层接口
+            版本：2.0
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetObjectValue(System.Text.StringBuilder)">
+            <summary>
+            根据SQL返回影响行数
+            </summary>
+            <param name="sql">SQL</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetObjectValue(System.Text.StringBuilder,JFine.Common.Code.SqlParam[])">
+            <summary>
+            根据SQL返回影响行数,带参数
+            </summary>
+            <param name="sql">SQL</param>
+            <param name="param">参数化</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.getInt(System.Text.StringBuilder,JFine.Common.Code.SqlParam[],System.String)">
+            <summary>
+            获取int
+            </summary>
+            <param name="sql"></param>
+            <param name="param"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.getString(System.Text.StringBuilder,JFine.Common.Code.SqlParam[],System.String)">
+            <summary>
+            获取某一列的值
+            </summary>
+            <param name="sql"></param>
+            <param name="param"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.ExecuteBySql(System.Text.StringBuilder)">
+            <summary>
+            根据SQL执行
+            </summary>
+            <param name="sql">SQL</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.ExecuteBySql(System.Text.StringBuilder,JFine.Common.Code.SqlParam[])">
+            <summary>
+            根据SQL执行,带参数
+            </summary>
+            <param name="sql">SQL</param>
+            <param name="param">参数化</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.BatchExecuteBySql(System.Text.StringBuilder[],System.Object[])">
+            <summary>
+            批量执行sql语句,带参数
+            </summary>
+            <param name="sqls">SQL</param>
+            <param name="param">参数化</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.BatchExecuteByListSql(System.Collections.Generic.List{System.Text.StringBuilder},System.Collections.Generic.List{System.Object})">
+            <summary>
+            批量执行sql语句,带参数
+            </summary>
+            <param name="sqls">SQL</param>
+            <param name="param">参数化</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetDataTable(System.String)">
+            <summary>
+            获取数据集，没有条件
+            </summary>
+            <param name="TargetTable">目标表名</param>
+            <returns>DataTable</returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetDataTable(System.String,System.String,System.String)">
+            <summary>
+            获取数据集,排序
+            </summary>
+            <param name="TargetTable">目标表名</param>
+            <param name="orderField">排序字段</param>
+            <param name="orderType">排序类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetDataTableBySQL(System.Text.StringBuilder)">
+            <summary>
+            根据 SQL 返回 DataTable
+            </summary>
+            <param name="sql">SQL</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetDataTableBySQL(System.Text.StringBuilder,System.Int32)">
+            <summary>
+            根据 SQL 返回 DataTable
+            </summary>
+            <param name="sql">SQL</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetDataTableBySQL(System.Text.StringBuilder,JFine.Common.Code.SqlParam[])">
+            <summary>
+            根据 SQL 返回 DataTable,带参数
+            </summary>
+            <param name="sql">SQL</param>
+            <param name="param">参数化</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetDataTableProc(System.String,System.Collections.Hashtable)">
+            <summary>
+            摘要:
+                执行一存储过程DataTable
+            参数：
+                procName：存储过程名称
+                Hashtable：传入参数字段名
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetDataTableProcReturn(System.String,System.Collections.Hashtable,System.Collections.Hashtable@)">
+            <summary>
+            摘要:
+                执行一存储过程DataTable 返回多个值
+            参数：
+                procName：存储过程名称
+                Hashtable：传入参数字段名
+                rs       :返回值
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetDataSetBySQL(System.Text.StringBuilder)">
+            <summary>
+            根据 SQL 返回 DataSet
+            </summary>
+            <param name="sql">sql语句</param>
+            <returns>DataSet</returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetDataSetBySQL(System.Text.StringBuilder,JFine.Common.Code.SqlParam[])">
+            <summary>
+            根据 SQL 返回 DataSet
+            </summary>
+            <param name="sql">SQL</param>
+            <param name="param">参数化</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetDataListBySQL``1(System.Text.StringBuilder)">
+            <summary>
+            根据 SQL 返回 IList
+            </summary>
+            <typeparam name="T">实体类</typeparam>
+            <param name="sql">语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetDataListBySQL``1(System.Text.StringBuilder,JFine.Common.Code.SqlParam[])">
+            <summary>
+            根据 SQL 返回 IList,带参数 (比DataSet效率高)
+            </summary>
+            <typeparam name="T">实体类</typeparam>
+            <param name="sql">Sql语句</param>
+            <param name="param">参数化</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.ExecuteByProc(System.String,System.Collections.Hashtable)">
+            <summary>
+            摘要:
+                执行一存储过程返回标识
+            参数：
+                procName：存储过程名称
+                Hashtable：传入参数字段名
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.ExecuteByProcNotTran(System.String,System.Collections.Hashtable)">
+            <summary>
+            执行一存储过程返回标识(不带事务)
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.ExecuteByProcReturnMsg(System.String,System.Collections.Hashtable,System.Object@)">
+            <summary>
+            执行存储过程返回指定消息
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.ExecuteByProcReturn(System.String,System.Collections.Hashtable,System.Collections.Hashtable@)">
+            <summary>
+            执行存储过程返回多个值
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.Submit_AddOrEdit(System.String,System.String,System.String,System.Collections.Hashtable)">
+            <summary>
+            表单提交：新增，修改
+                参数：
+                tableName:表名
+                pkName：字段主键
+                pkVal：字段值
+                ht：参数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.Submit_AddOrEdit_1(System.String,System.String,System.String,System.Collections.Hashtable)">
+            <summary>
+            表单提交：新增，修改
+                参数：
+                tableName:表名
+                pkName：字段主键
+                pkVal：字段值
+                ht：参数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetHashtableById(System.String,System.String,System.String)">
+            <summary>
+            根据唯一ID获取Hashtable
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.IsExist(System.String,System.String,System.String)">
+            <summary>
+            判断数据是否存在
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="pkName">字段主键</param>
+            <param name="pkVal">字段值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.IsExist(System.String,System.Collections.Hashtable)">
+            <summary>
+            判断数据是否存在
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="ht">字段</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.InsertByHashtable(System.String,System.Collections.Hashtable)">
+            <summary>
+            通过Hashtable插入数据
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.InsertByHashtableReturnPkVal(System.String,System.Collections.Hashtable)">
+            <summary>
+            通过Hashtable插入数据 返回主键（针对整型主键返回）
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="ht">Hashtable</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.UpdateByHashtable(System.String,System.String,System.String,System.Collections.Hashtable)">
+            <summary>
+            通过Hashtable修改数据
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.DeleteData(System.String,System.String,System.String)">
+            <summary>
+            删除数据
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.BatchDeleteData(System.String,System.String,System.Object[])">
+            <summary>
+            批量删除
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="pkName">字段主键</param>
+            <param name="pkVal">字段值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetPageList(System.String,JFine.Common.Code.SqlParam[],System.String,System.String,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            摘要:
+                数据分页接口
+            参数：
+                sql：传入要执行sql语句
+                param：参数化
+                orderField：排序字段
+                orderType：排序类型
+                pageIndex：当前页
+                pageSize：页大小
+                count：返回查询条数
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetPageList(System.String,JFine.Common.Code.SqlParam[],System.String,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            摘要:
+                数据分页接口
+            参数：
+                sql：传入要执行sql语句
+                param：参数化
+                orderField：排序字段
+                orderType：排序类型
+                pageIndex：当前页
+                pageSize：页大小
+                count：返回查询条数
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.IDbHelper.GetPageList``1(System.String,JFine.Common.Code.SqlParam[],System.String,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            摘要:
+                数据分页接口
+            参数：
+                sql：传入要执行sql语句
+                param：参数化
+                orderField：排序字段
+                orderType：排序类型
+                pageIndex：当前页
+                pageSize：页大小
+                count：返回查询条数
+            </summary>
+        </member>
+        <member name="T:JFine.Data.EL.SqlServerHelper">
+            <summary>
+            数据库通用操作层(微软企业库5.1)
+            版本：2.0
+            </summary>
+        </member>
+        <member name="F:JFine.Data.EL.SqlServerHelper.Logger">
+            <summary>
+            创建系统异常日志
+            </summary>
+        </member>
+        <member name="F:JFine.Data.EL.SqlServerHelper.connectionString">
+            <summary>
+            数据库连接字符串
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetDatabase">
+            <summary>
+            取得单身实例
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.AddInParameter(System.Data.Common.DbCommand,JFine.Common.Code.SqlParam[])">
+            <summary>
+            通过参数类构造键值
+            </summary>
+            <param name="cmd">SQL命令</param>
+            <param name="_params">参数化</param>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.AddInParameter(System.Data.Common.DbCommand,System.Collections.Hashtable)">
+            <summary>
+            通过Hashtable对象构造键值
+            </summary>
+            <param name="cmd">SQL命令</param>
+            <param name="_params">参数化</param>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.AddMoreParameter(System.Data.Common.DbCommand,System.Collections.Hashtable)">
+            <summary>
+            通过Hashtable对象构造键值
+            </summary>
+            <param name="cmd">SQL命令</param>
+            <param name="_params">参数化</param>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetParameter(System.Collections.Hashtable)">
+            <summary>
+            对象参数转换
+            </summary>
+            <param name="ht"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.getInt(System.Text.StringBuilder,JFine.Common.Code.SqlParam[],System.String)">
+            <summary>
+            获取int
+            </summary>
+            <param name="sql"></param>
+            <param name="param"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.getString(System.Text.StringBuilder,JFine.Common.Code.SqlParam[],System.String)">
+            <summary>
+            获取某一列的值
+            </summary>
+            <param name="sql"></param>
+            <param name="param"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.getString(System.Text.StringBuilder,JFine.Common.Code.SqlParam[],System.String,System.String)">
+            <summary>
+            获取某一列的值
+            </summary>
+            <param name="sql"></param>
+            <param name="param"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetObjectValue(System.Text.StringBuilder)">
+            <summary>
+            根据SQL返回影响行数
+            </summary>
+            <param name="sql">sql语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetObjectValue(System.Text.StringBuilder,JFine.Common.Code.SqlParam[])">
+            <summary>
+            根据SQL返回影响行数,带参数
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">参数化</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.ExecuteBySql(System.Text.StringBuilder)">
+            <summary>
+             根据SQL执行
+            </summary>
+            <param name="sql">sql语句</param>
+            <returns>object</returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.ExecuteBySql(System.Text.StringBuilder,JFine.Common.Code.SqlParam[])">
+            <summary>
+             根据SQL执行,带参数
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">参数化</param>
+            <returns>object</returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.BatchExecuteBySql(System.Text.StringBuilder[],System.Object[])">
+            <summary>
+            批量执行sql语句
+            </summary>
+            <param name="sqls"></param>
+            <param name="m_param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.BatchExecuteByListSql(System.Collections.Generic.List{System.Text.StringBuilder},System.Collections.Generic.List{System.Object})">
+            <summary>
+            批量执行sql语句,带参数
+            </summary>
+            <param name="sqls">SQL</param>
+            <param name="param">参数化</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetDataTable(System.String)">
+            <summary>
+            获取数据表，没有条件
+            </summary>
+            <param name="TargetTable">目标表名</param>
+            <returns>DataTable</returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetDataTable(System.String,System.String,System.String)">
+            <summary>
+            获取数据表,排序
+            </summary>
+            <param name="TargetTable">目标表名</param>
+            <param name="orderField">排序字段</param>
+            <param name="orderType">排序类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetDataTableBySQL(System.Text.StringBuilder)">
+            <summary>
+            根据 SQL 返回 DataTable 数据集
+            </summary>
+            <param name="sql">sql语句</param>
+            <returns>DataTable</returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetDataTableBySQL(System.Text.StringBuilder,System.Int32)">
+            <summary>
+            根据 SQL 返回 DataTable 数据集
+            </summary>
+            <param name="sql">sql语句</param>
+            <returns>DataTable</returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetDataTableBySQL(System.Text.StringBuilder,JFine.Common.Code.SqlParam[])">
+            <summary>
+            根据 SQL 返回 DataTable 数据集，带参数
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">参数化</param>
+            <returns>DataTable</returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetDataTableBySQL(System.Text.StringBuilder,JFine.Common.Code.SqlParam[],System.Int32)">
+            <summary>
+            根据 SQL 返回 DataTable 数据集，带参数
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">参数化</param>
+            <param name="flag">列名 0:默认，1：大写，2：:小写</param>
+            <returns>DataTable</returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetDataTableProc(System.String,System.Collections.Hashtable)">
+            <summary>
+            摘要:
+                执行一存储过程DataTable
+            参数：
+                procName：存储过程名称
+                Hashtable：传入参数字段名
+            </summary>
+        </member>
+        <!-- 对于成员“M:JFine.Data.EL.SqlServerHelper.GetDataTableProcReturn(System.String,System.Collections.Hashtable,System.Collections.Hashtable@)”忽略有格式错误的 XML 注释 -->
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetDataSetBySQL(System.Text.StringBuilder)">
+            <summary>
+            根据 SQL 返回 DataSet 数据集
+            </summary>
+            <param name="sql">sql语句</param>
+            <returns>DataSet</returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetDataSetBySQL(System.Text.StringBuilder,JFine.Common.Code.SqlParam[])">
+            <summary>
+            根据 SQL 返回 DataSet 数据集，带参数
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">参数化</param>
+            <returns>DataSet</returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetDataListBySQL``1(System.Text.StringBuilder)">
+            <summary>
+            根据 SQL 返回 IList
+            </summary>
+            <typeparam name="T">实体类</typeparam>
+            <param name="sql">语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetDataListBySQL``1(System.Text.StringBuilder,JFine.Common.Code.SqlParam[])">
+            <summary>
+            根据 SQL 返回 IList,带参数 (比DataSet效率高)
+            </summary>
+            <typeparam name="T">实体类</typeparam>
+            <param name="sql">Sql语句</param>
+            <param name="param">参数化</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.ExecuteByProc(System.String,System.Collections.Hashtable)">
+            <summary>
+            调用存储过程
+            </summary>
+            <param name="procName">存储过程名称</param>
+            <param name="ht">参数化</param>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.ExecuteByProcReturn(System.String,System.Collections.Hashtable,System.Collections.Hashtable@)">
+            <summary>
+            调用存储过程返回指定消息
+            </summary>
+            <param name="procName">存储过程名称</param>
+            <param name="ht">Hashtable</param>
+            <param name="msg">OutPut rs</param>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.ExecuteByProcReturnMsg(System.String,System.Collections.Hashtable,System.Object@)">
+            <summary>
+            调用存储过程返回指定消息
+            </summary>
+            <param name="procName">存储过程名称</param>
+            <param name="ht">Hashtable</param>
+            <param name="msg">OutPut Msg</param>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.Submit_AddOrEdit(System.String,System.String,System.String,System.Collections.Hashtable)">
+            <summary>
+            表单提交：新增，修改
+                参数：
+                tableName:表名
+                pkName：字段主键
+                pkVal：字段值
+                ht：参数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.Submit_AddOrEdit_1(System.String,System.String,System.String,System.Collections.Hashtable)">
+            <summary>
+            表单提交：新增，修改
+                参数：
+                tableName:表名
+                pkName：字段主键
+                pkVal：字段值
+                ht：参数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetHashtableById(System.String,System.String,System.String)">
+            <summary>
+            根据唯一ID获取Hashtable
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="pkName">字段主键</param>
+            <param name="pkVal">字段值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.IsExist(System.String,System.String,System.String)">
+            <summary>
+            判断数据是否存在
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="pkName">字段主键</param>
+            <param name="pkVal">字段值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.IsExist(System.String,System.Collections.Hashtable)">
+            <summary>
+            判断数据是否存在
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="ht">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.InsertByHashtable(System.String,System.Collections.Hashtable)">
+            <summary>
+            通过Hashtable插入数据
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="ht">Hashtable</param>
+            <returns>int</returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.InsertByHashtableReturnPkVal(System.String,System.Collections.Hashtable)">
+            <summary>
+            通过Hashtable插入数据 返回主键（针对整型主键返回）
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="ht">Hashtable</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.UpdateByHashtable(System.String,System.String,System.String,System.Collections.Hashtable)">
+            <summary>
+            通过Hashtable修改数据
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="pkName">字段主键</param>
+            <param name="pkValue"></param>
+            <param name="ht">Hashtable</param>
+            <returns>int</returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.DeleteData(System.String,System.String,System.String)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="pkName">字段主键</param>
+            <param name="pkVal">字段值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.BatchDeleteData(System.String,System.String,System.Object[])">
+            <summary>
+            批量删除
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="pkName">字段主键</param>
+            <param name="pkVal">字段值</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetPageList(System.String,JFine.Common.Code.SqlParam[],System.String,System.String,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            摘要:
+                数据分页接口
+            参数：
+                sql：传入要执行sql语句
+                param：参数化
+                orderField：排序字段
+                orderType：排序类型
+                pageIndex：当前页
+                pageSize：页大小
+                count：返回查询条数
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetPageList(System.String,JFine.Common.Code.SqlParam[],System.String,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            摘要:
+                数据分页接口
+            参数：
+                sql：传入要执行sql语句
+                param：参数化
+                orderField：排序
+                pageIndex：当前页
+                pageSize：页大小
+                count：返回查询条数
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.GetPageList``1(System.String,JFine.Common.Code.SqlParam[],System.String,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            摘要:
+                数据分页接口
+            参数：
+                sql：传入要执行sql语句
+                param：参数化
+                orderField：排序
+                pageIndex：当前页
+                pageSize：页大小
+                count：返回查询条数
+            </summary>
+        </member>
+        <member name="M:JFine.Data.EL.SqlServerHelper.Dispose">
+            <summary>
+            内存回收
+            </summary>
+        </member>
+        <member name="P:JFine.Data.EL.SqlServerHelper.DbCommand">
+            <summary>
+            命令
+            </summary>
+        </member>
+        <member name="T:JFine.Data.Repository.IRepositoryBase">
+            <summary>
+            仓储模型接口
+            </summary>
+        </member>
+        <member name="T:JFine.Data.Repository.IRepositoryBase`1">
+            <summary>
+            仓储模型接口
+            </summary>
+            <typeparam name="T">动态实体类型</typeparam>
+        </member>
+        <member name="T:JFine.Data.Repository.RepositoryBase">
+            <summary>
+            仓储模型
+            </summary>
+        </member>
+        <member name="T:JFine.Data.Repository.RepositoryBase`1">
+            <summary>
+            仓储模型
+            </summary>
+            <typeparam name="T">动态实体类型</typeparam>
+        </member>
+        <member name="T:JFine.Data.Repository.RepositoryFactory">
+            <summary>
+            仓储工厂
+            </summary>
+        </member>
+        <member name="M:JFine.Data.Repository.RepositoryFactory.BaseRepository(System.String,JFine.Data.Common.DatabaseType)">
+            <summary>
+            定义仓储
+            </summary>
+            <param name="connString">连接字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Repository.RepositoryFactory.BaseRepository(JFine.Data.Common.DatabaseType)">
+            <summary>
+            定义仓储
+            </summary>
+            <param name="connString">连接字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Repository.RepositoryFactory.BaseRepository">
+            <summary>
+            定义仓储（基础库）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JFine.Data.Repository.RepositoryFactory`1">
+            <summary>
+            仓储工厂
+            </summary>
+            <typeparam name="T">动态实体类型</typeparam>
+        </member>
+        <member name="M:JFine.Data.Repository.RepositoryFactory`1.BaseRepository(System.String,JFine.Data.Common.DatabaseType)">
+            <summary>
+            定义仓储
+            </summary>
+            <param name="connString">连接字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Repository.RepositoryFactory`1.BaseRepository(JFine.Data.Common.DatabaseType)">
+            <summary>
+            定义仓储
+            </summary>
+            <param name="connString">连接字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:JFine.Data.Repository.RepositoryFactory`1.BaseRepository">
+            <summary>
+            定义仓储（基础库）
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

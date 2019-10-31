@@ -1,0 +1,304 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>企业生产设备数据监控</title>
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/jquery.js"></script>
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/deviceIndex.js"></script>
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/jquery.liMarquee.js"></script>
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/jquery.cxselect.min.js"></script>
+    <script src="~/Content/js/bootstrap/bootstrap.min.js"></script>
+    <link href="~/Content/js/bootstrap/bootstrap.min.css?v=1.0.3" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/Plugins/JFine.IOT/Content/css/comon0.css">
+</head>
+<body>
+    <div style="background:#000d4a url(/Plugins/JFine.IOT/Content/images/bg.jpg) center top;">
+        <div class="loading">
+            <div class="loadbox"> <img src="/Plugins/JFine.IOT/Content/images/loading.gif"> 页面加载中... </div>
+        </div>
+        <div class="back"></div>
+        <div class="head">
+            <div class="weather"><span id="showTime"></span></div>
+            <h1>生产设备数据监控</h1>
+
+        </div>
+        <script>
+            var t = null;
+            t = setTimeout(time, 1000);/*開始运行*/
+            function time() {
+                clearTimeout(t);/*清除定时器*/
+                dt = new Date();
+                var y = dt.getFullYear();
+                var mt = dt.getMonth() + 1;
+                var day = dt.getDate();
+                var h = dt.getHours();
+                var m = dt.getMinutes();
+                var s = dt.getSeconds();
+                document.getElementById("showTime").innerHTML = y + "年" + mt + "月" + day + "日" + h + "时" + m + "分" + s + "秒";
+                t = setTimeout(time, 1000);
+            }
+
+        </script>
+        <div class="mainbox">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3" style="padding-left:0;padding-right:0;">
+                        <div class="boxall" style="height:300px;margin:5px;">
+                            <div class="alltitle">标题样式</div>
+                            <div class="navboxall">
+                                <table class="table1" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col">排名</th>
+                                            <th scope="col">公司</th>
+                                            <th scope="col">数量</th>
+                                            <th scope="col">增长率</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span>1</span></td>
+                                            <td>腾讯科技</td>
+                                            <td>114万<br></td>
+                                            <td>100%<br></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>2</span></td>
+                                            <td>百度公司</td>
+                                            <td>923823万</td>
+                                            <td>21%</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><span>3</span></td>
+                                            <td>新浪</td>
+                                            <td>1240253万</td>
+                                            <td>12%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>4</span></td>
+                                            <td>网易</td>
+                                            <td>1.2亿</td>
+                                            <td>39%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>5</span></td>
+                                            <td>雅虎</td>
+                                            <td>13423万</td>
+                                            <td>9%</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-left:0;padding-right:0;">
+                        <div class="boxall" style="height:300px;margin:5px;">
+                            <div class="alltitle">标题样式</div>
+                            <div class="navboxall">
+                                <table class="table1" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col">排名</th>
+                                            <th scope="col">公司</th>
+                                            <th scope="col">数量</th>
+                                            <th scope="col">增长率</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span>1</span></td>
+                                            <td>腾讯科技</td>
+                                            <td>114万<br></td>
+                                            <td>100%<br></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>2</span></td>
+                                            <td>百度公司</td>
+                                            <td>923823万</td>
+                                            <td>21%</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><span>3</span></td>
+                                            <td>新浪</td>
+                                            <td>1240253万</td>
+                                            <td>12%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>4</span></td>
+                                            <td>网易</td>
+                                            <td>1.2亿</td>
+                                            <td>39%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>5</span></td>
+                                            <td>雅虎</td>
+                                            <td>13423万</td>
+                                            <td>9%</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-left:0;padding-right:0;">
+                        <div class="boxall" style="height:300px;margin:5px;">
+                            <div class="alltitle">标题样式</div>
+                            <div class="navboxall">
+                                <table class="table1" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col">排名</th>
+                                            <th scope="col">公司</th>
+                                            <th scope="col">数量</th>
+                                            <th scope="col">增长率</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span>1</span></td>
+                                            <td>腾讯科技</td>
+                                            <td>114万<br></td>
+                                            <td>100%<br></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>2</span></td>
+                                            <td>百度公司</td>
+                                            <td>923823万</td>
+                                            <td>21%</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><span>3</span></td>
+                                            <td>新浪</td>
+                                            <td>1240253万</td>
+                                            <td>12%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>4</span></td>
+                                            <td>网易</td>
+                                            <td>1.2亿</td>
+                                            <td>39%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>5</span></td>
+                                            <td>雅虎</td>
+                                            <td>13423万</td>
+                                            <td>9%</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-left:0;padding-right:0;">
+                        <div class="boxall" style="height:300px;margin:5px;">
+                            <div class="alltitle">标题样式</div>
+                            <div class="navboxall">
+                                <table class="table1" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col">排名</th>
+                                            <th scope="col">公司</th>
+                                            <th scope="col">数量</th>
+                                            <th scope="col">增长率</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span>1</span></td>
+                                            <td>腾讯科技</td>
+                                            <td>114万<br></td>
+                                            <td>100%<br></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>2</span></td>
+                                            <td>百度公司</td>
+                                            <td>923823万</td>
+                                            <td>21%</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><span>3</span></td>
+                                            <td>新浪</td>
+                                            <td>1240253万</td>
+                                            <td>12%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>4</span></td>
+                                            <td>网易</td>
+                                            <td>1.2亿</td>
+                                            <td>39%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>5</span></td>
+                                            <td>雅虎</td>
+                                            <td>13423万</td>
+                                            <td>9%</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-left:0;padding-right:0;">
+                        <div class="boxall" style="height:300px;margin:5px;">
+                            <div class="alltitle">标题样式</div>
+                            <div class="navboxall">
+                                <table class="table1" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col">排名</th>
+                                            <th scope="col">公司</th>
+                                            <th scope="col">数量</th>
+                                            <th scope="col">增长率</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span>1</span></td>
+                                            <td>腾讯科技</td>
+                                            <td>114万<br></td>
+                                            <td>100%<br></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>2</span></td>
+                                            <td>百度公司</td>
+                                            <td>923823万</td>
+                                            <td>21%</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><span>3</span></td>
+                                            <td>新浪</td>
+                                            <td>1240253万</td>
+                                            <td>12%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>4</span></td>
+                                            <td>网易</td>
+                                            <td>1.2亿</td>
+                                            <td>39%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>5</span></td>
+                                            <td>雅虎</td>
+                                            <td>13423万</td>
+                                            <td>9%</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+    </script>
+
+
+</body>
+</html>

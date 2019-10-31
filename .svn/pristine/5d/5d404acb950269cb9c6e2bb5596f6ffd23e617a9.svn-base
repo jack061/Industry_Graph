@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能工厂管理平台</title>
+    <link href="~/Content/css/framework-font.css" rel="stylesheet" />
+    <link href="~/Content/login_1/css/normalize.css" rel="stylesheet" />
+    <link href="~/Content/login_1/css/login.css" rel="stylesheet" />
+    <link href="~/Content/login_1/css/component.css" rel="stylesheet" />
+    <link href="~/Content/js/slideunlock.js/slide-unlock.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery/jquery-2.0.3.min.js"></script>
+    <script src="~/Content/js/cookie/jquery.cookie.js"></script>
+    <script src="~/Content/js/md5/jquery.md5.js"></script>
+    <script src="~/Content/js/slideunlock.js/jquery.slideunlock.js"></script>
+    <link href="~/Content/js/Remodal-master/dist/remodal.css" rel="stylesheet" />
+    <link href="~/Content/js/Remodal-master/dist/remodal-default-theme.css" rel="stylesheet" />
+    <script src="~/Content/js/Remodal-master/dist/remodal.min.js"></script>
+    <script src="/Content/js/Device/device.js"></script>
+    <style>
+        .login_1 .large-header {
+            background-image: url('@ViewBag.background');
+        }
+    </style>
+    <script>
+    //$(".login_1").css("background-image", "url(" + imageurl + ")");
+    </script>
+</head>
+<body>
+    <div class="login_1">
+        <div class="content">
+            <div id="large-header" class="large-header">
+                <canvas id="demo-canvas"></canvas>
+                <div class="logo_box">
+                    <div style="text-align:center;">
+                        @*<i class="fa fa-heartbeat" style="font-size:30pt;color:#FF3300;"></i>*@
+                        <img src="/Content/images/formlogo.png">
+                        <h3><span style="font-size: 30px;font-weight: bold;">智能工厂管理平台</span></h3>
+                    </div>
+                    <div class="login_tips"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/login_1/js/TweenLite.min.js"></script>
+    <script src="~/Content/login_1/js/EasePack.min.js"></script>
+    <script src="~/Content/login_1/js/rAF.js"></script>
+    <script src="~/Content/login_1/js/demo-1.js"></script>
+
+    <script type="text/javascript"> 
+        var islogin = @ViewBag.IsLogin
+            $(function () {
+                if (islogin != 1)
+                {
+                    transfer();
+                }
+               
+            });
+            function transfer()
+            {
+                var username = $.request("account");;
+                var pwd = $.request("pwd");;
+                $.ajax({
+                    url: "/Login/CheckLogin",
+                    data: { username: $.trim(username), password: $.md5($.trim(pwd)), verifycode: '', autologin: 1 },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.state == "success") {
+                            token = data.data;
+                            $("#login_button").find('span').html("登录成功，正在跳转...");
+                            if (device.mobile()) {
+                                window.location.href = "/Home/Index?token=" + data.data;
+
+                            } else {
+                                window.location.href = "/Home/Index?token=" + data.data;
+                            }
+                        } else {
+                            $("#login_button").removeAttr('disabled').find('span').html("登录");
+                            $("#switchCode").trigger("click");
+                            $code.val('');
+                            $.login.formMessage(data.message);
+                        }
+                    }
+                });
+            }
+            $.request = function (name) {
+                var search = location.search.slice(1);
+                var arr = search.split("&");
+                for (var i = 0; i < arr.length; i++) {
+                    var ar = arr[i].split("=");
+                    if (ar[0] == name) {
+                        if (decodeURI(ar[1]) == 'undefined') {
+                            return "";
+                        } else {
+                            return decodeURI(ar[1]);
+                        }
+                    }
+                }
+                return "";
+            }
+    </script>
+</body>
+</html>

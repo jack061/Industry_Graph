@@ -1,0 +1,179 @@
+﻿
+ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2019-02-21 17:15:40
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/VMW/VMWCamera/GetGridJson",
+            height: $(window).height() - 138,
+            colModel: [
+					  	
+					{ label: "主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+                    {
+                        label: "状态", name: "Status", width: 60, align: 'left',
+                        formatter: function (cellValue, options, rowObject) {
+                            if (cellValue == 0) {
+                                return '<span class=\"label label-default\">离线</span>';
+                            }
+                            if (cellValue == 1) {
+                                return '<span class=\"label label-success\">正常</span>';
+                            }
+                            if (cellValue == 2) {
+                                return '<span class=\"label label-danger\">预警中</span>';
+                            }
+                            if (cellValue == 3) {
+                                return '<span class=\"label label-warning\">视频监控项整改中</span>';
+                            } else {
+                                return '<span class=\"label label-default\">暂无状态</span>';
+                            }
+                        }
+                    },
+	  	
+					{ label: "编码", name: "Code", width: 60, align: 'left' },
+	  	
+					{ label: "名称", name: "Name", width: 80, align: 'left' },
+
+                    { label: "型号", name: "Model", width: 80, align: 'left' },
+
+                    { label: "IP", name: "IP", width: 80, align: 'left' },
+	  	
+					{ label: "直播地址", name: "WebURL", width: 150, align: 'left' },
+	  	
+					{ label: "部署位置", name: "Position", width: 100, align: 'left' },
+	  	
+					{ label: "经度", name: "Lng", width: 60, align: 'left' },
+	  	
+					{ label: "纬度", name: "Lat", width: 60, align: 'left' },
+	  	
+					{ label: "用途", name: "Usage", width: 150, align: 'left' },
+	  	
+					{ label: "预警次数", name: "WarningCount", width: 150, align: 'left' },
+
+                    { label: "不准确次数", name: "WarningCount", width: 150, align: 'left' },
+	  	
+					{ label: "备注", name: "Remark", width: 150, align: 'left' },
+	  	
+					{ label: "第一次预警时间", name: "FirstWDT", width: 130, align: 'left' },
+	  	
+					{ label: "最后一次预警时间", name: "LastWDT", width: 130, align: 'left' },
+
+                    { label: "密钥", name: "SecretKey", width: 130, align: 'left' }
+ 
+            ],
+			pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+			var queryJson = {
+                keyword: $("#txt_keyword").val()
+            }
+		    $gridList.jqGrid('setGridParam', {
+		         postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+		    }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+		var parentId = top.$.jfinetab.getCurrentTabId();
+        top.$.jfinetab.addTabContent("/VMW/VMWCamera/Form2?mapCode=KT001", "摄像头--新增", parentId + "_add", parentId);
+    }
+    function btn_edit() {
+		var parentId = top.$.jfinetab.getCurrentTabId();
+        var Id = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(Id)) {
+            top.$.jfinetab.addTabContent("/VMW/VMWCamera/Form2?mapCode=KT001&keyValue=" + Id, "摄像头--修改", parentId + "_edit", parentId);
+        }
+        
+    }
+    function btn_delete() {
+	  var keyValue = $("#gridList").jqGridRowValue().Id;
+	 if ($.checkedArray(keyValue))
+        {
+			 $.deleteForm({
+				url: "/VMW/VMWCamera/DeleteForm",
+				param: { keyValue: keyValue },
+				success: function () {
+					$.currentWindow().$("#gridList").trigger("reloadGrid");
+				}
+			});
+        }
+        
+    }
+
+    function btn_updateSecretKey() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            $.confirmSubmitForm({
+                prompt: "您确定要更新该摄像头密钥吗？",
+                url: "/VMW/VMWCamera/UpdateSecretKey",
+                param: { keyValue: keyValue },
+                success: function () {
+                    $.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+            });
+        }
+
+    }
+    function btn_details() { 
+
+		var parentId = top.$.jfinetab.getCurrentTabId();
+		var Id = $("#gridList").jqGridRowValue().Id;
+		if ($.checkedArray(Id)) {
+		    top.$.jfinetab.addTabContent("/VMW/VMWCamera/Details2?mapCode=KT001&keyValue=" + Id, "摄像头--查看", parentId + "_view", parentId);
+		}
+    
+    }
+	function refreshGrid() {
+        $("#gridList").trigger("reloadGrid");
+	 }      
+</script>
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="JF-add"  class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+            <a id="JF-edit" class="btn btn-primary dropdown-text" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a>
+            <a id="JF-delete" class="btn btn-primary dropdown-text"  onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+            <a id="JF-edit" class="btn btn-primary dropdown-text" onclick="btn_updateSecretKey()"><i class="fa fa-pencil-square-o"></i>更新密钥</a>
+            <a id="JF-Details" class="btn btn-primary dropdown-text"  onclick="btn_details()"><i class="fa fa-search-plus"></i>查看</a>
+        </div>
+        <div id="toolbar" class="btn-group">
+		</div>
+		<script>$('#toolbar').authorizeButton()</script>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+	<div id="gridPager"></div>
+</div>
+

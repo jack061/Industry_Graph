@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<connectionStrings>
+  <!--SqlServer-->
+  <!--<add name="DbContext" connectionString="JBc6HvjkLDb89gKfvh+G0Qf2zOcru8npiLloun0IqSwGuShk0dQ01FqA21cEj/7Byz2/ANtl2yKaT/in7Gg5xxnfkHazL417MQnp7wlfWe0=" providerName="System.Data.SqlClient" />-->
+  <add name="DbContext" connectionString="kJ5c6snj1dzLvVAYIIHIPW8zHNwOlfHKSOpIxhdfP8CWESboNa8NPt4MZnkELDZaf+hWfZGfF/oguAzQWRAKEg==" providerName="System.Data.SqlClient" />
+  <!--MySql-->
+  <!--<add name="DbContext" connectionString="Data Source=localhost;port=3306;Initial Catalog=JFine_v2;user id=root;password=root1990;charset=utf8" providerName="MySql.Data.MySqlClient"/>-->
+  <!--Oracle-->
+  <!--<add name="DbContext" connectionString="User Id=111111;Password=111111;PERSIST SECURITY INFO=True;Data Source=JFine"  providerName="Oracle.ManagedDataAccess.Client"/>-->
+  <!--SqlServer-->
+  <add name="SqlServer" connectionString="JBc6HvjkLDb89gKfvh+G0Qf2zOcru8npiLloun0IqSwGuShk0dQ01FqA21cEj/7Byz2/ANtl2yKaT/in7Gg5xxnfkHazL417MQnp7wlfWe0=" providerName="System.Data.SqlClient" />
+</connectionStrings>

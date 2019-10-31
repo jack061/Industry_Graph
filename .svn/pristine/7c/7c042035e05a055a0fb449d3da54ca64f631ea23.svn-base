@@ -1,0 +1,207 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cshtml" #>
+<#@ output encoding="utf-8"#>
+<#@ assembly name="System.Data.dll" #>
+<#@ assembly name="System.Data.DataSetExtensions.dll" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ include file="$(ProjectDir)DbHelper.ttinclude"  #>
+<#@ include file="..\ModelAuto.ttinclude"  #>
+<# 
+	var dbTableName=config.TableName;
+	var tableName=config.ModuleCode+"Map";
+	var entity=config.ModuleCode+"Entity";
+	var list=  DbHelper.GetDbColumns(config.ConnectionString, config.DbDatabase, config.TableName);
+    var pk = DbHelper.GetPrimaryKey(list);
+	var NameSpace = config.NameSpace;
+	var ModuleCode = config.ModuleCode;
+	var ModuleName = config.ModuleName;
+ #>
+
+  <# 
+		string solutionsPath = Host.ResolveAssemblyReference("$(SolutionDir)");
+		string projectPath = Host.ResolveAssemblyReference("$(ProjectDir)");
+		var path = Path.GetDirectoryName(Host.TemplateFile);
+	var currentPath = "Views@"+ModuleCode;
+	if(config.isFolder)
+	{
+		if(config.isAddProject)
+		{
+			path = solutionsPath+ config.PluginName +"\\Views\\"+ModuleCode;
+			VSManagementStrategy vstrategy = new VSManagementStrategy(Host,currentPath);
+			vstrategy.CreateFolderFromPath();
+		}else
+		{
+			path = path+"\\"+ModuleCode;
+		}
+	}
+	if (Directory.Exists(path) == false)//
+	{
+		Directory.CreateDirectory(path);
+	}
+	 var OutFileManager = new Manager(Host, GenerationEnvironment, true,currentPath) { OutputPath = path};
+	 OutFileManager.strategy.setCurrentProjectItem();
+   #>
+ 
+ <# 
+        OutFileManager.StartBlock("Index2.cshtml");
+ #>
+
+ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 <#=DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")#>
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+<script>
+    $(function () {
+        $('#layout').layout();
+        treeView();
+        gridList();
+    });
+    function treeView() {
+        $("#itemTree").treeview({
+            url: "/SysCommon/Items/GetTreeJson",
+            onnodeclick: function (item) {
+                $("#txt_keyword").val('');
+                $('#btn_search').trigger("click");
+            }
+        });
+    }
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/<#=NameSpace#>/<#=ModuleCode#>/GetAllList",
+            height: $(window).height() - 96,
+            colModel: [
+				<# foreach(DbColumn column in DbHelper.GetDbColumns(config.ConnectionString, config.DbDatabase, config.TableName)){#>	  	
+					{ label: "<#=column.Remark #>", name: "<#=column.ColumnName#>", width: 150, align: 'left' },
+<#}#> 
+            ]
+        });
+        $("#btn_search").click(function () {
+			var queryJson = {
+				 itemId: $("#itemTree").getCurrentNode().id,
+                keyword: $("#txt_keyword").val()
+            }
+            $gridList.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+            }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增<#=ModuleName#>",
+            url: "/<#=NameSpace#>/<#=ModuleCode#>/Form",
+            width: ($(window).width() * 0.8) + "px",
+            height: ($(window).height() * 0.7) + "px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_edit() {
+		var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue))
+        {
+			$.modalOpen({
+				id: "Form",
+				title: "修改<#=ModuleName#>",
+				url: "/<#=NameSpace#>/<#=ModuleCode#>/Form?keyValue=" + keyValue,
+				width: ($(window).width() * 0.8) + "px",
+                height: ($(window).height() * 0.7) + "px",
+				callBack: function (iframeId) {
+					top.frames[iframeId].submitForm();
+				}
+			});
+        }
+        
+    }
+    function btn_delete() {
+	  var keyValue = $("#gridList").jqGridRowValue().Id;
+	 if ($.checkedArray(keyValue))
+        {
+			 $.deleteForm({
+				url: "/<#=NameSpace#>/<#=ModuleCode#>/DeleteForm",
+				param: { keyValue: keyValue },
+				success: function () {
+					$.currentWindow().$("#gridList").trigger("reloadGrid");
+				}
+			});
+        }
+        
+    }
+    function btn_details() {
+	    var keyValue = $("#gridList").jqGridRowValue().Id;       
+		if ($.checkedArray(keyValue))
+		 {
+			$.modalOpen({
+				id: "Details",
+				title: "查看<#=ModuleName#>",
+				url: "/<#=NameSpace#>/<#=ModuleCode#>/Details?keyValue=" + keyValue,
+				width: "550px",
+				height: "620px",
+				btn: null,
+			});
+		  }    
+    } 
+	function refreshGrid() {
+        $("#gridList").trigger("reloadGrid");
+	 }     
+</script>
+
+
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+    <div class="ui-layout-west">
+        <div id="itemTree"></div>
+    </div>
+    <div class="ui-layout-center">
+        <div class="topPanel">
+            <div class="toolbar">
+				<div class="btn-group">
+					<a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+				</div>
+				<div class="btn-group">
+					<a id="JF-add"  class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+					<a id="JF-edit" class="btn btn-primary dropdown-text" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a>
+					<a id="JF-delete" class="btn btn-primary dropdown-text"  onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+					<a id="JF-Details" class="btn btn-primary dropdown-text"  onclick="btn_details()"><i class="fa fa-search-plus"></i>查看</a>
+				</div>
+				<div id="toolbar" class="btn-group">
+				</div>
+				<script>$('#toolbar').authorizeButton()</script>
+			</div>
+			<div class="search">
+				<table>
+					<tr>
+						<td>
+							<div class="input-group">
+								<input id="txt_keyword" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+								<span class="input-group-btn">
+									<button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+								</span>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+        <div class="gridPanel">
+            <table id="gridList"></table>
+        </div>
+    </div>
+</div>
+
+<# OutFileManager.EndBlock(); #>
+<# OutFileManager.Process(true); #>

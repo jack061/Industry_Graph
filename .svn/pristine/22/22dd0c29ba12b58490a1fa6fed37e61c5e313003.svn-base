@@ -1,0 +1,157 @@
+﻿
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2018-03-14 10:27:32
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form2.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        if (!!keyValue) {
+            $.ajax({
+                url: "/SysCommon/SysArea/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+</script>
+
+<form id="form1">
+    <input type="hidden" id="Id" name="Id" value="" />
+    <div id="jfine-form-container" class="jfine-form-container" border="0">
+        <table id="jfine-form-maintable" class="jfineui jfine-form-maintable" style="table-layout: fixed;"
+               border="0" cellspacing="0" cellpadding="0" align="center">
+            <tbody>
+                <tr id="jfine-form-titlebg" class="jfine-form-titlebg">
+                    <td>
+                        <table align="center" border="0" style="margin: 0px auto; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td class="jfine-form-header_l">
+                                        <span class="jfine-form-logo">
+                                            <img src="/Content/images/formlogo.png" />
+                                        </span>
+                                    </td>
+                                    <td class="jfine-form-header_c">
+                                        <span class="jfine-form-header-title">区域</span>
+                                    </td>
+                                    <td class="jfine-form-header_r">
+                                        <div>
+                                            <div class="btn-group">
+                                                此处可展示业务编码或者状态，自行组织。
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="jfine-form-formcontent" class="jfine-form-titlebg" style="">
+                    <td>
+                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                            <table class="form">
+								  	
+								<tr>
+									<th class="formTitle"> Id</th>
+									<td class="formValue">
+										<div id="Id" name="Id" ></div>
+									</td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> BindId</th>
+									<td class="formValue">
+										<div id="BindId" name="BindId" ></div>
+									</td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 编码</th>
+									<td class="formValue">
+										<div id="Code" name="Code" ></div>
+									</td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 名称</th>
+									<td class="formValue">
+										<div id="Name" name="Name" ></div>
+									</td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 描述</th>
+									<td class="formValue">
+										<div id="Description" name="Description" ></div>
+									</td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 备注</th>
+									<td class="formValue">
+										<div id="Mark" name="Mark" ></div>
+									</td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 创建时间</th>
+									<td class="formValue">
+										<div id="CreateDate" name="CreateDate" ></div>
+									</td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 创建人ID</th>
+									<td class="formValue">
+										<div id="CreateUserId" name="CreateUserId" ></div>
+									</td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 创建人姓名</th>
+									<td class="formValue">
+										<div id="CreateUserName" name="CreateUserName" ></div>
+									</td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 更新时间</th>
+									<td class="formValue">
+										<div id="UpdateDate" name="UpdateDate" ></div>
+									</td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 更新人ID</th>
+									<td class="formValue">
+										<div id="UpdateUserId" name="UpdateUserId" ></div>
+									</td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 更新人姓名</th>
+									<td class="formValue">
+										<div id="UpdateUserName" name="UpdateUserName" ></div>
+									</td>
+								</tr>
+					    
+							</table>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>

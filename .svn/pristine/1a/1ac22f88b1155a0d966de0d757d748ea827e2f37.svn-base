@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+
+    var keyValue = $.request("keyValue");
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridOrgList");
+        $gridList.dataGrid({
+            url: "/SysManage/User/GetPurchaseOrgListJoinUser?userId=" + keyValue,
+            height: $(window).height() - 60,
+            multiselect: true,
+            rownumbers: false,
+            rowNum: -1,
+            colModel: [
+                { label: "主键", name: "Id", hidden: true, key: true },
+                { label: '采购组织编码', name: 'Code', width: 150, align: 'left' },
+                { label: '采购组织名称', name: 'Name', width: 150, align: 'left' },
+                { label: 'UserId', name: 'UserId', hidden: true }
+            ],
+            loadComplete: function () {
+                var rows = $gridList.jqGrid("getDataIDs");
+                if (rows != undefined) {
+                    for (var i in rows) {
+                        var rowData = $gridList.jqGrid('getRowData', rows[i]);
+                        if (rowData.UserId != undefined & rowData.UserId != '') {
+                            //$("#gridorgList").setSelection(rows[i]);
+                            $("#gridOrgList").jqGrid('setSelection', rows[i]);
+                        }
+                    }
+                }
+
+            }
+        });
+
+    }
+    function submitForm() {
+        var orgListJson = $("#gridOrgList").jqGridRows();
+        if (orgListJson != undefined ) {
+            $.submitForm({
+                url: "/SysManage/User/SaveUserPurchaseOrg?keyValue=" + keyValue,
+                param: { "orgListJson": JSON.stringify(orgListJson) },
+                success: function () {
+                    $.currentWindow().$("#gridOrgList").resetSelection();
+                    $.currentWindow().$("#gridOrgList").trigger("reloadGrid");
+                }
+            })
+        }
+    }
+</script>
+
+<div class="gridPanel">
+    <table id="gridOrgList"></table>
+</div>

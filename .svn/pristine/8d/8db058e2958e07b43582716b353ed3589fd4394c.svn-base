@@ -1,0 +1,172 @@
+﻿
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2018-05-28 18:37:12
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form2.cshtml";
+}
+ <!--编辑器基本配置-->
+<script src="~/Content/js/Ueditor/ueditor.config.js"></script>
+<script src="~/Content/js/Ueditor/ueditor.all.js"></script>
+<script>
+    var Id = $.request("Id");
+    $(function () {
+        initControl();
+        if (!!Id) {
+            $.ajax({
+                url: "/SysCommon/SysNotice/GetFormJson",
+                data: { keyValue: Id },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+
+    //初始化组件
+    function initControl() {
+        var noticeTypeData = [{ "id": "通知", "text": "通知" }, { "id": "公告", "text": "公告" }];
+        $("#NoticeType").bindSelect({
+            data: noticeTypeData
+        });
+    }
+
+    function saveForm() {
+        var postData = $("#form1").formSerialize();
+        $.submitForm({
+            url: "/SysCommon/SysNotice/SaveForm?opFlag=0&keyValue=" + Id,
+            param: postData,
+            success: function () {
+                var parentTabId = top.$.jfinetab.getCurrentTabParentId();
+                var resultPage = top.$.jfinetab.getTabContentFromId(parentTabId);
+                resultPage.refreshGrid();
+            }
+        })
+    }
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        var postData = $("#form1").formSerialize();
+        $.submitForm({
+            url: "/SysCommon/SysNotice/SaveForm?opFlag=1&keyValue=" + Id,
+            param: postData,
+            success: function () {
+                var parentTabId = top.$.jfinetab.getCurrentTabParentId();
+                var resultPage = top.$.jfinetab.getTabContentFromId(parentTabId);
+                resultPage.refreshGrid();
+                top.$.jfinetab.closeCurrentTab();
+            }
+        })
+    }
+	//关闭Form
+    function closeForm() {
+        top.$.jfinetab.closeCurrentTab();
+    }
+</script>
+
+<form id="form1">
+    <input type="hidden" id="Id" name="Id" value="" />
+    <div id="jfine-form-container" class="jfine-form-container" border="0">
+        <table id="jfine-form-maintable" class="jfineui jfine-form-maintable" style="table-layout: fixed;"
+               border="0" cellspacing="0" cellpadding="0" align="center">
+            <tbody>
+                <tr id="jfine-form-titlebg" class="jfine-form-titlebg">
+                    <td>
+                        <table align="center" border="0" style="margin: 0px auto; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td class="jfine-form-header_l">
+                                        <span class="jfine-form-logo">
+                                            <img src="/Content/images/formlogo.png" />
+                                        </span>
+                                    </td>
+                                    <td class="jfine-form-header_c">
+                                        <span class="jfine-form-header-title">通知公告</span>
+                                    </td>
+                                    <td class="jfine-form-header_r">
+                                        <div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-info dropdown-text" onclick="saveForm()"><i class="fa fa-save"></i>保存</a>
+                                                <a class="btn btn-info dropdown-text" onclick="submitForm()"><i class="fa fa-send"></i>提交</a>
+                                                <a class="btn btn-warning dropdown-text" onclick="closeForm()"><i class="fa fa-minus"></i>关闭</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="jfine-form-formcontent" class="jfine-form-titlebg" style="">
+                    <td>
+                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                            <table class="form" style="margin-bottom: 10px;">
+								  			 	  	
+								<tr>
+									<th class="formTitle"> 编码</th>
+									<td class="formValue">
+										<input id="NoticeNo" name="NoticeNo" type="text"class="form-control" readonly="readonly"  placeholder="系统自动生成" />
+									</td>
+                                    <th class="formTitle"> 标题</th>
+                                    <td class="formValue">
+                                        <input id="NoticeName" name="NoticeName" type="text"
+                                               class="form-control  required" placeholder="请输入标题" />
+                                    </td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 类型</th>
+									<td class="formValue">
+                                        <select id="NoticeType" name="NoticeType" style="width:200px;"></select>
+									</td>
+                                    <th class="formTitle"> 状态</th>
+                                    <td class="formValue">
+                                        <input id="Status" name="Status" type="text"
+                                               class="form-control" readonly="readonly" value="新建" />
+                                    </td>
+								</tr>
+					 	  	
+								<tr>
+                                    <th class="formTitle"> 是否对外发布</th>
+                                    <td class="formValue">
+                                        <input type="radio" name="IsOutPublish" value="是" checked />是
+                                        <input type="radio" name="IsOutPublish" value="否" />否
+                                    </td>
+								</tr>
+					 	  	
+								<tr>
+									<td class="formValue" colspan="4">
+                                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                                            <!-- 加载编辑器的容器 -->
+                                            <textarea id="NoticeContent" name="NoticeContent" style="height:400px;" type="text/plain">
+                                                请在这里输入所要发布的内容
+                                            </textarea>
+                                            <script type="text/javascript">
+                                                var ue = UE.getEditor('NoticeContent');
+                                                ue.ready(function () {
+                                                    //设置编辑器的内容
+                                                    // ue.setContent('hello');
+                                                });
+                                            </script>
+                                        </div>
+
+                                </td>
+								</tr>
+					   
+							</table>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>

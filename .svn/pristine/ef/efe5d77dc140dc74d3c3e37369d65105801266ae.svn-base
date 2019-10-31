@@ -1,0 +1,196 @@
+﻿@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        initButtonList();
+        $.ajax({
+            url: "/SysManage/Module/GetFormJson",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $("#form1").formSerialize(data);
+                $("#form1").find('.form-control,select,input').attr('readonly', 'readonly');
+                $("#form1").find('div.ckbox label').attr('for', '');
+            }
+        });
+    });
+    function initControl() {
+        $("#Target").select2({
+            minimumResultsForSearch: -1
+        });
+        $("#BindId").bindSelect({
+            url: "/SysManage/Module/GetTreeSelectJson",
+        });
+    }
+
+    function initButtonList() {
+        var $gridList = $("#gridButton");
+        $gridList.dataGrid({
+            url: "/SysManage/Module/GetOperateButtonJson?keyValue=" + keyValue,
+            height: $(window).height() - 128,
+            multiselect: true,
+            rownumbers: false,
+            colModel: [
+                { label: '主键', name: 'Id', hidden: true },
+                {
+                    label: '编码', name: 'Code', width: 80, align: 'left'
+                },
+                { label: '名称', name: 'Name', width: 80, align: 'left' },
+                {
+                    label: '图标', name: 'Icon', width: 80, align: 'left',
+                    formatter: function (cellvalue) {
+                        return "<i class=\"" + cellvalue + "\"></i>";
+                    }
+                },
+                {
+                    label: '是否有效', name: 'IsValid', width: 80, align: 'left',
+                    formatter: function (cellvalue) {
+                        return cellvalue == true ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+                { label: '描述', name: 'Description', width: 150, align: 'left' },
+                { label: '备注', name: 'Mark', width: 150, align: 'left' },
+                { label: '排序', name: 'Sort', hidden: true },
+                { label: '标识', name: 'flag', hidden: true }
+            ],
+            sortname: 'Sort asc',
+            loadComplete: function () {
+                var rows = $gridList.jqGrid("getDataIDs");
+                if (rows != undefined) {
+                    for (var i in rows) {
+                        var rowData = $gridList.jqGrid('getRowData', rows[i]);
+                        if (rowData.flag != undefined & rowData.flag != '') {
+                            $("#gridButton").setSelection(rows[i]);
+                        }
+                    }
+                }
+
+            }
+        });
+    }
+
+</script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#">基本信息</a></li>
+            <li role="presentation"><a href="#Module_button" data-toggle="tab">按钮授权</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="Module_main" style="padding-top: 20px; margin-right: 30px;">
+                <table class="form">
+                    <tr>
+                        <th class="formTitle">上级</th>
+                        <td class="formValue">
+                            <select id="BindId" name="BindId" class="form-control required">
+                                <option value="0">父节点</option>
+                            </select>
+                        </td>
+                        <th class="formTitle">名称</th>
+                        <td class="formValue">
+                            <input id="Name" name="Name" type="text" class="form-control required" placeholder="请输入名称" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">连接</th>
+                        <td class="formValue">
+                            <input id="UrlAddress" name="UrlAddress" type="text" class="form-control" />
+                        </td>
+                        <th class="formTitle">目标</th>
+                        <td class="formValue">
+                            <select id="Target" name="Target" class="form-control required">
+                                <option value="">==请选择==</option>
+                                <option value="expand" title="expand">无页面</option>
+                                <option value="iframe" title="iframe">框架页</option>
+                                <option value="open" title="open">弹出页</option>
+                                <option value="blank" title="blank">新窗口</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">图标</th>
+                        <td class="formValue">
+                            <div class="input-group">
+                                <input id="Icon" name="Icon" type="text" class="form-control">
+                                <span class="input-group-btn">
+                                    <a class="btn  btn-primary" href="javascript:void(0)" onclick="SelectIcon();"><i class="fa fa-ellipsis-h"></i></a>
+                                </span>
+                            </div>
+                        </td>
+                        <th class="formTitle">排序</th>
+                        <td class="formValue">
+                            <input id="Sort" name="Sort" type="text" class="form-control required" placeholder="请输入排序" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="height: 35px;">选项</th>
+                        <td class="formValue" colspan="3" style="padding-top: 1px;">
+                            <div class="ckbox">
+                                <input id="IsMenu" name="IsMenu" type="checkbox"><label for="IsMenu">菜单</label>
+                            </div>
+                            <div class="ckbox">
+                                <input id="IsPublic" name="IsPublic" type="checkbox"><label for="IsPublic">公共</label>
+                            </div>
+                            <div class="ckbox">
+                                <input id="IsExpand" name="IsExpand" type="checkbox"><label for="IsExpand">展开</label>
+                            </div>
+                            <div class="ckbox">
+                                <input id="IsValid" name="IsValid   " type="checkbox" checked="checked"><label for="IsValid">有效</label>
+                            </div>
+                            <div class="ckbox">
+                                <input id="AllowEdit" name="AllowEdit" type="checkbox"><label for="AllowEdit">允许编辑</label>
+                            </div>
+                            <div class="ckbox">
+                                <input id="AllowDelete" name="AllowDelete" type="checkbox"><label for="AllowDelete">允许删除</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" valign="top" style="padding-top: 5px;">
+                            介绍
+                        </th>
+                        <td class="formValue" colspan="3">
+                            <textarea id="Description" name="Descriptions" class="form-control" style="height: 50px;"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" valign="top" style="padding-top: 5px;">
+                            备注
+                        </th>
+                        <td class="formValue" colspan="3">
+                            <textarea id="Mark" name="Mark" class="form-control" style="height: 50px;"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">创建人员</th>
+                        <td class="formValue">
+                            <input id="CreateUserName" name="CreateUserName" type="text" class="form-control" />
+                        </td>
+                        <th class="formTitle">创建时间</th>
+                        <td class="formValue">
+                            <input id="CreateDate" name="CreateDate" type="text" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">修改人员</th>
+                        <td class="formValue">
+                            <input id="UpdateUserName" name="UpdateUserName" type="text" class="form-control" />
+                        </td>
+                        <th class="formTitle">修改时间</th>
+                        <td class="formValue">
+                            <input id="UpdateDate" name="UpdateDate" type="text" class="form-control" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="Module_button" style="padding-top: 20px; margin-right: 30px;">
+                <table id="gridButton"></table>
+            </div>
+        </div>
+    </div>
+</form>

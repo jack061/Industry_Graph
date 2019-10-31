@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+<html style="overflow: hidden;">
+<head>
+    <title>智能工厂管理平台</title>
+    <link href="~/Content/css/framework-font.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery/jquery-2.0.3.min.js"></script>
+    <script src="~/Content/js/bootstrap/bootstrap.min.js"></script>
+    <link href="~/Content/js/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Content/js/dialog/dialog.js"></script>
+    <script src="~/Content/js/cookie/jquery.cookie.js"></script>
+    <link href="~/Content/css/framework-index.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
+    <script src="~/Content/js/jsonsql/jsonsql.js"></script>
+    <link href="~/Content/css/framework-ui.css?v=1.0.6" rel="stylesheet" />
+    <script src="~/Content/js/common/framework-ui.js?v=1.0.5"></script>
+    <script src="~/Content/js/common/framework-clientdata.js?v=1.0.1"></script>
+    <script src="~/Content/js/validate/jquery.validate.min.js"></script>
+    <script src="~/Content/js/md5/jquery.md5.js"></script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini" style="overflow:hidden;">
+    <div id="ajax-loader" style="cursor: progress; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: #fff; z-index: 10000; overflow: hidden;">
+        <img src="/Content/images/ajax-loader.gif" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;" />
+    </div>
+    <div class="wrapper" style="overflow: hidden;">
+        <!--头部信息-->
+        <header class="main-header">
+            <a href="#" target="_blank" class="logo">
+                <span class="logo-mini">智能平台</span>
+                <span class="logo-lg">海联金汇</span>
+                @*<span class="logo-lg"><img style="width:45%" src="/Content/images/hljh.png" /></span>*@
+                @*<span class="logo-lg"><strong>智能工厂管理平台</strong></span>*@
+            </a>
+            <nav class="navbar navbar-static-top">
+                <a class="sidebar-toggle">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu" id="header-nav">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown messages-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-envelope-o "></i>
+                                <span class="label label-success">4</span>
+                            </a>
+                        </li>
+                        <li class="dropdown notifications-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bell-o"></i>
+                                <span class="label label-warning">10</span>
+                            </a>
+                        </li>
+                        <li class="dropdown tasks-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-flag-o"></i>
+                                <span class="label label-danger">9</span>
+                            </a>
+                        </li>
+                        <li class="dropdown screen-full">
+                            <a href="#" class="dropdown-toggle fullscreen" data-toggle="tooltip" data-placement="bottom" title="全屏">
+                                <i class="fa fa-arrows-alt"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img id="preImage" class="user-image"
+                                     src="/Content/images/headImage/@(ViewBag.onliner.Account).png?v=@(DateTime.Now.Ticks)"
+                                     onerror="$.noFindHeadImage(this)"
+                                     alt="@ViewBag.onliner.UserName">
+                                <span class="hidden-xs">@ViewBag.onliner.Account</span>
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a class="menuItem" data-id="userInfo" href="/SysManage/User/Info2?keyValue=@ViewBag.onliner.UserId"><i class="fa fa-user"></i>个人信息</a></li>
+                                <li><a href="javascript:void();"><i class="fa fa-inbox"></i>我的信箱</a></li>
+                                <li><a href="javascript:void();" onclick="modifyPW()"><i class="fa fa-edit"></i>修改密码</a></li>
+                                <li><a href="javascript:void(); " onclick=" skinSetting();"><i class="fa fa-paint-brush"></i>皮肤设置</a></li>
+                                <li><a href="javascript:void();" onclick="lockScreen();"><i class="fa fa-lock"></i>锁屏</a></li>
+                                <li class="divider"></li>
+                                <li><a href="~/Login/OutLogin"><i class="ace-icon fa fa-power-off"></i>安全退出</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!--左边导航-->
+        <div class="main-sidebar">
+            <div class="sidebar">
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img class="img-circle" id="preImage"
+                             src="/Content/images/headImage/@(ViewBag.onliner.Account).png?v=@(DateTime.Now.Ticks)"
+                             onerror="$.noFindHeadImage(this)"
+                             alt="@ViewBag.onliner.UserName">
+                    </div>
+                    <div class="pull-left info">
+                        <p>@ViewBag.onliner.Account;@ViewBag.onliner.UserName</p>
+                        <a><i class="fa fa-circle text-success"></i>在线</a>
+                    </div>
+                </div>
+                <ul class="sidebar-menu" id="sidebar-menu">
+                    <!--<li class="header">导航菜单</li>-->
+                </ul>
+            </div>
+        </div>
+        <!--中间内容-->
+        <div id="content-wrapper" class="content-wrapper">
+            <div class="content-tabs">
+                <button class="roll-nav roll-left tabLeft">
+                    <i class="fa fa-backward"></i>
+                </button>
+                <nav class="page-tabs menuTabs">
+                    <div class="page-tabs-content" style="margin-left: 0px;">
+                       @* <a href="javascript:;" class="menuTab active" data-id="/IOT/IOTHome/Index">欢迎首页</a>*@
+                        <a href="javascript:;" class="menuTab active" data-id="/Home/Default2">欢迎首页</a>
+                        @*<a href="javascript:;" class="menuTab" data-id="/Home/About" style="padding-right: 15px;">平台介绍</a>*@
+                    </div>
+                </nav>
+                <button class="roll-nav roll-right tabRight">
+                    <i class="fa fa-forward" style="margin-left: 3px;"></i>
+                </button>
+                <div class="btn-group roll-nav roll-right">
+                    <button class="dropdown tabClose" data-toggle="dropdown">
+                        页签操作<i class="fa fa-caret-down" style="padding-left: 3px;"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a class="tabReload" href="javascript:void();">刷新当前</a></li>
+                        <li><a class="tabCloseCurrent" href="javascript:void();">关闭当前</a></li>
+                        <li><a class="tabCloseAll" href="javascript:void();">全部关闭</a></li>
+                        <li><a class="tabCloseOther" href="javascript:void();">除此之外全部关闭</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="content-iframe" style="overflow: hidden;">
+                <div class="mainContent" id="content-main" style="margin: 10px; margin-bottom: 0px; padding: 0;">
+                    <iframe class="JFine_iframe" width="100%" height="100%" src="/Home/Default2" frameborder="0" data-id="/Home/Default2"></iframe>
+                    @*<iframe class="JFine_iframe" width="100%" height="100%" src="/Home/About" frameborder="0" data-id="/Home/About"></iframe>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="loadingPage" style="display: none;">
+        <div class="loading-shade"></div>
+        <div class="loading-content" onclick="$.loading(false)">数据加载中，请稍后…</div>
+    </div>
+
+    <!--模态修改密码-->
+    <div class="modal inmodal" id="modifyModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                    </button>
+                    <h4 class="modal-title">修改密码信息</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <form id="form2">
+                            <table class="form">
+                                <tr>
+                                    <th class="formTitle">原始密码</th>
+                                    <td class="formValue">
+                                        <input id="oldPW" name="oldPW" type="password" class="form-control required" placeholder="请输入原始密码" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="formTitle">新密码</th>
+                                    <td class="formValue">
+                                        <input id="newPW" name="newPW" type="password" class="form-control required" placeholder="请输入新密码" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="formTitle">重复新密码</th>
+                                    <td class="formValue">
+                                        <input id="reNewPW" name="reNewPW" type="password" class="form-control required" placeholder="请再次输入新密码" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="modify_comfirm()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--锁屏-->
+    <div id="page-lock" class=" page page-lock vertical-align text-center height-full" style="display:none;background-image: url('@ViewBag.background')">
+        <input id="isLocked" type="hidden" value="@ViewBag.onliner.IsLockScreen" />
+
+        <div class="page-content vertical-align-middle" style="margin-top:10%;">
+            <form id="lockScreenForm">
+                <div class="avatar-lg" style="width:100%;">
+                    <img class="avatar-lg img-circle"
+                         src="/Content/images/headImage/@(ViewBag.onliner.Account).png?v=@(DateTime.Now.Ticks)"
+                         onerror="$.noFindHeadImage(this)"
+                         alt="@ViewBag.onliner.UserName">
+                </div>
+                <h3 class="locked-user">@ViewBag.onliner.Account:@ViewBag.onliner.UserName</h3>
+                <div class="input-group">
+                    <input class="form-control required" id="ScreenPW" name="ScreenPW" placeholder="请输入您的密码" type="password">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" onclick="unLockScreen();"><i style="font-size: 20px;" class="fa fa-unlock" aria-hidden="true"></i></button>
+                    </span>
+                </div>
+                <p>
+
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        .page-lock {
+            /*background-image:url(/Content/images/LoginIndex/b-1.jpg)*/
+        }
+
+        .page-lock {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            z-index: 1999;
+        }
+
+        .avatar-lg {
+            width: 160px;
+            height: 160px;
+        }
+    </style>
+
+    <script>
+        var isLocked = "";
+        var jfLink = '@ViewBag.jfLink';
+        var defatultSkin = '@((ViewBag.defaultSkin == null || ViewBag.defaultSkin == "") ? "skin-blue" : ViewBag.defaultSkin)';
+        window.onload = function () {
+            if (jfLink.indexOf('/') >= 0) {
+                $("#sidebar-menu li a").each(function () {
+                    if ($(this).attr('href') == jfLink) {
+                        $(this).trigger('click');
+                    }
+                });
+            }
+        }
+        $(function () {
+            initControls();
+        })
+
+        function initControls() {
+            isLocked = $("#isLocked").val();
+
+            if (isLocked != "") {
+                $("#page-lock").show();
+            }
+
+            $('#ScreenPW').bind('keypress', function (event) {
+                if (event.keyCode == "13") {
+                    unLockScreen();
+                    return false;
+                }
+            });
+            //🈲F5
+            $(document).bind("keydown", function (e) {
+                var e = window.event || e;
+                if (e.keyCode == 116) {
+                    if (isLocked != "") {
+                        e.keyCode = 0;
+                        return false;
+                    }
+
+                }
+            });
+            //🈲右键
+            $(document).bind("contextmenu", function (e) {
+                if (isLocked != "") {
+                    return false;
+                }
+
+            });
+        }
+
+        //修改密码
+        function modifyPW() {
+            $("#modifyModal").modal('show');
+        }
+        //确定修改密码
+        function modify_comfirm() {
+            if ($('#form2').formValid()) {
+                var oldPW = $("#oldPW").val();
+                var newPW = $("#newPW").val();
+                var reNewPW = $("#reNewPW").val();
+                if (newPW == reNewPW) {
+                    para = {};
+                    para.oldPW = $.md5($.trim(oldPW));
+                    para.newPW = $.md5($.trim(newPW));
+                    para.__RequestVerificationToken = $('[name=__RequestVerificationToken]').val();
+                    $.post('/SysManage/User/ModifyPassword', para, function (msg) {
+                        var result = JSON.parse(msg);
+                        if ("success" == result.state) {
+                            $.modalAlert("操作成功！", "success");
+                            $("#oldPW").val("");
+                            $("#newPW").val("");
+                            $("#reNewPW").val("");
+                            $("#modifyModal").modal('hide');
+                        } else {
+                            $.modalAlert(result.message, "error");
+                        }
+
+                    });
+                } else {
+                    $.modalAlert("两次密码不一致，请修改！", "warning");
+                }
+
+            }
+        }
+
+        //锁屏
+        function lockScreen() {
+            para = {};
+            para.__RequestVerificationToken = $('[name=__RequestVerificationToken]').val();
+            $.post('/SysManage/User/LockScreen', para, function (msg) {
+                var result = JSON.parse(msg);
+                if ("success" == result.state) {
+                    $("#isLocked").val("true");
+                    isLocked = "true";
+                    $("#page-lock").show();
+                } else {
+                    $.modalAlert(result.message, "error");
+                }
+
+            });
+        }
+
+        //屏幕解锁
+        function unLockScreen() {
+            if (!$('#lockScreenForm').formValid()) {
+                return false;
+            }
+            var ScreenPW = $("#ScreenPW").val();
+            para = {};
+            para.ScreenPW = $.md5($.trim(ScreenPW));
+            para.__RequestVerificationToken = $('[name=__RequestVerificationToken]').val();
+            $.post('/SysManage/User/UnLockScreen', para, function (msg) {
+                var result = JSON.parse(msg);
+                if ("success" == result.state) {
+                    $("#ScreenPW").val("");
+                    isLocked = "";
+                    $("#isLocked").val("");
+                    $("#page-lock").hide();
+                } else {
+                    $.modalAlert(result.message, "error");
+                }
+
+            });
+        }
+
+        //设置显示--皮肤
+        function skinSetting()
+        {
+            $.jfinetab.addTabContent("/SysManage/SysConfig/DisplaySetting", "皮肤设置", "DisplaySetting", "0");
+        }
+
+    </script>
+
+    <script src="~/Content/js/common/index.js?v=1.0.6"></script>
+    <script src="~/Content/js/common/indextab.js?v=1.0.8"></script>
+    <script src="~/Content/js/loading/pace.min.js"></script>
+    @Html.AntiForgeryToken()
+</body>
+</html>

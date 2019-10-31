@@ -1,0 +1,332 @@
+﻿
+
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2018-07-09 18:41:32
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+        gridList_ed();
+    })
+    //待审核列表
+    function gridList() {
+        var queryJson = {
+            Status: "待审核"
+        }
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/Supplier/SupplierPurchaseType/GetApprovalList",
+            height: $(window).height() - 165,
+            postData: { queryJson: JSON.stringify(queryJson) },
+            colModel: [
+
+					{ label: "主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+					{ label: "BindId", name: "BindId", width: 150, align: 'left', hidden: true },
+
+					{ label: "供应商编码", name: "SupNo", width: 150, align: 'left' },
+
+					{ label: "供应商名称", name: "SupName", width: 150, align: 'left' },
+
+					{ label: "采购类别编码", name: "PurTypeCode", width: 150, align: 'left' },
+
+					{ label: "采购类别名称", name: "PurTypeName", width: 150, align: 'left' },
+
+					{ label: " 审核状态", name: "ApprovalStatus", width: 150, align: 'left' },
+
+					{ label: " 审核描述", name: "ApprovalSpec", width: 150, align: 'left' },
+
+					{ label: " 审核人", name: "ApprovalMan", width: 150, align: 'left' },
+
+					{ label: " 审核时间", name: "ApprovalTime", width: 150, align: 'left' },
+
+					{ label: " 备注", name: "Remark", width: 150, align: 'left' },
+
+					{ label: " 创建日期", name: "申请时间", width: 150, align: 'left' },
+
+
+            ],
+            pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $gridList.setGridWidth($(window).width() - 8);
+        $("#btn_search").click(function () {
+            var queryJson = {
+                Status: "待审核",
+                keyword: $("#txt_keyword").val()
+            }
+            $gridList.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+            }).trigger('reloadGrid');
+        });
+    }
+
+    //已审核列表
+    function gridList_ed() {
+        var queryJson = {
+            Status: "已审核"
+        }
+        var $gridList_ed = $("#gridList_ed");
+        $gridList_ed.dataGrid({
+            url: "/Supplier/SupplierPurchaseType/GetApprovalList",
+            height: $(window).height() - 165,
+            postData: { queryJson: JSON.stringify(queryJson) },
+            colModel: [
+
+					{ label: "主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+					{ label: "BindId", name: "BindId", width: 150, align: 'left', hidden: true },
+
+					{ label: "供应商编码", name: "SupNo", width: 150, align: 'left' },
+
+					{ label: "供应商名称", name: "SupName", width: 150, align: 'left' },
+
+					{ label: "采购类别编码", name: "PurTypeCode", width: 150, align: 'left' },
+
+					{ label: "采购类别名称", name: "PurTypeName", width: 150, align: 'left' },
+
+					{ label: " 审核状态", name: "ApprovalStatus", width: 150, align: 'left' },
+
+                    { label: " 审核结果", name: "ApprovalResult", width: 150, align: 'left' },
+
+					{ label: " 审核描述", name: "ApprovalSpec", width: 150, align: 'left' },
+
+					{ label: " 审核人", name: "ApprovalMan", width: 150, align: 'left' },
+
+					{ label: " 审核时间", name: "ApprovalTime", width: 150, align: 'left' },
+
+					{ label: " 备注", name: "Remark", width: 150, align: 'left' },
+
+					{ label: " 创建日期", name: "申请时间", width: 150, align: 'left' },
+
+
+            ],
+            pager: "#gridPager_ed",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $gridList_ed.setGridWidth($(window).width() - 8);
+        $("#btn_search_ed").click(function () {
+            var queryJson = {
+                Status: "已审核",
+                keyword: $("#txt_keyword_ed").val()
+            }
+            $gridList_ed.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+            }).trigger('reloadGrid');
+        });
+    }
+
+
+    //审核意见界面
+    function btn_approval() {
+        var id = $("#gridList").jqGrid('getGridParam', "selrow");
+        if (id == null || id == undefined) {
+            $.modalAlert("请先选择一条数据记录", "error");
+        } else {
+            var rowData = $("#gridList").jqGrid('getRowData', id);
+            if (rowData.ApprovalStatus == '未审核') {
+                $("#Id").val(rowData.Id);
+                $("#BindId").val(rowData.BindId);
+                $('#reasonModal').modal('show');
+                $("#reason").val("");
+            } else {
+                $.modalAlert("请选择《未审核》的数据", "error");
+            }
+        }
+    }
+    //----------------同意----------------
+    function agree() {
+        para = {};
+        para.Id = $("#Id").val();
+        para.BindId = $("#BindId").val();
+        para.flag = 1;
+        para.ApprovalSpec = $("#reason").val();
+        if ('' == para.reason) {
+            $.modalAlert("请填审核描述！", "error");
+            $("#reason").focus();
+        } else {
+            $.submitForm({
+                url: '/Supplier/SupplierPurchaseType/Approval',
+                param: para,
+                success: function (data) {
+                    refreshUnApproval();
+                    refreshApproval();
+                }
+            });
+        }
+    }
+    //----------------不同意----------------
+    function disagree() {
+        para = {};
+        para.Id = $("#Id").val();
+        para.BindId = $("#BindId").val();
+        para.flag = 0;
+        para.ApprovalSpec = $("#reason").val();
+        if ('' == para.reason) {
+            $.modalAlert("请填写请填审核描述！", "error");
+            $("#reason").focus();
+        } else {
+            $.submitForm({
+                url: '/Supplier/SupplierPurchaseType/Approval',
+                param: para,
+                success: function (data) {
+                    refreshUnApproval();
+                    refreshApproval();
+                }
+            });
+        }
+    }
+
+    function btn_details() {
+        var keyValue = $("#gridList").jqGridRowValue().BindId;
+        if ($.checkedArray(keyValue)) {
+            var parentId = top.$.jfinetab.getCurrentTabId();
+            top.$.jfinetab.addTabContent("/Supplier/SupplierBase/Details2?keyValue=" + keyValue, "供应商--详情", parentId + "_details", parentId);
+        }
+    }
+
+    function btn_details_ed() {
+        var keyValue = $("#gridList_ed").jqGridRowValue().BindId;
+        if ($.checkedArray(keyValue)) {
+            var parentId = top.$.jfinetab.getCurrentTabId();
+            top.$.jfinetab.addTabContent("/Supplier/SupplierBase/Details2?keyValue=" + keyValue, "供应商--详情", parentId + "_details", parentId);
+        }
+    }
+
+    function refreshUnApproval() {
+        var queryJson = {
+            Status: "待审核"
+        }
+        $("#gridList").jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+        }).trigger('reloadGrid');
+    }
+
+    function refreshApproval() {
+        var queryJson = {
+            Status: "已审核"
+        }
+        $("#gridList_ed").jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+        }).trigger('reloadGrid');
+    }
+</script>
+
+<div style="margin-top: 2px; margin-left: 2px; margin-right: 2px;">
+
+    <div>
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#tab_unapproval" data-toggle="tab">待审核</a></li>
+            <li role="presentation"><a href="#tab_approval" data-toggle="tab">已审核</a></li>
+        </ul>
+        <div class="tab-content">
+
+            <!-- 待审核列表 -->
+            <div class="tab-pane fade in active" id="tab_unapproval">
+                <!-- 查询区域 -->
+                <div class="topPanel">
+                    <div class="toolbar">
+                        <div class="btn-group">
+                            <a class="btn btn-primary" onclick="refreshUnApproval()"><span class="glyphicon glyphicon-refresh"></span></a>
+                        </div>
+                        <div class="btn-group">
+                            <a id="JF-add" class="btn btn-primary dropdown-text" onclick="btn_approval()"><i class="fa fa-plus"></i>审核</a>
+                            <a id="JF-Details" class="btn btn-primary dropdown-text" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看</a>
+                        </div>
+                        <div id="toolbar" class="btn-group">
+                        </div>
+                    </div>
+                    <div class="search">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="input-group">
+                                        <input id="txt_keyword" type="text" class="form-control" placeholder="供应商名称/编号" style="width: 200px;">
+                                        <span class="input-group-btn">
+                                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="gridPanel">
+                    <table id="gridList"></table>
+                    <div id="gridPager"></div>
+                </div>
+            </div>
+
+            <!-- 已审核列表 -->
+            <div class="tab-pane fade" id="tab_approval">
+                <!-- 查询区域 -->
+                <div class="topPanel">
+                    <div class="toolbar">
+                        <div class="btn-group">
+                            <a class="btn btn-primary" onclick="refreshApproval()"><span class="glyphicon glyphicon-refresh"></span></a>
+                        </div>
+                        <div class="btn-group">
+                            <a id="JF-Details" class="btn btn-primary dropdown-text" onclick="btn_details_ed()"><i class="fa fa-search-plus"></i>查看</a>
+                        </div>
+                        <div id="toolbar" class="btn-group">
+                        </div>
+                    </div>
+                    <div class="search">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="input-group">
+                                        <input id="txt_keyword_ed" type="text" class="form-control" placeholder="供应商名称/编号" style="width: 200px;">
+                                        <span class="input-group-btn">
+                                            <button id="btn_search_ed" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="gridPanel">
+                    <table id="gridList_ed"></table>
+                    <div id="gridPager_ed"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--模态添加申请不同意原因-->
+<div class="modal inmodal" id="reasonModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                </button>
+                <h4 class="modal-title">招标类别审核审核</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>审核描述:</label> <input id="reason" type="text" placeholder="请输入审核描述..." class="form-control" />
+                    <input id="Id" name="Id" type="hidden" value="" />
+                    <input id="BindId" name="BindId" type="hidden" value="" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="agree()">通过</button>
+                <button type="button" class="btn btn-danger" onclick="disagree()">不通过</button>
+            </div>
+        </div>
+    </div>
+</div>

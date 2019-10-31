@@ -1,0 +1,600 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3834D672-32A6-498F-A329-4D2164523ED7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JFine.Plugins.VMW</RootNamespace>
+    <AssemblyName>JFine.Plugins.VMW</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JFine.Busines">
+      <HintPath>..\Libs\JFine.Busines.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Cache">
+      <HintPath>..\Libs\JFine.Cache.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Code">
+      <HintPath>..\Libs\JFine.Code.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Common">
+      <HintPath>..\Libs\JFine.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Data">
+      <HintPath>..\Libs\JFine.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Domain">
+      <HintPath>..\Libs\JFine.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Infrastructure">
+      <HintPath>..\Libs\JFine.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Job">
+      <HintPath>..\Libs\JFine.Job.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Plugin">
+      <HintPath>..\Libs\JFine.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Sequence">
+      <HintPath>..\Libs\JFine.Sequence.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Util">
+      <HintPath>..\Libs\JFine.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="JFine.Web.Base">
+      <HintPath>..\Libs\JFine.Web.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.3\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Areas\VMW\Controllers\VMWConfigNewController.cs" />
+    <Compile Include="Areas\VMW\Controllers\VMWCameraController.cs" />
+    <Compile Include="Areas\VMW\Controllers\apiController.cs" />
+    <Compile Include="Areas\VMW\Controllers\VMWConfigController.cs" />
+    <Compile Include="Areas\VMW\Controllers\VMWFaceSampleController.cs" />
+    <Compile Include="Areas\VMW\Controllers\VMWHomeController.cs" />
+    <Compile Include="Areas\VMW\Controllers\VMWMapController.cs" />
+    <Compile Include="Areas\VMW\Controllers\VMWMapLogController.cs" />
+    <Compile Include="Areas\VMW\Controllers\VMWWarningController.cs" />
+    <Compile Include="Areas\VMW\Controllers\VMWWarnTypeController.cs" />
+    <Compile Include="Areas\VMW\VMWAreaRegistration.cs" />
+    <Compile Include="Busines\VMW\VMWCameraBLL.cs" />
+    <Compile Include="Busines\VMW\VMWConfigBLL.cs" />
+    <Compile Include="Busines\VMW\VMWConfigNewBLL.cs" />
+    <Compile Include="Busines\VMW\VMWFaceSampleBLL.cs" />
+    <Compile Include="Busines\VMW\VMWMapBLL.cs" />
+    <Compile Include="Busines\VMW\VMWMapLogBLL.cs" />
+    <Compile Include="Busines\VMW\VMWWarningBLL.cs" />
+    <Compile Include="Busines\VMW\VMWWarnTypeBLL.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Common\DoorUnionUser.cs" />
+    <Compile Include="Common\DoorUnionCamera.cs" />
+    <Compile Include="Domain\IRepository\VMW\IVMWCameraRepository.cs" />
+    <Compile Include="Domain\IRepository\VMW\IVMWConfigNewRepository.cs" />
+    <Compile Include="Domain\IRepository\VMW\IVMWConfigRepository.cs" />
+    <Compile Include="Domain\IRepository\VMW\IVMWFaceSampleRepository.cs" />
+    <Compile Include="Domain\IRepository\VMW\IVMWMapLogRepository.cs" />
+    <Compile Include="Domain\IRepository\VMW\IVMWMapRepository.cs" />
+    <Compile Include="Domain\IRepository\VMW\IVMWWarningRepository.cs" />
+    <Compile Include="Domain\IRepository\VMW\IVMWWarnTypeRepository.cs" />
+    <Compile Include="Domain\Models\VMW\VMWCameraEntity.cs" />
+    <Compile Include="Domain\Models\VMW\VMWConfigEntity.cs" />
+    <Compile Include="Domain\Models\VMW\VMWConfigNewEntity.cs" />
+    <Compile Include="Domain\Models\VMW\VMWFaceSampleEntity.cs" />
+    <Compile Include="Domain\Models\VMW\VMWMapEntity.cs" />
+    <Compile Include="Domain\Models\VMW\VMWMapLogEntity.cs" />
+    <Compile Include="Domain\Models\VMW\VMWWarningEntity.cs" />
+    <Compile Include="Domain\Models\VMW\VMWWarnTypeEntity.cs" />
+    <Compile Include="Domain\Repository\VMW\VMWCameraRepository.cs" />
+    <Compile Include="Domain\Repository\VMW\VMWConfigNewRepository.cs" />
+    <Compile Include="Domain\Repository\VMW\VMWConfigRepository.cs" />
+    <Compile Include="Domain\Repository\VMW\VMWFaceSampleRepository.cs" />
+    <Compile Include="Domain\Repository\VMW\VMWMapLogRepository.cs" />
+    <Compile Include="Domain\Repository\VMW\VMWMapRepository.cs" />
+    <Compile Include="Domain\Repository\VMW\VMWWarningRepository.cs" />
+    <Compile Include="Domain\Repository\VMW\VMWWarnTypeRepository.cs" />
+    <Compile Include="Mapping\VMW\VMWCameraMap.cs" />
+    <Compile Include="Mapping\VMW\VMWConfigMap.cs" />
+    <Compile Include="Mapping\VMW\VMWConfigNewMap.cs" />
+    <Compile Include="Mapping\VMW\VMWFaceSampleMap.cs" />
+    <Compile Include="Mapping\VMW\VMWMapLogMap.cs" />
+    <Compile Include="Mapping\VMW\VMWMapMap.cs" />
+    <Compile Include="Mapping\VMW\VMWWarningMap.cs" />
+    <Compile Include="Mapping\VMW\VMWWarnTypeMap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VMWConstant.cs" />
+    <Compile Include="VMWHub\VMWHub.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Content\fonts\data_number.ttf" />
+    <None Include="Content\json\carmes.json" />
+    <None Include="Content\json\DGCar.json" />
+    <None Include="Content\json\note.json" />
+    <None Include="Content\json\note1.json" />
+    <None Include="Content\json\note2.json" />
+    <None Include="Content\js\bstable\.idea\.name" />
+    <None Include="Content\js\bstable\.idea\ss.iml" />
+    <None Include="Content\js\bstable\datel\.name" />
+    <None Include="Content\js\bstable\datel\table.iml" />
+    <None Include="Content\js\bstable\fonts\fontawesome-webfont.eot" />
+    <None Include="Content\js\bstable\fonts\fontawesome-webfont.ttf" />
+    <None Include="Content\js\bstable\fonts\fontawesome-webfont.woff" />
+    <None Include="Content\js\bstable\fonts\fontawesome-webfont.woff2" />
+    <None Include="Content\js\bstable\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Content\js\bstable\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Content\js\bstable\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="Content\js\bstable\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Content\js\bstable\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Content\js\HKVideo\codebase\playctrl\Decoder.js.mem" />
+    <None Include="Content\js\HKVideo\codebase\transform\SystemTransform.js.mem" />
+    <None Include="packages.config" />
+    <None Include="Scripts\jquery-1.10.2.min.map" />
+    <None Include="Views\VMWCamera\Details.cshtml" />
+    <None Include="Views\VMWCamera\Details2.cshtml" />
+    <None Include="Views\VMWCamera\Form.cshtml" />
+    <None Include="Views\VMWCamera\Form2.cshtml" />
+    <None Include="Views\VMWCamera\HKVideo.cshtml" />
+    <None Include="Views\VMWCamera\HKVideoIndex.cshtml" />
+    <None Include="Views\VMWCamera\VideoIndex.cshtml" />
+    <None Include="Views\VMWCamera\Index.cshtml" />
+    <None Include="Views\VMWCamera\Index2.cshtml" />
+    <None Include="Views\VMWConfigNew\Details.cshtml" />
+    <None Include="Views\VMWConfigNew\Details2.cshtml" />
+    <None Include="Views\VMWConfigNew\Form.cshtml" />
+    <None Include="Views\VMWConfigNew\Form2.cshtml" />
+    <None Include="Views\VMWConfigNew\Index.cshtml" />
+    <None Include="Views\VMWConfigNew\Index2.cshtml" />
+    <None Include="Views\VMWConfig\Details.cshtml" />
+    <None Include="Views\VMWConfig\Details2.cshtml" />
+    <None Include="Views\VMWConfig\Form.cshtml" />
+    <None Include="Views\VMWConfig\Form2.cshtml" />
+    <None Include="Views\VMWConfig\Index.cshtml" />
+    <None Include="Views\VMWConfig\Index2.cshtml" />
+    <None Include="Views\VMWFaceSample\ChooseFace.cshtml" />
+    <None Include="Views\VMWFaceSample\Details.cshtml" />
+    <None Include="Views\VMWFaceSample\Details2.cshtml" />
+    <None Include="Views\VMWFaceSample\Form.cshtml" />
+    <None Include="Views\VMWFaceSample\Form2.cshtml" />
+    <None Include="Views\VMWFaceSample\Index.cshtml" />
+    <None Include="Views\VMWFaceSample\Index2.cshtml" />
+    <None Include="Views\VMWHome\VideoIndex.cshtml" />
+    <None Include="Views\VMWHome\Index.cshtml" />
+    <None Include="Views\VMWMapLog\Details.cshtml" />
+    <None Include="Views\VMWMapLog\Details2.cshtml" />
+    <None Include="Views\VMWMapLog\Form.cshtml" />
+    <None Include="Views\VMWMapLog\Form2.cshtml" />
+    <None Include="Views\VMWMapLog\Index.cshtml" />
+    <None Include="Views\VMWMapLog\Index2.cshtml" />
+    <None Include="Views\VMWMap\Details.cshtml" />
+    <None Include="Views\VMWMap\Details2.cshtml" />
+    <None Include="Views\VMWMap\Form.cshtml" />
+    <None Include="Views\VMWMap\Form2.cshtml" />
+    <None Include="Views\VMWMap\Index.cshtml" />
+    <None Include="Views\VMWMap\Index2.cshtml" />
+    <None Include="Views\VMWWarning\Details.cshtml" />
+    <None Include="Views\VMWWarning\Details2.cshtml" />
+    <None Include="Views\VMWWarning\Form.cshtml" />
+    <None Include="Views\VMWWarning\Form2.cshtml" />
+    <None Include="Views\VMWWarning\WarningForm.cshtml" />
+    <None Include="Views\VMWWarning\Index.cshtml" />
+    <None Include="Views\VMWWarning\Index2.cshtml" />
+    <None Include="Views\VMWWarnType\Details.cshtml" />
+    <None Include="Views\VMWWarnType\Details2.cshtml" />
+    <None Include="Views\VMWWarnType\Form.cshtml" />
+    <None Include="Views\VMWWarnType\Form2.cshtml" />
+    <None Include="Views\VMWWarnType\WarnCamera.cshtml" />
+    <None Include="Views\VMWWarnType\Index.cshtml" />
+    <None Include="Views\VMWWarnType\Index2.cshtml" />
+    <None Include="Views\Web.config" />
+    <None Include="插件信息.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scheduler\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\css\BigData.css" />
+    <Content Include="Content\css\index.css" />
+    <Content Include="Content\css\index01.css" />
+    <Content Include="Content\css\lay_out_01.css" />
+    <Content Include="Content\css\Security_operation.css" />
+    <Content Include="Content\css\table.css" />
+    <Content Include="Content\css\table1.css" />
+    <Content Include="Content\css\zTreeStyle\img\cc.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\1_close.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\1_open.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\2.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\3.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\4.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\5.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\6.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\7.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\8.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\9.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\cc.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\zclose.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\zopen.png" />
+    <Content Include="Content\css\zTreeStyle\img\diy\ztop.png" />
+    <Content Include="Content\css\zTreeStyle\img\line_conn.gif" />
+    <Content Include="Content\css\zTreeStyle\img\loading.gif" />
+    <Content Include="Content\css\zTreeStyle\img\zTreeStandard.gif" />
+    <Content Include="Content\css\zTreeStyle\img\zTreeStandard.png" />
+    <Content Include="Content\css\zTreeStyle\zTreeStyle.css" />
+    <Content Include="Content\images\00.png" />
+    <Content Include="Content\images\01.png" />
+    <Content Include="Content\images\02.png" />
+    <Content Include="Content\images\03.png" />
+    <Content Include="Content\images\04.png" />
+    <Content Include="Content\images\2Dmap.png" />
+    <Content Include="Content\images\map.png" />
+    <Content Include="Content\images\mapIcon\event.png" />
+    <Content Include="Content\images\mapIcon\huoche.png" />
+    <Content Include="Content\images\mapIcon\MapLocation.png" />
+    <Content Include="Content\images\mapIcon\policeCar32.png" />
+    <Content Include="Content\images\mapIcon\policeman32.png" />
+    <Content Include="Content\images\mapIcon\publicCamera.png" />
+    <Content Include="Content\images\mapIcon\枪机32.png" />
+    <Content Include="Content\images\mapIcon\球机32.png" />
+    <Content Include="Content\images\Satellite_cloud_map.png" />
+    <Content Include="Content\images\Vector_map.png" />
+    <Content Include="Content\img\1_03.png" />
+    <Content Include="Content\img\bg.png" />
+    <Content Include="Content\img\bg01.png" />
+    <Content Include="Content\img\car_guiji.png" />
+    <Content Include="Content\img\chose_btn.png" />
+    <Content Include="Content\img\data_bg - 副本 - 副本.png" />
+    <Content Include="Content\img\data_bg.png" />
+    <Content Include="Content\img\first_title.png" />
+    <Content Include="Content\img\i01.png" />
+    <Content Include="Content\img\i02.png" />
+    <Content Include="Content\img\images\pic_ico_01.png" />
+    <Content Include="Content\img\images\pic_ico_02.png" />
+    <Content Include="Content\img\images\pic_ico_03.png" />
+    <Content Include="Content\img\leftbg01.png" />
+    <Content Include="Content\img\left_nav.png" />
+    <Content Include="Content\img\map_tool_bg.png" />
+    <Content Include="Content\img\map_tool_re.png" />
+    <Content Include="Content\img\mark_b.png" />
+    <Content Include="Content\img\mark_r.png" />
+    <Content Include="Content\img\pic0.png" />
+    <Content Include="Content\img\pic_ico.png" />
+    <Content Include="Content\img\pushmessage_class.png" />
+    <Content Include="Content\img\pushmessage_level01.png" />
+    <Content Include="Content\img\pushmessage_level02.png" />
+    <Content Include="Content\img\pushmessage_level03.png" />
+    <Content Include="Content\img\pushmessage_localize_01.png" />
+    <Content Include="Content\img\pushmessage_localize_02.png" />
+    <Content Include="Content\img\search_eddit.png" />
+    <Content Include="Content\img\search_location.png" />
+    <Content Include="Content\img\second_title.png" />
+    <Content Include="Content\img\sum.png" />
+    <Content Include="Content\img\sum_g.png" />
+    <Content Include="Content\img\tit01s.png" />
+    <Content Include="Content\img\tool.png" />
+    <Content Include="Content\img\tool_bg.png" />
+    <Content Include="Content\img\v_b.png" />
+    <Content Include="Content\img\v_b_16.png" />
+    <Content Include="Content\img\v_b_24.png" />
+    <Content Include="Content\img\v_b_32.png" />
+    <Content Include="Content\img\v_g.png" />
+    <Content Include="Content\img\v_g_16.png" />
+    <Content Include="Content\img\v_g_24.png" />
+    <Content Include="Content\img\v_g_32.png" />
+    <Content Include="Content\img\v_r.png" />
+    <Content Include="Content\img\v_r_16.png" />
+    <Content Include="Content\img\v_r_24.png" />
+    <Content Include="Content\img\v_r_32.png" />
+    <Content Include="Content\img\weher01.png" />
+    <Content Include="Content\img\zoom_inon_01.png" />
+    <Content Include="Content\img\zoom_inon_02.png" />
+    <Content Include="Content\img\临时.png" />
+    <Content Include="Content\js\artDialog\artDialog.js" />
+    <Content Include="Content\js\artDialog\artDialog.source.js" />
+    <Content Include="Content\js\artDialog\jquery.artDialog.js" />
+    <Content Include="Content\js\artDialog\jquery.artDialog.source.js" />
+    <Content Include="Content\js\artDialog\plugins\iframeTools.js" />
+    <Content Include="Content\js\artDialog\plugins\iframeTools.source.js" />
+    <Content Include="Content\js\artDialog\skins\aero.css" />
+    <Content Include="Content\js\artDialog\skins\aero\aero_s.png" />
+    <Content Include="Content\js\artDialog\skins\aero\aero_s2.png" />
+    <Content Include="Content\js\artDialog\skins\aero\ie6\aui_close.hover.png" />
+    <Content Include="Content\js\artDialog\skins\aero\ie6\aui_close.png" />
+    <Content Include="Content\js\artDialog\skins\aero\ie6\aui_e.png" />
+    <Content Include="Content\js\artDialog\skins\aero\ie6\aui_n.png" />
+    <Content Include="Content\js\artDialog\skins\aero\ie6\aui_ne.png" />
+    <Content Include="Content\js\artDialog\skins\aero\ie6\aui_nw.png" />
+    <Content Include="Content\js\artDialog\skins\aero\ie6\aui_s.png" />
+    <Content Include="Content\js\artDialog\skins\aero\ie6\aui_se.png" />
+    <Content Include="Content\js\artDialog\skins\aero\ie6\aui_sw.png" />
+    <Content Include="Content\js\artDialog\skins\aero\ie6\aui_title_icon.png" />
+    <Content Include="Content\js\artDialog\skins\aero\ie6\aui_w.png" />
+    <Content Include="Content\js\artDialog\skins\black.css" />
+    <Content Include="Content\js\artDialog\skins\black\bg.png" />
+    <Content Include="Content\js\artDialog\skins\black\bg2.png" />
+    <Content Include="Content\js\artDialog\skins\black\bg_css3.png" />
+    <Content Include="Content\js\artDialog\skins\black\bg_css3_2.png" />
+    <Content Include="Content\js\artDialog\skins\black\ie6\close.hover.png" />
+    <Content Include="Content\js\artDialog\skins\black\ie6\close.png" />
+    <Content Include="Content\js\artDialog\skins\black\ie6\e.png" />
+    <Content Include="Content\js\artDialog\skins\black\ie6\n.png" />
+    <Content Include="Content\js\artDialog\skins\black\ie6\ne.png" />
+    <Content Include="Content\js\artDialog\skins\black\ie6\nw.png" />
+    <Content Include="Content\js\artDialog\skins\black\ie6\s.png" />
+    <Content Include="Content\js\artDialog\skins\black\ie6\se.png" />
+    <Content Include="Content\js\artDialog\skins\black\ie6\sw.png" />
+    <Content Include="Content\js\artDialog\skins\black\ie6\w.png" />
+    <Content Include="Content\js\artDialog\skins\blue.css" />
+    <Content Include="Content\js\artDialog\skins\blue\bg.png" />
+    <Content Include="Content\js\artDialog\skins\blue\bg2.png" />
+    <Content Include="Content\js\artDialog\skins\blue\bg_css3.png" />
+    <Content Include="Content\js\artDialog\skins\blue\bg_css3_2.png" />
+    <Content Include="Content\js\artDialog\skins\blue\ie6\close.hover.png" />
+    <Content Include="Content\js\artDialog\skins\blue\ie6\close.png" />
+    <Content Include="Content\js\artDialog\skins\blue\ie6\e.png" />
+    <Content Include="Content\js\artDialog\skins\blue\ie6\n.png" />
+    <Content Include="Content\js\artDialog\skins\blue\ie6\ne.png" />
+    <Content Include="Content\js\artDialog\skins\blue\ie6\nw.png" />
+    <Content Include="Content\js\artDialog\skins\blue\ie6\s.png" />
+    <Content Include="Content\js\artDialog\skins\blue\ie6\se.png" />
+    <Content Include="Content\js\artDialog\skins\blue\ie6\sw.png" />
+    <Content Include="Content\js\artDialog\skins\blue\ie6\w.png" />
+    <Content Include="Content\js\artDialog\skins\chrome.css" />
+    <Content Include="Content\js\artDialog\skins\chrome\border.png" />
+    <Content Include="Content\js\artDialog\skins\chrome\chrome_s.png" />
+    <Content Include="Content\js\artDialog\skins\default.css" />
+    <Content Include="Content\js\artDialog\skins\green.css" />
+    <Content Include="Content\js\artDialog\skins\green\bg.png" />
+    <Content Include="Content\js\artDialog\skins\green\bg2.png" />
+    <Content Include="Content\js\artDialog\skins\green\bg_css3.png" />
+    <Content Include="Content\js\artDialog\skins\green\bg_css3_2.png" />
+    <Content Include="Content\js\artDialog\skins\green\color_bg.png" />
+    <Content Include="Content\js\artDialog\skins\green\ie6\close.hover.png" />
+    <Content Include="Content\js\artDialog\skins\green\ie6\close.png" />
+    <Content Include="Content\js\artDialog\skins\green\ie6\e.png" />
+    <Content Include="Content\js\artDialog\skins\green\ie6\n.png" />
+    <Content Include="Content\js\artDialog\skins\green\ie6\ne.png" />
+    <Content Include="Content\js\artDialog\skins\green\ie6\nw.png" />
+    <Content Include="Content\js\artDialog\skins\green\ie6\s.png" />
+    <Content Include="Content\js\artDialog\skins\green\ie6\se.png" />
+    <Content Include="Content\js\artDialog\skins\green\ie6\sw.png" />
+    <Content Include="Content\js\artDialog\skins\green\ie6\w.png" />
+    <Content Include="Content\js\artDialog\skins\icons\error.png" />
+    <Content Include="Content\js\artDialog\skins\icons\face-sad.png" />
+    <Content Include="Content\js\artDialog\skins\icons\face-smile.png" />
+    <Content Include="Content\js\artDialog\skins\icons\loading.gif" />
+    <Content Include="Content\js\artDialog\skins\icons\question.png" />
+    <Content Include="Content\js\artDialog\skins\icons\succeed.png" />
+    <Content Include="Content\js\artDialog\skins\icons\warning.png" />
+    <Content Include="Content\js\artDialog\skins\idialog.css" />
+    <Content Include="Content\js\artDialog\skins\idialog\idialog_s.png" />
+    <Content Include="Content\js\artDialog\skins\idialog\idialog_s2.png" />
+    <Content Include="Content\js\artDialog\skins\idialog\ie6\aui_close.hover.png" />
+    <Content Include="Content\js\artDialog\skins\idialog\ie6\aui_close.png" />
+    <Content Include="Content\js\artDialog\skins\idialog\ie6\aui_e.png" />
+    <Content Include="Content\js\artDialog\skins\idialog\ie6\aui_n.png" />
+    <Content Include="Content\js\artDialog\skins\idialog\ie6\aui_ne.png" />
+    <Content Include="Content\js\artDialog\skins\idialog\ie6\aui_nw.png" />
+    <Content Include="Content\js\artDialog\skins\idialog\ie6\aui_s.png" />
+    <Content Include="Content\js\artDialog\skins\idialog\ie6\aui_se.png" />
+    <Content Include="Content\js\artDialog\skins\idialog\ie6\aui_sw.png" />
+    <Content Include="Content\js\artDialog\skins\idialog\ie6\aui_w.png" />
+    <Content Include="Content\js\artDialog\skins\opera.css" />
+    <Content Include="Content\js\artDialog\skins\opera\ie6\aui_close.hover.png" />
+    <Content Include="Content\js\artDialog\skins\opera\ie6\aui_close.png" />
+    <Content Include="Content\js\artDialog\skins\opera\ie6\aui_e.png" />
+    <Content Include="Content\js\artDialog\skins\opera\ie6\aui_n.png" />
+    <Content Include="Content\js\artDialog\skins\opera\ie6\aui_ne.png" />
+    <Content Include="Content\js\artDialog\skins\opera\ie6\aui_nw.png" />
+    <Content Include="Content\js\artDialog\skins\opera\ie6\aui_s.png" />
+    <Content Include="Content\js\artDialog\skins\opera\ie6\aui_se.png" />
+    <Content Include="Content\js\artDialog\skins\opera\ie6\aui_sw.png" />
+    <Content Include="Content\js\artDialog\skins\opera\ie6\aui_w.png" />
+    <Content Include="Content\js\artDialog\skins\opera\s1.png" />
+    <Content Include="Content\js\artDialog\skins\opera\s2.png" />
+    <Content Include="Content\js\artDialog\skins\simple.css" />
+    <Content Include="Content\js\artDialog\skins\twitter.css" />
+    <Content Include="Content\js\bstable\.idea\encodings.xml" />
+    <Content Include="Content\js\bstable\.idea\misc.xml" />
+    <Content Include="Content\js\bstable\.idea\modules.xml" />
+    <Content Include="Content\js\bstable\.idea\workspace.xml" />
+    <Content Include="Content\js\bstable\css\bootstrap-table.css" />
+    <Content Include="Content\js\bstable\css\bootstrap.min.css" />
+    <Content Include="Content\js\bstable\datel\encodings.xml" />
+    <Content Include="Content\js\bstable\datel\misc.xml" />
+    <Content Include="Content\js\bstable\datel\modules.xml" />
+    <Content Include="Content\js\bstable\datel\workspace.xml" />
+    <Content Include="Content\js\bstable\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\js\bstable\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\js\bstable\js\bootstrap-table-zh-CN.min.js" />
+    <Content Include="Content\js\bstable\js\bootstrap-table.js" />
+    <Content Include="Content\js\bstable\js\bootstrap.min.js" />
+    <Content Include="Content\js\bstable\js\jquery-2.2.0.min.js" />
+    <Content Include="Content\js\bstable\js\js-2.1.4.min.js" />
+    <Content Include="Content\js\bstable\table_t.js" />
+    <Content Include="Content\js\chartData.js" />
+    <Content Include="Content\js\demo\jquery.ztree.core-3.5.js" />
+    <Content Include="Content\js\echarts-all.js" />
+    <Content Include="Content\js\HKVideo\cn\demo-easy.html" />
+    <Content Include="Content\js\HKVideo\cn\demo-iframe.html" />
+    <Content Include="Content\js\HKVideo\cn\demo-requirejs.html" />
+    <Content Include="Content\js\HKVideo\cn\demo-seajs.html" />
+    <Content Include="Content\js\HKVideo\cn\demo.html" />
+    <Content Include="Content\js\HKVideo\cn\demo.js" />
+    <Content Include="Content\js\HKVideo\cn\iframe.html" />
+    <Content Include="Content\js\HKVideo\codebase\jsPlugin-1.0.0.min.js" />
+    <Content Include="Content\js\HKVideo\codebase\playctrl\AudioRenderer.js" />
+    <Content Include="Content\js\HKVideo\codebase\playctrl\Decoder.js" />
+    <Content Include="Content\js\HKVideo\codebase\playctrl\DecodeWorker.js" />
+    <Content Include="Content\js\HKVideo\codebase\playctrl\SuperRender.js" />
+    <Content Include="Content\js\HKVideo\codebase\transform\systemTransform-worker.min.js" />
+    <Content Include="Content\js\HKVideo\codebase\transform\SystemTransform.js" />
+    <Content Include="Content\js\HKVideo\codebase\WebComponentsKit.exe" />
+    <Content Include="Content\js\HKVideo\codebase\webVideoCtrl.js" />
+    <Content Include="Content\js\HKVideo\demo.css" />
+    <Content Include="Content\js\HKVideo\index.html" />
+    <Content Include="Content\js\HKVideo\jquery-1.7.1.min.js" />
+    <Content Include="Content\js\HKVideo\require-2.3.3.min.js" />
+    <Content Include="Content\js\HKVideo\sea-3.0.1.min.js" />
+    <Content Include="Content\js\Home_page.js" />
+    <Content Include="Content\js\index.js" />
+    <Content Include="Content\js\index01.js" />
+    <Content Include="Content\js\jquery.js" />
+    <Content Include="Content\js\jquery.leoweather.min.js" />
+    <Content Include="Content\js\jquery.pagination.js" />
+    <Content Include="Content\js\laydate.js" />
+    <Content Include="Content\js\MainMap.js" />
+    <Content Include="Content\js\need\laydate.css" />
+    <Content Include="Content\js\organize.js" />
+    <Content Include="Content\js\signalR\VMWSignalR.js" />
+    <Content Include="Content\js\skins\dahong\icon.png" />
+    <Content Include="Content\js\skins\dahong\laydate.css" />
+    <Content Include="Content\js\skins\danlan\icon.png" />
+    <Content Include="Content\js\skins\danlan\laydate.css" />
+    <Content Include="Content\js\skins\default\icon.png" />
+    <Content Include="Content\js\skins\default\laydate.css" />
+    <Content Include="Content\js\skins\molv\icon.png" />
+    <Content Include="Content\js\skins\molv\laydate.css" />
+    <Content Include="Content\js\skins\qianhuang\icon.png" />
+    <Content Include="Content\js\skins\qianhuang\laydate.css" />
+    <Content Include="Content\js\skins\yahui\icon.png" />
+    <Content Include="Content\js\skins\yahui\laydate.css" />
+    <Content Include="Content\js\skins\yalan\icon.png" />
+    <Content Include="Content\js\skins\yalan\laydate.css" />
+    <Content Include="Content\js\tdlib\TDTAnnoLayer.js" />
+    <Content Include="Content\js\tdlib\TDTLayer.js" />
+    <Content Include="Content\js\tdlib\TDTRasterLayer.js" />
+    <Content Include="Content\js\ztree\jquery.ztree.all-3.5.js" />
+    <Content Include="Content\js\ztree\jquery.ztree.all-3.5.min.js" />
+    <Content Include="Content\js\ztree\jquery.ztree.core-3.5.js" />
+    <Content Include="Content\js\ztree\jquery.ztree.core-3.5.min.js" />
+    <Content Include="Content\js\ztree\jquery.ztree.excheck-3.5.js" />
+    <Content Include="Content\js\ztree\jquery.ztree.excheck-3.5.min.js" />
+    <Content Include="Content\js\ztree\jquery.ztree.exedit-3.5.js" />
+    <Content Include="Content\js\ztree\jquery.ztree.exedit-3.5.min.js" />
+    <Content Include="Content\js\ztree\jquery.ztree.exedit.js" />
+    <Content Include="Content\video\test_mv02.mov" />
+    <Content Include="Content\video\video.jpg" />
+    <Content Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.3.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.3.min.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)\JFine.Web\Plugins\JFine.VMW
+xcopy /e /r /y $(ProjectDir)\Views $(SolutionDir)\JFine.Web\Plugins\JFine.VMW\Views
+xcopy /e /r /y $(ProjectDir)\Content $(SolutionDir)\JFine.Web\Plugins\JFine.VMW\Content
+copy $(ProjectDir)\插件信息.json $(SolutionDir)\JFine.Web\Plugins\JFine.VMW</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

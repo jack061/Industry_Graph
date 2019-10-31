@@ -1,0 +1,16 @@
+E:\Project\Industry_Graph\Senparc.Weixin.MP.BuildOutPut\.net4.5\Senparc.Weixin.MP.XML
+E:\Project\Industry_Graph\Senparc.Weixin.MP.BuildOutPut\.net4.5\Senparc.Weixin.MP.dll
+E:\Project\Industry_Graph\Senparc.Weixin.MP.BuildOutPut\.net4.5\Senparc.Weixin.MP.pdb
+E:\Project\Industry_Graph\Senparc.Weixin.MP\Senparc.Weixin.MP\obj\Release\Senparc.Weixin.MP.csprojAssemblyReference.cache
+E:\Project\Industry_Graph\Senparc.Weixin.MP\Senparc.Weixin.MP\obj\Release\Senparc.Weixin.MP.csproj.CoreCompileInputs.cache
+E:\Project\Industry_Graph\Senparc.Weixin.MP\Senparc.Weixin.MP\obj\Release\Senparc.Weixin.MP.csproj.CopyComplete
+E:\Project\Industry_Graph\Senparc.Weixin.MP\Senparc.Weixin.MP\obj\Release\Senparc.Weixin.MP.dll
+E:\Project\Industry_Graph\Senparc.Weixin.MP\Senparc.Weixin.MP\obj\Release\Senparc.Weixin.MP.pdb
+E:\工作项目\Industry_Graph\Senparc.Weixin.MP.BuildOutPut\.net4.5\Senparc.Weixin.MP.XML
+E:\工作项目\Industry_Graph\Senparc.Weixin.MP.BuildOutPut\.net4.5\Senparc.Weixin.MP.dll
+E:\工作项目\Industry_Graph\Senparc.Weixin.MP.BuildOutPut\.net4.5\Senparc.Weixin.MP.pdb
+E:\工作项目\Industry_Graph\Senparc.Weixin.MP\Senparc.Weixin.MP\obj\Release\Senparc.Weixin.MP.csprojAssemblyReference.cache
+E:\工作项目\Industry_Graph\Senparc.Weixin.MP\Senparc.Weixin.MP\obj\Release\Senparc.Weixin.MP.csproj.CoreCompileInputs.cache
+E:\工作项目\Industry_Graph\Senparc.Weixin.MP\Senparc.Weixin.MP\obj\Release\Senparc.Weixin.MP.csproj.CopyComplete
+E:\工作项目\Industry_Graph\Senparc.Weixin.MP\Senparc.Weixin.MP\obj\Release\Senparc.Weixin.MP.dll
+E:\工作项目\Industry_Graph\Senparc.Weixin.MP\Senparc.Weixin.MP\obj\Release\Senparc.Weixin.MP.pdb

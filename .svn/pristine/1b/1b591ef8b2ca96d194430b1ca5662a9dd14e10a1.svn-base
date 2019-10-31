@@ -1,0 +1,151 @@
+﻿@*------------------------------------------------------------------------------
+    *     此代码由T4模板自动生成
+    *	   生成时间 2019-09-29 17:04:16
+    *     ©为之团队
+    *------------------------------------------------------------------------------*@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutBui.cshtml";
+}
+<script>
+    var page_jf = {
+        rows: 5,//每页行数
+        page: 1,//当前页
+        sidx: 'Id',//排序列
+        sord: 'asc',//排序类型
+        //records: 0,//总记录数
+        //total: 0,//总页数
+        LoadEnd: false
+        //conditionJson:"1=1"
+    }
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        // 假设: userlist.json 返回的数据格式为: { status:200, list:[] }, 配置 field: {data:"list"}
+        // 初始化
+        var queryJson = {};
+        queryJson = JSON.stringify(queryJson)
+        var uiList = bui.list({
+            id: "#scrollList",
+            url: "/IOT/IOT_Order_Sec/GetGridJson?queryJson=" + queryJson,
+            pageSize: 5,
+            data: page_jf,
+            // 如果返回的数组字段不在data,通过field重新定义
+            field: {
+                page: "page",
+                //size: "pageSize",
+                data: "rows"
+            },
+            template: function (data) {
+                var html = "";
+                data.map(function (el, index) {
+                    var startStatus = el.StartStatus == 0 ? "未启动" : "已启动";
+                    var proceedStatus = el.ProceedStatus == 0 ? "未进行" : "进行中";
+                    var startColor = el.StartStatus == 0 ? "gray" : "green";
+                    var proceedColor = el.ProceedStatus == 0 ? "gray" : "green";
+                    html += '<div class="section-title" style="background-color:green;color:white">' + el.OrderName + '</div>'
+                        + '    <div class="bui-btn bui-box" onclick="editOrder(\'' + el.Id + '\')" id = "updateBL">'
+                        + '         <div class="span1">'
+                        + '             <h3 class="item-title">' + el.PName + '</h3>'
+                        + '             <p class="item-text"><span class="bui-label">状态</span><span class="span_button" style="background-color:' + startColor + ';border-left:10px solid ' + startColor + ';border-right:10px solid ' + startColor + ';color:white" onclick=startSpanClick(\'' + el.Id + '\')>' + startStatus + '</span><span class="span_button" style="background-color:' + proceedColor + ';border-left:10px solid ' + proceedColor + ';border-right:10px solid ' + proceedColor + ';color:white" onclick=proceedSpanClick(\'' + el.Id + '\')>' + proceedStatus + '</span></p>'
+                        + '             <p class="item-text"><span class="bui-label">计划数量</span><span class="bui-value">' + el.PlanQuantity + '</span><span class="bui-label">合格数量</span><span class="bui-value">' + el.QualifyQuantity + '</span></p>'
+                        + '         </div>'
+                        + '         <i class="icon-listright"></i>'
+                        + '</div>'
+                });
+                return html;
+            }
+        });
+    }
+
+    function startSpanClick(keyValue) {
+        bui.confirm("确认是否启动订单?", function (e) {
+            //this 是指点击的按钮
+            var text = $(e.target).text();
+            if (text == "确定") {
+                $.ajax({
+                    url: '/IOT/IOT_Order_Sec/OrderStart?keyValue=' + keyValue,
+                    type: 'POST',
+                    success: function (data) {
+                        location.reload();
+                    }
+                })
+            }
+            this.close()
+        });
+    }
+    function proceedSpanClick(keyValue) {
+        bui.confirm("确认是否切换进行中订单?", function (e) {
+            //this 是指点击的按钮
+            var text = $(e.target).text();
+            if (text == "确定") {
+                $.ajax({
+                    url: '/IOT/IOT_Order_Sec/ChangeProceedOrder?keyValue=' + keyValue,
+                    type: 'POST',
+                    success: function (data) {
+                        location.reload();
+                    }
+                })
+            }
+            this.close()
+        });
+    }
+
+    function editOrder(keyValue) {
+        $(location).attr('href', '/IOT/IOT_Order_Sec/Form_Order_M?keyValue=' + keyValue);
+    }
+</script>
+<style type="text/css">
+    .bui-label {
+        width: 2rem;
+    }
+
+    .bui-value {
+        width: 2.5rem;
+    }
+
+    .item-text {
+        font-size: 0.36rem;
+        color: black;
+    }
+
+    .span_button {
+        margin-right: 1rem;
+        border-radius: 1rem;
+    }
+
+    .span1 p {
+        margin-top: 0.3rem;
+    }
+</style>
+
+<div class="bui-page" id="page">
+    <header class="bui-bar">
+        <div class="bui-bar-left add-bar-width">
+            <a class="bui-btn" onclick="bui.back();">
+                <i class="icon-back"></i>
+            </a>
+        </div>
+        <div class="bui-bar-main">
+            订单管理
+        </div>
+        <div class="bui-bar-right">
+            <a class="bui-btn" href="/GY/GY_M/GY_BLForm_m">
+                <i class="icon-plus"></i>
+            </a>
+        </div>
+    </header>
+    <main>
+        <div id="scrollList" class="bui-scroll">
+            <div class="bui-scroll-head"></div>
+            <div class="bui-scroll-main">
+                <ul class="bui-list"></ul>
+            </div>
+            <div class="bui-scroll-foot"></div>
+        </div>
+    </main>
+</div>
+
+

@@ -1,0 +1,2 @@
+E:\OneDrive\工作项目\Industry_Graph\Senparc.Weixin.QY\Senparc.Weixin.QY\obj\Debug\Senparc.Weixin.QY.csprojAssemblyReference.cache
+E:\OneDrive\工作项目\Industry_Graph\Senparc.Weixin.QY\Senparc.Weixin.QY\obj\Debug\Senparc.Weixin.QY.csproj.CoreCompileInputs.cache

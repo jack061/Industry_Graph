@@ -1,0 +1,146 @@
+﻿
+ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2019-02-26 09:18:26
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form2.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+	initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/VMW/VMWConfig/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+
+	 //初始化组件
+    function initControl()
+    {
+        //初始化工作
+        
+    }
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        var formData = $("#form1").formSerialize();
+        var postData = {};
+        postData.Id = keyValue;
+        postData.Code = formData.Code;
+        postData.Name = formData.Name;
+        delete formData["__RequestVerificationToken"];
+        postData.ConfigContent = JSON.stringify(formData);
+        $.submitForm({
+            url: "/VMW/VMWConfig/SaveForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                var parentTabId = top.$.jfinetab.getCurrentTabParentId();
+                var resultPage = top.$.jfinetab.getTabContentFromId(parentTabId);
+                resultPage.refreshGrid();
+                top.$.jfinetab.closeCurrentTab();
+            }
+        })
+    }
+	//关闭Form
+    function closeForm() {
+        top.$.jfinetab.closeCurrentTab();
+    }
+</script>
+
+<form id="form1">
+    <input type="hidden" id="Id" name="Id" value="" />
+    <div id="jfine-form-container" class="jfine-form-container" border="0">
+        <table id="jfine-form-maintable" class="jfineui jfine-form-maintable" style="table-layout: fixed;"
+               border="0" cellspacing="0" cellpadding="0" align="center">
+            <tbody>
+                <tr id="jfine-form-titlebg" class="jfine-form-titlebg">
+                    <td>
+                        <table align="center" border="0" style="margin: 0px auto; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td class="jfine-form-header_l">
+                                        <span class="jfine-form-logo">
+                                            <img src="/Content/images/formlogo.png" />
+                                        </span>
+                                    </td>
+                                    <td class="jfine-form-header_c">
+                                        <span class="jfine-form-header-title">配置</span>
+                                    </td>
+                                    <td class="jfine-form-header_r">
+                                        <div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-info dropdown-text" onclick="submitForm()"><i class="fa fa-send"></i>提交</a>
+                                                <a class="btn btn-warning dropdown-text" onclick="closeForm()"><i class="fa fa-minus"></i>关闭</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="jfine-form-formcontent" class="jfine-form-titlebg" style="">
+                    <td>
+                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                            <table class="form" style="margin-bottom: 10px;">
+					 	  	
+								<tr>
+									<th class="formTitle"> 编码</th>
+									<td class="formValue">
+										<input id="Code" name="Code" type="text"
+										 class="form-control  required"  placeholder="请输入系统代码" />
+									</td>
+                                    <th class="formTitle"> 名称</th>
+                                    <td class="formValue">
+                                        <input id="Name" name="Name" type="text"
+                                               class="form-control  required" placeholder="请输入系统名称" />
+                                    </td>
+								</tr>
+					 	  	
+								<tr>
+									<th class="formTitle"> 报警间隔时间(s)</th>
+									<td class="formValue">
+                                        <input id="warnInterval" name="warnInterval" type="text"
+                                               class="form-control isIntGtZero  required" placeholder="报警间隔时间" />
+									</td>
+                                    <th class="formTitle"> 传送带空载时间(s)</th>
+                                    <td class="formValue">
+                                        <input id="noLoadInterval" name="noLoadInterval" type="text"
+                                               class="form-control isIntGtZero  required" placeholder="传送带空载时间" />
+                                    </td>
+								</tr>
+
+                                <tr>
+                                    <th class="formTitle"> 机斗装卸时间(s)</th>
+                                    <td class="formValue">
+                                        <input id="handlingInterval" name="handlingInterval" type="text"
+                                               class="form-control isIntGtZero  required" placeholder="机斗装卸时间" />
+                                    </td>
+                                    <th class="formTitle"></th>
+                                    <td class="formValue">
+                                        
+                                    </td>
+                                </tr>
+
+							</table>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+

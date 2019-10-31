@@ -1,0 +1,131 @@
+/*
+ *  Remodal - v1.1.1
+ *  Responsive, lightweight, fast, synchronized with CSS animations, fully customizable modal window plugin with declarative configuration and hash tracking.
+ *  http://vodkabears.github.io/remodal/
+ *
+ *  Made by Ilya Makarov
+ *  Under MIT License
+ */
+
+/* ==========================================================================
+   Remodal's necessary styles
+   ========================================================================== */
+
+/* Hide scroll bar */
+
+html.remodal-is-locked {
+  overflow: hidden;
+
+  -ms-touch-action: none;
+  touch-action: none;
+}
+
+/* Anti FOUC */
+
+.remodal,
+[data-remodal-id] {
+  display: none;
+}
+
+/* Necessary styles of the overlay */
+
+.remodal-overlay {
+  position: fixed;
+  z-index: 9999;
+  top: -5000px;
+  right: -5000px;
+  bottom: -5000px;
+  left: -5000px;
+
+  display: none;
+}
+
+/* Necessary styles of the wrapper */
+
+.remodal-wrapper {
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: none;
+  overflow: auto;
+
+  text-align: center;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+.remodal-wrapper:after {
+  display: inline-block;
+
+  height: 100%;
+  margin-left: -0.05em;
+
+  content: "";
+}
+
+.remodalBody>.form{width:100%;margin:0px;padding:0px;border-collapse:collapse;border-width:3px 1px 1px;table-layout:fixed}
+/*条纹状表格*/
+/*奇数行*/
+.remodalBody>.form > tbody > tr:nth-child(odd) > td,
+.remodalBody>.form > tbody > tr:nth-child(odd) > th {
+  background-color: #f9f9f9;
+}
+/*偶数行*/
+.remodalBody>.form > tbody > tr:nth-child(even) > td,
+.remodalBody>.form > tbody > tr:nth-child(even) > th {
+  background-color: #ffffff;
+}
+.form-control {
+    display: block;
+    width: 90%;
+    height: 32px;
+    padding: 1px 2px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ddd;
+
+}
+.remodalBody>.form .formTitle{position:relative;left:0px;text-align:right;white-space:nowrap;font-weight:normal;width:90px;padding-right:15px;}
+.remodalBody>.form .formTitle font{color:red;position:absolute;right:0px;}
+.remodalBody>.form .formValue{position:relative;padding:5px;width:auto;}
+.remodalBody>.form .formValue input.form-control{height:30px;line-height:30px;padding-top:0px;padding-bottom:0px;padding-right:0px;padding-left:5px;resize: none;border-radius: 0px;box-shadow:none;}
+.tips_msg {
+    height: 30px;
+    line-height: 30px;
+    color: red;
+    margin: 0 auto;
+    border-radius: 5px;
+    width: 300px;
+    font-size: 14px;
+}
+
+/* Fix iPad, iPhone glitches */
+
+.remodal-overlay,
+.remodal-wrapper {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Necessary styles of the modal dialog */
+
+.remodal {
+  position: relative;
+
+  outline: none;
+
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.remodal-is-initialized {
+  /* Disable Anti-FOUC */
+  display: inline-block;
+}

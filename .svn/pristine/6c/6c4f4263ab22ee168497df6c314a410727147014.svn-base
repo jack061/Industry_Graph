@@ -1,0 +1,278 @@
+﻿/********************************************************************************
+**文 件 名:MQTTDealDataBLL
+**命名空间:JFine.Plugins.IOT.Busines.MQTT
+**描    述:
+**
+**版 本 号:V1.0.0.0
+**创 建 人:superjoy
+**创建日期:2019-08-02 18:04:06
+**修 改 人:
+**修改日期:
+**修改描述:
+**版权所有: ©为之团队
+*********************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using JFine.Plugins.IOT.Domain.Models.MQTT;
+using JFine.Plugins.IOT.Busines.MQTT;
+using JFine.Cache.Redis;
+using JFine.Plugins.IOT.Domain.Models.IOT;
+using JFine.Plugins.IOT.Busines.IOT;
+using JFine.Domain.Models.SystemManage;
+using System.Threading;
+
+using JFine.Plugins.IOT.IOTHubs;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using JFine.Common.Json;
+using JFine.Common.Extend;
+using JFine.Busines.SystemManage;
+using JFine.Data.Repository;
+
+namespace JFine.Plugins.IOT.Busines.MQTT
+{
+    public class MQTTDealDataBLL
+    {
+        private GatewayValBLL gatewayValBLL = new GatewayValBLL();
+        //采集数值队列
+        private static Queue<GatewayValEntity> gateWayValQueue = new Queue<GatewayValEntity>();
+        private static ModbusHub modbusHub = new ModbusHub();
+
+        //网关列表
+        public static List<MQTTGatewayEntity> gatewayList = new List<MQTTGatewayEntity>();
+        //网关Tag列表
+        public static List<MQTTGatewayTagEntity> gatewayTagList = new List<MQTTGatewayTagEntity>();
+
+        private static IOTDeviceBeatBLL iOTDeviceBeatBLL = new IOTDeviceBeatBLL();
+
+        public void StartDeal() 
+        {
+            MQTTGatewayBLL mQTTGatewayBll = new MQTTGatewayBLL();
+            MQTTGatewayTagBLL mQTTGatewayTagBll = new MQTTGatewayTagBLL();
+            gatewayList = mQTTGatewayBll.GetList().ToList();
+            gatewayTagList = mQTTGatewayTagBll.GetList().ToList();
+
+            DealData();
+            StartValQueue();
+            iOTDeviceBeatBLL.StartValQueue();
+        }
+
+        /// <summary>
+        /// 获取Redis数据并处理
+        /// </summary>
+        private void DealData()
+        {
+
+            ThreadPool.QueueUserWorkItem((a) =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        RedisHelper redisHelper = new RedisHelper(15);
+                        var payloadString = redisHelper.ListLeftPop("mqtt_gatevalue");
+                        var payload = payloadString.ToJObject();
+                        string ClientId = "";
+                        if (payload["ClientId"].IsEmpty())
+                        {
+                            continue;
+                        }
+                        ClientId = payload["ClientId"].ToString();
+                        var gateway = gatewayList.FirstOrDefault(t => t.ClientId.Equals(ClientId));
+                        if (gateway == null)
+                        {
+                            continue;
+                        }
+                        List<MQTTGatewayTagEntity> tagList_temp = gatewayTagList.Where(t => t.BindId.Equals(gateway.Id)).ToList();
+
+                        if (tagList_temp == null)
+                        {
+                            continue;
+                        }
+
+                        //查询条件
+                        if (!payload["tags"].IsEmpty())
+                        {
+                            var tags = payload["tags"];
+                            DateTime dt = DateTime.Now;
+                            foreach (var tagEntity in tagList_temp)
+                            {
+                                if (!tags[tagEntity.ParameterCode].IsEmpty())
+                                {
+                                    if (tagEntity.ParameterType != null && IOTConstant.SWITCH_VALUE == tagEntity.ParameterType)
+                                    {
+                                        #region 开关量处理
+                                        //ModbusHub modbusHub = new ModbusHub();
+                                        if (ModbusHub.modbusData.ContainsKey(tagEntity.DeviceCode + "@_@" + tagEntity.ParameterCode))
+                                        {
+                                            string preValue = ModbusHub.modbusData[tagEntity.DeviceCode + "@_@" + tagEntity.ParameterCode].ToString();
+                                            if (!(preValue.Equals(tags[tagEntity.ParameterCode].ToString())))
+                                            {
+                                                SaveDataAndNotice(tagEntity, gateway, tags, dt);
+                                                SignalDeal(tagEntity, gateway, tags);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            SaveDataAndNotice(tagEntity, gateway, tags, dt);
+                                            SignalDeal(tagEntity, gateway, tags);
+                                        }
+                                        #endregion
+
+
+                                    }
+                                    else if (tagEntity.ParameterType != null && IOTConstant.ANALOG_VALUE == tagEntity.ParameterType)
+                                    {
+                                        #region 模拟量
+                                        SaveDataAndNotice(tagEntity, gateway, tags, dt);
+                                        #endregion
+                                    }
+
+
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                        //记录日志
+                        LogEntity logEntity = new LogEntity();
+                        logEntity.Category = "服务";
+                        logEntity.OperateType = "MQTT接收数据异常";
+                        logEntity.CreateUserId = "MQTT";
+                        logEntity.CreateUserName = "MQTT";
+                        logEntity.Module = "MQTT";
+                        logEntity.ModuleId = "";
+                        logEntity.ExecuteResult = -1;
+                        logEntity.Description = ex.Message;
+                        logEntity.CreateDate = DateTime.Now;
+                        logEntity.SourceContentJson = ex.StackTrace;
+                        logEntity.Mark = "";
+
+                        logEntity.AddLog();
+                    }
+                }
+            });
+        }
+
+        /// <summary>
+        /// 保存数据并发送数据到前端
+        /// </summary>
+        /// <param name="tagEntity"></param>
+        /// <param name="gateway"></param>
+        /// <param name="tags"></param>
+        /// <param name="dt"></param>
+        private static void SaveDataAndNotice(MQTTGatewayTagEntity tagEntity, MQTTGatewayEntity gateway, JToken tags, DateTime dt)
+        {
+            GatewayValEntity gatewayVal = new GatewayValEntity();
+            gatewayVal.Id = Sequence.Sequence.getSnowflakeID();
+            gatewayVal.BindId = gateway.Id;
+            gatewayVal.DeviceCode = tagEntity.DeviceCode;
+            gatewayVal.ParameterCode = tagEntity.ParameterCode;
+            gatewayVal.ParameterName = tagEntity.ParameterName;
+            gatewayVal.ParameterValue = tags[tagEntity.ParameterCode].ToString();
+            gatewayVal.ParameterType = tagEntity.ParameterType;
+            gatewayVal.ParameterCategory = tagEntity.ParameterCategory;
+            gatewayVal.CreateDate = dt;
+            gateWayValQueue.Enqueue(gatewayVal);
+            ModbusHub.modbusData[gatewayVal.DeviceCode + "@_@" + gatewayVal.ParameterCode] = gatewayVal.ParameterValue;
+            modbusHub.SendDeviceData(gatewayVal.DeviceCode, gatewayVal.ParameterType.Value, gatewayVal.ParameterCategory.Value, gatewayVal.ParameterCode, gatewayVal.ParameterValue, dt);
+        }
+
+        /// <summary>
+        /// 信号处理
+        /// </summary>
+        /// <param name="tagEntity">网关参数</param>
+        /// <param name="gateway">网关数据</param>
+        /// <param name="tags">信号数据</param>
+        private static void SignalDeal(MQTTGatewayTagEntity tagEntity, MQTTGatewayEntity gateway, JToken tags)
+        {
+            if (tagEntity.ParameterCategory != null)
+            {
+                switch (tagEntity.ParameterCategory)
+                {
+                    // 合模
+                    case (int)IOTConstant.ParameterCategory.MouldOff:
+                        iOTDeviceBeatBLL.MouldOff(gateway.Id, tagEntity.DeviceCode, tags[tagEntity.ParameterCode].ToString());
+                        break;
+                    //射胶
+                    case (int)IOTConstant.ParameterCategory.Shot:
+                        iOTDeviceBeatBLL.Shot(gateway.Id, tagEntity.DeviceCode, tags[tagEntity.ParameterCode].ToString());
+                        break;
+                    //马达开
+                    case (int)IOTConstant.ParameterCategory.MotorOn:
+                        IOTDeviceBLL iOTDeviceBLL = new IOTDeviceBLL();
+                        iOTDeviceBLL.MotorOn(gateway.Id, tagEntity.DeviceCode, tags[tagEntity.ParameterCode].ToString());
+                        break;
+                    //马达关
+                    case (int)IOTConstant.ParameterCategory.MotorOff:
+                        IOTDeviceBLL iOTDeviceBLL_OFF = new IOTDeviceBLL();
+                        iOTDeviceBLL_OFF.MotorOff(gateway.Id, tagEntity.DeviceCode, tags[tagEntity.ParameterCode].ToString());
+                        break;
+                    default:
+                        break;
+
+
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 检测数值队列，保存到数据库
+        /// </summary>
+        private void StartValQueue()
+        {
+
+            ThreadPool.QueueUserWorkItem((a) =>
+            {
+                StringBuilder sql = new StringBuilder();
+                while (true)
+                {
+                    int queueCount = gateWayValQueue.Count;
+                    if (queueCount > 0)
+                    {
+                        //List<GatewayValEntity> valList = new List<GatewayValEntity>();
+                        sql.Clear();
+                        int deCount = queueCount > 50 ? 50 : queueCount;
+                        while (deCount > 0)
+                        {
+                            GatewayValEntity val = gateWayValQueue.Dequeue();//出队
+                            //valList.Add(val);
+                            sql.Append("insert Gateway_Values(Id,BindId,DeviceCode,ParameterCode,ParameterName,ParameterValue,ParameterType,ParameterCategory,Year,Month,DAY,CreateDate) VALUES('");
+                            sql.Append(val.Id + "','");
+                            sql.Append(val.BindId + "','");
+                            sql.Append(val.DeviceCode + "','");
+                            sql.Append(val.ParameterCode + "','");
+                            sql.Append(val.ParameterName + "','");
+                            sql.Append(val.ParameterValue + "','");
+                            sql.Append(val.ParameterType + "','");
+                            sql.Append(val.ParameterCategory + "','");
+                            sql.Append(((DateTime)val.CreateDate).Year + "','");
+                            sql.Append(((DateTime)val.CreateDate).Month + "','");
+                            sql.Append(((DateTime)val.CreateDate).Day + "','");
+                            sql.Append(((DateTime)val.CreateDate).ToString("yyyy-MM-dd HH:mm:ss.fff") + "');");
+                            deCount = deCount - 1;
+                        }
+                        //入库
+                        // gatewayValBLL.SaveList(valList);
+                        gatewayValBLL.SaveList(sql);
+
+                    }
+                    else
+                    {
+                        //如果队列中没有数据，休眠10秒.
+                        Thread.Sleep(10000);
+                    }
+                }
+            });
+        }
+
+
+    }
+}

@@ -1,0 +1,182 @@
+﻿
+ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2019-04-01 16:04:12
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/VMW/VMWFaceSample/GetGridJson",
+            height: $(window).height() - 138,
+            colModel: [
+					  	
+					{ label: "主键", name: "Id", width: 150, align: 'left',hidden:true },
+	  	
+					{ label: "编码", name: "Code", width: 100, align: 'left' },
+	  	
+					{ label: "姓名", name: "Name", width: 100, align: 'left' },
+
+                    { label: "同步状态", name: "SynStatus", width: 100, align: 'left', hidden: true },
+
+					{
+					    label: "同步状态", name: "SynStatus_", width: 60, align: 'left',
+					    formatter: function (cellValue, options, rowObject) {
+					        //状态
+					        var status_s = '';
+					        if (rowObject.SynStatus == 0) {
+					            status_s += '<span class=\"label label-default\">未同步</span>';
+					        } else if (rowObject.SynStatus == 1) {
+					            status_s += '<span class=\"label label-success\">已同步</span>';
+					        }
+					        return status_s;
+					    }
+					},
+
+                    { label: "状态", name: "Status", width: 100, align: 'left',hidden:true },
+	  	
+					{
+					    label: "状态", name: "Status_", width: 60, align: 'left',
+					    formatter: function (cellValue, options, rowObject) {
+					        //状态
+					        var status_s = '';
+					        if (rowObject.Status == 0) {
+					            status_s += '<span class=\"label label-default\">未处理</span>';
+					        } else if (rowObject.Status == 1) {
+					            status_s += '<span class=\"label label-success\">已处理</span>';
+					        } 
+					        return status_s;
+					    }
+					},
+	  	
+					{ label: "部门编码", name: "DepCode", width: 80, align: 'left' },
+	  	
+					{ label: "部门名称", name: "DepName", width: 100, align: 'left' },
+	  	
+					{
+					    label: "人脸照片", name: "FaceImage", width: 130, align: 'left',
+					    formatter: function (cellvalue, options, rowObject) {
+					        return '<img style="height:80px;" src="' + cellvalue + '"/>';
+					    }
+					},
+	  	
+					{ label: "人脸数据", name: "FaceData", width: 100, align: 'left' },
+	  	
+					{ label: "创建日期", name: "CreateDate", width: 130, align: 'left' },
+	  	
+					{ label: "创建用户名称", name: "CreateUserName", width: 100, align: 'left' }
+            ],
+			pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+			var queryJson = {
+                keyword: $("#txt_keyword").val()
+            }
+		    $gridList.jqGrid('setGridParam', {
+		         postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+		    }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+		var parentId = top.$.jfinetab.getCurrentTabId();
+        top.$.jfinetab.addTabContent("/VMW/VMWFaceSample/Form2", "人脸样本--新增", parentId + "_add", parentId);
+    }
+    function btn_edit() {
+		var parentId = top.$.jfinetab.getCurrentTabId();
+        var Id = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(Id)) {
+            top.$.jfinetab.addTabContent("/VMW/VMWFaceSample/Form2?keyValue=" + Id, "人脸样本--修改", parentId + "_edit", parentId);
+        }
+        
+    }
+    function btn_delete() {
+	  var keyValue = $("#gridList").jqGridRowValue().Id;
+	 if ($.checkedArray(keyValue))
+        {
+			 $.deleteForm({
+				url: "/VMW/VMWFaceSample/DeleteForm",
+				param: { keyValue: keyValue },
+				success: function () {
+					$.currentWindow().$("#gridList").trigger("reloadGrid");
+				}
+			});
+        }
+        
+    }
+
+    function btn_syn() {
+        $.confirmSubmitForm({
+            prompt: "您确定要同步数据吗？",
+            url: "/VMW/VMWFaceSample/SynData",
+            success: function (data) {
+
+            }
+        });
+
+    }
+    function btn_details() { 
+		var keyValue = $("#gridList").jqGridRowValue().Id;      
+		if ($.checkedArray(keyValue))
+		 {
+
+		    var parentId = top.$.jfinetab.getCurrentTabId();
+		    var Id = $("#gridList").jqGridRowValue().Id;
+		    if ($.checkedArray(Id)) {
+		        top.$.jfinetab.addTabContent("/VMW/VMWFaceSample/Details2?keyValue=" + Id, "人脸样本--查看", parentId + "_view", parentId);
+		    }
+		  }
+
+    
+    }
+	function refreshGrid() {
+        $("#gridList").trigger("reloadGrid");
+	 }      
+</script>
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="JF-add"  class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+            <a id="JF-edit" class="btn btn-primary dropdown-text" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a>
+            <a id="JF-delete" class="btn btn-primary dropdown-text"  onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+            <a id="JF-syn" class="btn btn-primary dropdown-text" onclick="btn_syn()"><i class="fa fa-plus"></i>同步采集设备数据</a>
+            <a id="JF-Details" class="btn btn-primary dropdown-text"  onclick="btn_details()"><i class="fa fa-search-plus"></i>查看</a>
+        </div>
+        <div id="toolbar" class="btn-group">
+		</div>
+		<script>$('#toolbar').authorizeButton()</script>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+	<div id="gridPager"></div>
+</div>
+

@@ -1,0 +1,150 @@
+﻿
+/********************************************************************************
+**文 件 名:ModbusGatewayBLL
+**命名空间:JFine.Plugins.IOT.Busines.Modbus
+**描    述:
+**
+**
+**版 本 号:V1.0.0.0
+**创 建 人:此代码由T4模板自动生成
+**创建日期:2019-06-30 17:55:26
+**修 改 人:
+**修改日期:
+**修改描述:
+**
+**
+**版权所有: ©为之团队
+*********************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using JFine.Plugins.IOT.Domain.Models.Modbus;
+using JFine.Plugins.IOT.Domain.IRepository.Modbus;
+using JFine.Plugins.IOT.Domain.Repository.Modbus;
+using JFine.Cache;
+using JFine.Common.UI;
+using JFine.Common.Extend;
+using JFine.Common.Json;
+using JFine.Busines.SystemManage;
+using JFine.Data.Common;
+using System.Linq.Expressions;
+using System.Data.Common;
+using System.Data;
+using System.Net;
+using System.Net.Sockets;
+using HslCommunication.ModBus;
+using System.Threading;
+using JFine.Plugins.IOT.IOTHubs;
+using JFine.Domain.Models.SystemManage;
+using JFine.Busines.SystemManage;
+using JFine.Plugins.IOT.Busines.IOT;
+using JFine.Plugins.IOT.Domain.Models.IOT;
+using System.Diagnostics;
+
+namespace JFine.Plugins.IOT.Busines.Modbus
+{	
+	/// <summary>
+    /// ModbusServerBLL
+	/// </summary>	
+    public class ModbusServerBLL
+	{
+        private GatewayValBLL gatewayValBLL = new GatewayValBLL();
+        private static Queue<GatewayValEntity> gateWayValQueue = new Queue<GatewayValEntity>(); 
+        public static List<ModbusGatewayEntity> gatewayList = new List<ModbusGatewayEntity>();
+        public static List<ModbusGatewayParaEntity> gatewayParaList = new List<ModbusGatewayParaEntity>();
+
+        private static bool flag = false;
+        private static ModbusTcpServer modbusTcpServer = null;
+        public static int ServerState = 0;
+        private static int port = 502;
+
+        /// <summary>
+        /// 启动ModbusTcpServer服务
+        /// </summary>
+        public void ModbusServerStart()
+        {
+
+            if (!flag)
+            {
+                ModbusGatewayBLL modbusGatewayBLL = new ModbusGatewayBLL();
+                ModbusGatewayParaBLL modbusGatewayParaBll = new ModbusGatewayParaBLL();
+                gatewayParaList = modbusGatewayParaBll.GetList().ToList();
+                gatewayList = modbusGatewayBLL.GetList().ToList();
+
+                if (modbusTcpServer == null)
+                {
+                    try
+                    {
+                        modbusTcpServer = new HslCommunication.ModBus.ModbusTcpServer();
+                        modbusTcpServer.LogNet = new HslCommunication.LogNet.LogNetSingle("D:\\LOG\\Modbus\\logs.txt");
+                        //modbusTcpServer.LogNet.BeforeSaveToFile += LogNet_BeforeSaveToFile;
+                        modbusTcpServer.OnDataReceived += ModbusTcpServer_OnDataReceived;
+                        modbusTcpServer.ServerStart(port);
+                        Trace.TraceInformation("ModbusTcpServer启动成功！");
+                        ServerState = 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.TraceInformation(ex.Message);
+                        return;
+                    }
+                }
+
+                flag = true;
+                StartValQueue();
+            }
+
+        }
+
+        private void ModbusTcpServer_OnDataReceived(object sender, byte[] modbus) 
+        {
+            var receiveStr = HslCommunication.BasicFramework.SoftBasic.ByteToHexString(modbus);
+            Trace.TraceInformation(receiveStr);
+        }
+
+        /// <summary>
+        /// 检测数值队列，保存到数据库
+        /// </summary>
+        public void StartValQueue()
+        {
+            
+            ThreadPool.QueueUserWorkItem((a) =>
+            {
+                StringBuilder sql = new StringBuilder();
+                while (true)
+                {
+                    int queueCount = gateWayValQueue.Count;
+                    if (queueCount > 0)
+                    {
+                        //List<GatewayValEntity> valList = new List<GatewayValEntity>();
+                        sql.Clear();
+                        int deCount = queueCount > 50 ? 50 : queueCount;
+                        while (deCount > 0) 
+                        {
+                            GatewayValEntity val = gateWayValQueue.Dequeue();//出队
+                            //valList.Add(val);
+                            sql.Append("insert Gateway_Values(Id,BindId,DeviceId,ParameterCode,ParameterValue,CreateDate) VALUES('");
+                            sql.Append(val.Id + "','");
+                            sql.Append(val.BindId + "','");
+                            sql.Append(val.DeviceId + "','");
+                            sql.Append(val.ParameterCode + "','");
+                            sql.Append(val.ParameterValue + "','");
+                            sql.Append(((DateTime)val.CreateDate).ToString("yyyy-MM-dd HH:mm:ss.fff") + "')");
+                            deCount = deCount - 1;
+                        }
+                        //入库
+                       // gatewayValBLL.SaveList(valList);
+                        gatewayValBLL.SaveList(sql);
+                        
+                    }
+                    else
+                    {
+                        //如果队列中没有数据，休眠10秒.
+                        Thread.Sleep(10000);
+                    }
+                }
+            });
+        }
+    }
+}

@@ -1,0 +1,408 @@
+﻿
+ .jfine-chat-box {
+    display: none;
+	border:1px solid #D9D9D9;
+	border-color:rgba(0,0,0,.05);
+	background-repeat:no-repeat;
+	background-color:#F6F6F6;
+	color:#333;
+    background-size:cover;
+	font-family: 微软雅黑;
+    box-shadow: 1px 1px 50px rgba(0,0,0,.3);
+    position: fixed;
+	bottom: 50px;
+	right: 100px;
+	z-index: 100
+}
+ .jfine-chat-box.active {
+	display: block
+}
+ .jfine-chat-box-title {
+    padding: 0 80px 0 20px;
+    height: 42px;
+    line-height: 42px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #333;
+    overflow: hidden;
+    background-color: #F8F8F8;
+    border-radius: 2px 2px 0 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+  .jfine-chat-box-title {
+	height: 80px;
+    border-bottom: none;
+    background-color: #F8F8F8;
+    background-color: rgba(245,245,245,.7);
+}
+
+.jfine-chat-box-content {
+	background: 0 0;
+	overflow: visible;
+	position: relative;
+}
+.jfine-chat-list {
+    position: absolute;
+    z-index: 1000;
+    top: -80px;
+    width: 200px;
+    background-color: #D9D9D9;
+    overflow: hidden;
+    font-size: 0;
+}
+
+.jfine-chat-list li {
+    white-space: nowrap;
+}
+.jfine-chat-list li, .jfine-layim-min{
+    position: relative;
+    margin: 5px;
+    padding: 5px 30px 5px 5px;
+    line-height: 40px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.jfine-chat-list li img, .jfine-layim-min .jfine-layer-content img {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+}
+
+.jfine-chat-list li span, .jfine-layim-min .jfine-layer-content span {
+    width: 100px;
+    padding-left: 10px;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.jfine-chat-list li span {
+    display: inline-block;
+    line-height: 15px;
+    vertical-align: middle;
+    white-space: pre-wrap;
+
+}
+.jfine-chat-list li.jfine-im-this {
+    background-color: #F3F3F3;
+}
+
+.jfine-chat-list li.active {
+    background-color: #87CEFA;
+}
+
+.jfine-chat-list li.checkbox label::before {
+content: "";
+display: inline-block;
+position: absolute;
+width: 20px;
+height: 20px;
+left: 0;
+margin-right: 5px;
+border: 1px solid #cccccc;
+border-radius: 3px;
+background-color: #fff;
+-webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+-o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.jfine-chat-list li input[type=checkbox] {
+    position: absolute;
+    right: 5px;
+    top: 15px;
+    color: #555;
+    font-size: 22px;
+}
+
+.jfine-chat-main {
+    display: block;
+    position: relative;
+    background-color: #fff;
+    background-color: rgba(255,255,255,.9);
+}
+
+
+.jfine-chat-title {
+    position: absolute;
+    top: -80px;
+    height: 80px;
+}
+
+.jfine-chat-head {
+    position: relative;
+    top: 15px;
+    left: 15px;
+    padding-left: 60px;
+    cursor: default;
+}
+
+.jfine-chat-head img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.jfine-chat-head span {
+    color: #444;
+}
+.jfine-chat-username {
+    position: relative;
+    top: 5px;
+    font-size: 18px;
+}
+
+.jfine-chat-status {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #999;
+}
+
+.jfine-chat-content {
+    height: 262px;
+    padding: 15px 15px 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.jfine-chat-content ul .jfine-chat-mine {
+    text-align: right;
+    padding-left: 0;
+    padding-right: 60px;
+}
+.jfine-chat-content ul li {
+    position: relative;
+    font-size: 0;
+    margin-bottom: 10px;
+    padding-left: 60px;
+    min-height: 68px;
+}
+.jfine-chat-content ul li {
+    position: relative;
+    font-size: 0;
+    margin-bottom: 10px;
+    padding-left: 60px;
+    min-height: 68px;
+}
+
+.jfine-chat-user img {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+}
+
+.jfine-chat-user cite {
+    position: absolute;
+    left: 60px;
+    top: -2px;
+    width: 500px;
+    line-height: 24px;
+    font-size: 12px;
+    white-space: nowrap;
+    color: #999;
+    text-align: left;
+    font-style: normal;
+}
+
+.jfine-chat-mine .jfine-chat-user cite {
+    left: auto;
+    right: 60px;
+    text-align: right;
+}
+
+.jfine-chat-user cite i {
+    padding-left: 15px;
+    font-style: normal;
+}
+
+.jfine-chat-mine .jine-chat-user cite i {
+    padding-left: 0;
+    padding-right: 15px;
+}
+
+
+.jfine-chat-text, .jfine-chat-user {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: top;
+    font-size: 14px;
+}
+.jfine-chat-user {
+    position: absolute;
+    left: 3px;
+}
+
+.jfine-chat-content ul .jfine-chat-mine {
+    text-align: right;
+    padding-left: 0;
+    padding-right: 60px;
+}
+.jfine-chat-mine .jfine-chat-user {
+    left: auto;
+    right: 3px;
+}
+
+.jfine-chat-mine .jfine-chat-text {
+    margin-left: 0;
+    text-align: left;
+    background-color: #5FB878;
+    color: #fff;
+}
+.jfine-chat-text {
+    position: relative;
+    line-height: 22px;
+    margin-top: 25px;
+    padding: 8px 15px;
+    background-color: #e2e2e2;
+    border-radius: 3px;
+    color: #333;
+    word-break: break-all;
+    max-width: 462px\9;
+}
+
+.jfine-chat-mine .jfine-chat-text {
+    margin-left: 0;
+    text-align: left;
+    background-color: #5FB878;
+    color: #fff;
+}
+
+
+.jfine-chat-text::after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 13px;
+    width: 0;
+    height: 0;
+    border-style: solid dashed dashed;
+    border-color: #e2e2e2 transparent transparent;
+    overflow: hidden;
+    border-width: 10px;
+}
+
+.jfine-chat-mine .jfine-chat-text::after {
+    left: auto;
+    right: -10px;
+    border-top-color: #5FB878;
+}
+
+.jfine-chat-footer {
+    border-top: 1px solid #F1F1F1;
+}
+
+
+.jfine-chat-tool {
+    position: relative;
+    padding: 0 8px;
+    height: 38px;
+    line-height: 38px;
+    font-size: 0;
+}
+
+
+.jfine-chat-tool span {
+    position: relative;
+    margin: 0 10px;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: top;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.jfine-chat-tool-image input {
+    position: absolute;
+    font-size: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .01;
+    filter: Alpha(opacity=1);
+    cursor: pointer;
+}
+
+.jfine-chat-tool .jfine-chat-tool-log {
+    position: absolute;
+    right: 5px;
+    font-size: 14px;
+}
+
+.jfine-chat-textarea{
+    margin-left: 10px;
+}
+.jfine-chat-textarea textarea {
+    display: block;
+    width: 100%;
+    padding: 5px 0 0;
+    height: 68px;
+    line-height: 20px;
+    border: none;
+    overflow: auto;
+    resize: none;
+    background: 0 0;
+}
+    .jfine-chat-bottom {
+    position: relative;
+    height: 46px;
+}
+    .jfine-chat-send {
+    position: absolute;
+    right: 15px;
+    top: 3px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 0;
+    cursor: pointer;
+}
+    .jfine-chat-send span {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: top;
+    font-size: 14px;
+    line-height: 32px;
+    margin-left: 5px;
+    padding: 0 20px;
+    background-color: #5FB878;
+    color: #fff;
+    border-radius: 3px;
+}
+.layim-chat-send .layim-send-btn {
+    border-radius: 3px 0 0 3px;
+}
+ .jfine-chat-send .jfine-menu-box {
+    left: auto;
+    right: 0;
+    top: 33px;
+    width: 180px;
+    padding: 10px 0;
+}
+.jfine-menu-box {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    top: 24px;
+    left: -31px;
+    padding: 5px 0;
+    width: 85px;
+    border: 1px solid #E2E2E2;
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: 1px 1px 20px rgba(0,0,0,.1);
+}
+.jfine-anim {
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}

@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        $.ajax({
+            url: "/SysManage/ModuleOperate/GetFormJson",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $("#form1").formSerialize(data);
+                $("#form1").find('.form-control,select,input').attr('readonly', 'readonly');
+                $("#form1").find('div.ckbox label').attr('for', '');
+            }
+        });
+    })
+</script>
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">编码</th>
+                <td class="formValue">
+                    <input id="Code" name="Code" type="text" class="form-control required" placeholder="请输入编码" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">名称</th>
+                <td class="formValue">
+                    <input id="Name" name="Name" type="text" class="form-control required" placeholder="请输入名称" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">图标</th>
+                <td class="formValue">
+                    <div class="input-group">
+                        <input id="Icon" name="Icon" type="text" class="form-control">
+                        <span class="input-group-btn">
+                            <a class="btn  btn-primary" href="javascript:void(0)" onclick="SelectIcon();"><i class="fa fa-ellipsis-h"></i></a>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">显示顺序</th>
+                <td class="formValue">
+                    <input id="Sort" name="Sort" type="text" class="form-control required" placeholder="请输入显示顺序" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="height: 35px;">选项</th>
+                <td class="formValue" style="padding-top: 1px;">
+                    <div class="ckbox">
+                        <input id="IsValid" name="IsValid" type="checkbox" checked="checked"><label for="IsValid">有效</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" valign="top" style="padding-top: 5px;">
+                    描述
+                </th>
+                <td class="formValue">
+                    <textarea id="Description" name="Description" class="form-control" style="height: 60px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" valign="top" style="padding-top: 5px;">
+                    备注
+                </th>
+                <td class="formValue">
+                    <textarea id="Mark" name="Mark" class="form-control" style="height: 60px;"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+

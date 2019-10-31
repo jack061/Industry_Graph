@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    function checkOnliner()
+    {
+        var parentId = top.$.jfinetab.getCurrentTabId();
+        top.$.jfinetab.addTabContent("/SysManage/User/OnlinerIndex", "在线用户", parentId + "_onliner", parentId);
+    }
+</script>
+
+<div class="row">
+    <div>
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>服务器信息</h5>
+            </div>
+            <div class="ibox-content" style="overflow:hidden;">
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-striped table-hover">
+                        <tbody>
+                            <tr>
+                                <td>应用名称：</td>
+                                <td>@Model.AppName</td>
+                                <td>应用地址：</td>
+                                <td>@Model.ServiceDomainName，@Model.ServerIP:@Model.ServerPort</td>
+                            </tr>
+                            <tr>
+                                <td>应用目录：</td>
+                                <td>@Model.AppDir</td>
+                                <td>计算机用户：</td>
+                                <td>@Model.ComputerUserName/@Model.ComputerMachineName</td>
+                            </tr>
+                            <tr>
+                                <td>操作系统：</td>
+                                <td>@Model.ServerOS</td>
+                                <td>Web服务器：</td>
+                                <td>@Model.WebServer</td>
+                            </tr>
+                            <tr>
+                                <td>.net版本：</td>
+                                <td>@Model.NetVersion</td>
+                                <td>服务器时间：</td>
+                                <td>当前：@Model.ServerTime  已开机：@(new TimeSpan(0, 0, 0, 0, Environment.TickCount))</td>
+                            </tr>
+                            <tr>
+                                <td>处理器：</td>
+                                <td>@Model.CupType：@Model.ServerCUP 核心</td>
+                                <td>内存：</td>
+                                <td>@Model.ServerMemory</td>
+                            </tr>
+                            <tr>
+                                <td>缓存：</td>
+                                <td>@Cache.Count 个，可用：@((Cache.EffectivePrivateBytesLimit / 1024).ToString("n0"))KB</td>
+                                <td>Session：</td>
+                                <td>@Model.Session</td>
+                            </tr>
+                            <tr>
+                                <td>在线用户数：</td>
+                                <td><a style="color:#0066CC;" onclick="checkOnliner();" href="#">@Model.onlinerCount 人</a></td>
+                                <td>数据库大小：</td>
+                                <td>暂无统计</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

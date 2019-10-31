@@ -1,0 +1,186 @@
+﻿@*------------------------------------------------------------------------------
+    *     此代码由T4模板自动生成
+    *	   生成时间 2019-02-21 17:17:13
+    *     ©为之团队
+    *------------------------------------------------------------------------------*@
+
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form2.cshtml";
+}
+<script src="/Content/js/openlayers_v5.3.0/ol.js"></script>
+<link href="/Content/js/openlayers_v5.3.0/ol.css" rel="stylesheet" />
+<script>
+    var keyValue = $.request("keyValue");
+    var epsg = '';
+    var bounds = [];
+    var mapUrl = "";
+    $(function () {
+
+        if (!!keyValue) {
+            $.ajax({
+                url: "/VMW/VMWMap/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formInitialize(data);
+                    $("#headTitle").html(data.Name);
+                    mapUrl = data.ImageURL;
+                    epsg = data.EPSG;
+                    bounds = [data.R_Left, data.R_Bottom, data.R_Right, data.R_Top];
+                    initMap();
+                }
+            });
+        }
+    });
+
+    //初始化地图
+    function initMap() {
+        var format = 'image/png';
+        var proj = new ol.proj.Projection({
+            code: epsg,
+            extent: bounds
+        })
+
+        //矿图
+        var ImageMap = new ol.layer.Image({
+            source: new ol.source.ImageStatic({
+                url: mapUrl,
+                projection: proj,
+                imageExtent: bounds
+            })
+        });
+
+        //设置地图投影
+        var projection = new ol.proj.Projection({
+            code: epsg,//投影编码
+            units: 'degrees',
+            axisOrientation: 'neu'
+        });
+
+        //设置地图
+        var map = new ol.Map({
+            //地图中的比例尺等控制要素
+            controls: ol.control.defaults({
+                attribution: false
+            }).extend([
+                new ol.control.ScaleLine()
+            ]),
+            //设置显示的容器
+            target: 'map',
+            //设置图层
+            layers: [
+                //添加图层
+                ImageMap
+            ],
+            //设置视图
+            view: new ol.View({
+                //设置投影
+                projection: projection
+            })
+        });
+
+        //地图显示
+        map.getView().fit(bounds, map.getSize());
+
+    }
+</script>
+
+<form id="form1">
+    <input type="hidden" id="Id" name="Id" value="" />
+    <div id="jfine-form-container" class="jfine-form-container" border="0">
+        <table id="jfine-form-maintable" class="jfineui jfine-form-maintable" style="table-layout: fixed;"
+               border="0" cellspacing="0" cellpadding="0" align="center">
+            <tbody>
+                <tr id="jfine-form-titlebg" class="jfine-form-titlebg">
+                    <td>
+                        <table align="center" border="0" style="margin: 0px auto; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td class="jfine-form-header_l">
+                                        <span class="jfine-form-logo">
+                                            <img src="/Content/images/formlogo.png" />
+                                        </span>
+                                    </td>
+                                    <td class="jfine-form-header_c">
+                                        <span class="jfine-form-header-title" id="headTitle">地图</span>
+                                    </td>
+                                    <td class="jfine-form-header_r">
+                                        <div>
+                                            <div class="btn-group">
+                                                此处可展示业务编码或者状态，自行组织。
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="jfine-form-formcontent" class="jfine-form-titlebg" style="">
+                    <td>
+                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                            <table class="form">
+
+                                <tr>
+                                    <th class="formTitle"> 编码</th>
+                                    <td class="formValue">
+                                        <div id="Code" name="Code"></div>
+                                    </td>
+                                    <th class="formTitle"> 名称</th>
+                                    <td class="formValue">
+                                        <div id="Name" name="Name"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="formTitle"> EPSG</th>
+                                    <td class="formValue">
+                                        <div id="EPSG" name="EPSG"></div>
+                                    </td>
+                                    <th class="formTitle"> 范围</th>
+                                    <td class="formValue">
+                                        [
+                                        <div id="R_Left" name="R_Left" style="display: inline-block;"></div>,
+                                        <div id="R_Bottom" name="R_Bottom" style="display: inline-block;"></div>,
+                                        <div id="R_Right" name="R_Right" style="display: inline-block;"></div>,
+                                        <div id="R_Top" name="R_Top" style="display: inline-block;"></div>
+                                        ]
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="formTitle"> 版本</th>
+                                    <td class="formValue">
+                                        <div id="Version" name="Version"></div>
+                                    </td>
+                                    <th class="formTitle"> 创建日期</th>
+                                    <td class="formValue">
+                                        <div id="CreateDate" name="CreateDate"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="formTitle">备注</th>
+                                    <td class="formValue" colspan="3">
+                                        <div id="Remark" name="Remark"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="4">
+                                        <div id="map"></div>
+                                    </th>
+
+                                </tr>
+
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+

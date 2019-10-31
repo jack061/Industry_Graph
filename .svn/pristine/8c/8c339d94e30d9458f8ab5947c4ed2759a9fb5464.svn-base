@@ -1,0 +1,139 @@
+﻿/********************************************************************************
+**文 件 名:IOTDeviceController
+**命名空间:JFine.Plugins.IOT.Busines.IOT
+**描    述:
+**
+**
+**版 本 号:V1.0.0.0
+**创 建 人:此代码由T4模板自动生成
+**创建日期:2019-07-01 14:26:04
+**修 改 人:
+**修改日期:
+**修改描述:
+**
+**
+**版权所有: ©为之团队
+*********************************************************************************/
+using JFine.Plugins.IOT.Busines.IOT;
+using JFine.Common.UI;
+using JFine.Common.Json;
+using JFine.Plugins.IOT.Domain.Models.IOT;
+using JFine.Web.Base.MVC.Handler;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Data;
+
+namespace JFine.Plugins.IOT.Areas.IOT.Controllers
+{
+    [HandlerPlugin("IOT")]
+    /// <summary>
+    /// IOTDeviceController
+    /// </summary>	
+    public class IOTHomeController :Controller
+    {
+        private IOTDeviceBLL iOTDeviceBll = new IOTDeviceBLL();
+        private IOTDeviceParaBLL iOTDeviceParaBLL = new IOTDeviceParaBLL();
+
+        #region View
+        //
+        // GET: /IOT/
+        public  ActionResult Index()
+        {
+            return View("~/Plugins/JFine.IOT/Views/IOTHome/Index.cshtml");
+        }
+
+        //
+        // GET: /IOT/
+        public ActionResult DeviceIndex(string category)
+        {
+            category = string.IsNullOrEmpty(category) ? "电机" : category;
+            ViewBag.DiviceList = iOTDeviceBll.GetListBySql(" and Category='" + category + "'").ToList();
+            return View("~/Plugins/JFine.IOT/Views/IOTHome/DeviceIndex.cshtml");
+        }
+        public ActionResult DeviceBoard(string category)
+        {
+            category = string.IsNullOrEmpty(category) ? "注塑机" : category;
+            DataTable dt_device = iOTDeviceBll.GetDeviceOrder(" and Category='" + category + "'");
+            ViewBag.DiviceList = dt_device;
+            ViewBag.DeviceParamList = iOTDeviceParaBLL.GetList().ToJson();
+            ViewBag.DevicePage = Math.Ceiling(Convert.ToDecimal(dt_device.Rows.Count) / 20);
+            return View("~/Plugins/JFine.IOT/Views/IOTHome/DeviceBoard.cshtml");
+        }
+        public ActionResult DeviceBoardData(string category, string Name)
+        {
+            category = string.IsNullOrEmpty(category) ? "注塑机" : category;
+            Name = string.IsNullOrEmpty(Name) ? "A" : Name;
+            ViewBag.DiviceList = iOTDeviceBll.GetDeviceOrder(" and Category='" + category + "' and Name like '%" + Name + "%'");
+            ViewBag.DeviceParamList = iOTDeviceParaBLL.GetList().ToJson();
+            return View("~/Plugins/JFine.IOT/Views/IOTHome/DeviceBoardData.cshtml");
+        }
+        public ActionResult DeviceGraph(string category)
+        {
+            category = string.IsNullOrEmpty(category) ? "电机" : category;
+            ViewBag.DiviceList = iOTDeviceBll.GetListBySql(" and Category='" + category + "'").ToList();
+
+            return View("~/Plugins/JFine.IOT/Views/IOTHome/DeviceGraph.cshtml");
+        }
+        public ActionResult Test()
+        {
+            ViewBag.DiviceList = iOTDeviceBll.GetListBySql("").ToList();
+            return View("~/Plugins/JFine.IOT/Views/ModbusGateway/Test.cshtml");
+        }
+        public ActionResult DeviceBoard_M_Index()
+        {
+            var list = iOTDeviceBll.GetList().ToList();
+            ViewBag.DeviceCount = list.Count;
+            ViewBag.DeviceList = list.ToJson();
+            return View("~/Plugins/JFine.IOT/Views/IOTHome/DeviceBoard_M_Index.cshtml");
+        }
+        public ActionResult DeviceBoard_M_Details(string category)
+        {
+            category = string.IsNullOrEmpty(category) ? "注塑机" : category;
+            ViewBag.DiviceList = iOTDeviceBll.GetDeviceOrder(" and Category='" + category + "'");
+            ViewBag.DeviceParamList = iOTDeviceParaBLL.GetList().ToJson();
+            return View("~/Plugins/JFine.IOT/Views/IOTHome/DeviceBoard_M_Details.cshtml");
+        }
+
+        public ActionResult Index_Mobile()
+        {
+            ViewBag.DiviceList = iOTDeviceBll.GetList().ToList();
+            return View("~/Plugins/JFine.IOT/Views/IOTHome/Index_Mobile.cshtml");
+        }
+        public ActionResult DeviceIndex_Mobile()
+        {
+            ViewBag.DiviceList = iOTDeviceBll.GetList().ToList();
+            return View("~/Plugins/JFine.IOT/Views/IOTHome/DeviceIndex_Mobile.cshtml");
+        }
+        public ActionResult DeviceGraph_Mobile()
+        {
+            ViewBag.DiviceList = iOTDeviceBll.GetList().ToList();
+            return View("~/Plugins/JFine.IOT/Views/IOTHome/DeviceGraph_Mobile.cshtml");
+        }
+        /// <summary>
+        /// Form表单
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize]
+        public  ActionResult Form()
+        {
+            ViewBag.Id = Request["keyValue"];
+            return View("~/Plugins/JFine.IOT/Views/IOTHome/Form.cshtml");
+        }
+
+        #endregion
+
+        #region 数据获取
+
+        #endregion
+
+        #region 数据处理
+
+        #endregion
+
+    }
+}
+

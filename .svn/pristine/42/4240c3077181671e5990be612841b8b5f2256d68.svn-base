@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+</head>
+
+<body>
+    <widget class="host">Hello World!</widget>
+    <widget class="host">Hello World!</widget>
+    <script>var host=document.querySelectorAll(".host");[].slice.call(host,0).forEach(function(e,t){var o=e.createShadowRoot(),n=document.createElement("h1");n.textContent="Shadow DOM 介绍",n.onclick=function(e){console.log(this)};var c=document.createElement("p");c.textContent="Shadow DOM 详细信息",o.appendChild(n),o.appendChild(c)})</script>
+
+    <style>.host::p{background:red}</style>
+</body>
+
+</html>

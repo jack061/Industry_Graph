@@ -1,0 +1,118 @@
+﻿
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2018-01-27 10:08:08
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+     var keyValue = $.request("keyValue");
+    $(function () {
+        $.ajax({
+            url: "/SysCommon/ApprovalDeliverRecord/GetFormJson",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                  $("#form1").formInitialize(data);
+            }
+        });
+    });
+</script>
+
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <table class="form">
+			  	
+			<tr>
+                <th class="formTitle"> 主键</th>
+                <td class="formValue">
+                    <div id="Id" name="Id" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="BINDID" name="BINDID" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 发送人</th>
+                <td class="formValue">
+                    <div id="FromCode" name="FromCode" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 发送人</th>
+                <td class="formValue">
+                    <div id="FromName" name="FromName" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 接收人</th>
+                <td class="formValue">
+                    <div id="ToCode" name="ToCode" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 接收人</th>
+                <td class="formValue">
+                    <div id="ToName" name="ToName" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建日期</th>
+                <td class="formValue">
+                    <div id="CreateDate" name="CreateDate" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建用户账户</th>
+                <td class="formValue">
+                    <div id="CreateUserId" name="CreateUserId" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建用户名称</th>
+                <td class="formValue">
+                    <div id="CreateUserName" name="CreateUserName" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 最后修改时间</th>
+                <td class="formValue">
+                    <div id="UpdateDate" name="UpdateDate" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 最后修改用户</th>
+                <td class="formValue">
+                    <div id="UpdateUserId" name="UpdateUserId" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 最后修改用户名称</th>
+                <td class="formValue">
+                    <div id="UpdateUserName" name="UpdateUserName" ></div>
+                </td>
+            </tr>
+   
+        </table>
+    </div>
+</form>

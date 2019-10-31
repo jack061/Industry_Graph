@@ -1,0 +1,210 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Data.dll" #>
+<#@ assembly name="System.Data.DataSetExtensions.dll" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ include file="$(ProjectDir)DbHelper.ttinclude"  #>
+<#@ include file="..\ModelAuto.ttinclude"  #>
+
+<# 
+	var dbTableName = config.TableName;
+	var tableName=config.ModuleCode+"Repository";
+	var entity=config.ModuleCode+"Entity";
+	var name = config.ModuleCode.Substring(0, 1).ToLower() + config.ModuleCode.Substring(1)+"Entity";
+	var PreNameSpace = config.PreNameSpace;
+	var NameSpace = config.NameSpace;
+ #>
+ <# 
+ string solutionsPath = Host.ResolveAssemblyReference("$(SolutionDir)");
+		string projectPath = Host.ResolveAssemblyReference("$(ProjectDir)");
+		var path = Path.GetDirectoryName(Host.TemplateFile);
+	var currentPath = "Domain@Repository@"+NameSpace;
+	if(config.isFolder)
+	{
+		if(config.isAddProject)
+		{
+			path = solutionsPath+ config.PluginName +"\\Domain\\Repository\\"+NameSpace;
+			VSManagementStrategy vstrategy = new VSManagementStrategy(Host,currentPath);
+			vstrategy.CreateFolderFromPath();
+		}else
+		{
+			path = path+"\\Domain\\Repository\\"+NameSpace;
+		}
+		
+	}
+	if (Directory.Exists(path) == false)//
+	{
+		Directory.CreateDirectory(path);
+	}
+	 var OutFileManager = new Manager(Host, GenerationEnvironment, true,currentPath) { OutputPath = path};
+	 OutFileManager.strategy.setCurrentProjectItem();
+  #>
+ //开始输出每个文件
+ <# 
+        OutFileManager.StartBlock(tableName+".cs");
+ #>
+/********************************************************************************
+**文 件 名:<#=tableName#>
+**命名空间:<#=PreNameSpace#>.Busines.<#=NameSpace#>
+**描    述:
+**
+**
+**版 本 号:V1.0.0.0
+**创 建 人:此代码由T4模板自动生成
+**创建日期:<#=DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")#>
+**修 改 人:
+**修改日期:
+**修改描述:
+**
+**
+**版权所有: ©为之团队
+*********************************************************************************/
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using JFine.Data;
+using <#=PreNameSpace#>.Domain.Models.<#=NameSpace#>;
+using JFine.Data.Repository;
+using <#=PreNameSpace#>.Domain.IRepository.<#=NameSpace#>;
+using JFine.Common.UI;
+using JFine.Common.Extend;
+using JFine.Common.Json;
+using System.Data.Common;
+using System.Linq.Expressions;
+
+namespace <#=PreNameSpace#>.Domain.Repository.<#=NameSpace#>
+{	
+	/// <summary>
+	/// <#=tableName#>
+	/// </summary>	
+	public class <#=tableName#>:RepositoryFactory<<#=entity#>>, I<#=tableName#>
+	{
+		 #region 数据获取
+        /// <summary>
+        /// 列表
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<<#=entity#>> GetList()
+        {
+            return this.BaseRepository().IQueryable().OrderByDescending(t => t.CreateDate).ToList();
+        
+		}
+
+		/// <summary>
+        /// 列表
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<<#=entity#>> GetListBySql(string sqlWhere)
+        {
+            var strSql = new StringBuilder();
+            strSql.Append(@"SELECT * 
+                            FROM   <#=dbTableName#>
+                            WHERE  1=1 ");
+            strSql.Append(sqlWhere);
+            return this.BaseRepository().FindList(strSql.ToString());
+        
+		}
+
+		/// <summary>
+        /// 列表-分页
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="sqlWhere">查询条件</param>
+        /// <returns></returns>
+        public IEnumerable<<#=entity#>> GetPageListBySql(Pagination pagination, string sqlWhere, List<DbParameter> parameter)
+        {
+
+            var strSql = new StringBuilder();
+            strSql.Append(@"SELECT * 
+                            FROM   <#=dbTableName#>
+                            WHERE  1=1 ");
+            strSql.Append(sqlWhere);
+
+            return this.BaseRepository().FindList(strSql.ToString(),parameter, pagination);
+
+        }
+
+		/// <summary>
+        /// 列表
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<<#=entity#>> GetList(Expression<Func<<#=entity#>, bool>> condition)
+        {
+            return this.BaseRepository().IQueryable(condition).ToList();
+
+        }
+
+
+		/// <summary>
+        /// 列表--分页
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns></returns>
+        public IEnumerable<<#=entity#>> GetPageList(Pagination pagination, Expression<Func<<#=entity#>, bool>> condition)
+        {
+            return this.BaseRepository().FindList(condition, pagination);
+        }
+
+        /// <summary>
+        /// 实体
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        public <#=entity#> GetForm(string keyValue)
+        {
+            return this.BaseRepository().FindEntity(keyValue);
+        }
+        #endregion
+
+        #region 数据处理
+        
+        /// <summary>
+        /// 保存数据
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="<#=name#>">实体</param>
+        /// <returns></returns>
+        public void SaveForm(string keyValue, <#=entity#> <#=name#>)
+        {
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                <#=name#>.Modify(keyValue);
+                this.BaseRepository().Update(<#=name#>);
+            }
+            else
+            {
+                <#=name#>.Create();
+                this.BaseRepository().Insert(<#=name#>);
+            }
+        }
+
+		/// <summary>
+        /// 删除数据
+        /// </summary>
+        /// <param name="keyValue">主键</param>
+        public void DeleteForm(string keyValue)
+        {
+            this.BaseRepository().Delete(keyValue);
+        }
+
+        #endregion
+    }
+}
+
+
+<# OutFileManager.EndBlock(); #>
+<# OutFileManager.Process(true); #>
+
+
+

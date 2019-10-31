@@ -1,0 +1,119 @@
+﻿
+@*------------------------------------------------------------------------------
+*     此代码由T4模板自动生成
+*	   生成时间 2017-09-04 17:55:50
+*------------------------------------------------------------------------------*@
+
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+     var keyValue = $.request("keyValue");
+    $(function () {
+        $.ajax({
+            url: "/SysManage/CodeRule/GetFormJson",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $("#form1").formSerialize(data);
+                $("#form1").find('.form-control,select,input').attr('readonly', 'readonly');
+                $("#form1").find('div.ckbox label').attr('for', '');
+            }
+        });
+    });
+</script>
+
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <table class="form">
+			  	
+			<tr>
+                <th class="formTitle"> 编码</th>
+                <td class="formValue">
+                    <input id="Code" name="Code" type="text" class="form-control required" placeholder="请输入 编码" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 编码名称</th>
+                <td class="formValue">
+                    <input id="Name" name="Name" type="text" class="form-control required" placeholder="请输入 编码名称" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 规则前缀</th>
+                <td class="formValue">
+                    <input id="PreRule" name="PreRule" type="text" class="form-control required" placeholder="请输入 规则前缀" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 日期规则</th>
+                <td class="formValue">
+                    <input id="DateRule" name="DateRule" type="text" class="form-control required" placeholder="请输入 日期规则" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 流水号长度</th>
+                <td class="formValue">
+                    <input id="NumberLength" name="NumberLength" type="text" class="form-control required" placeholder="请输入 流水号长度" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 步长</th>
+                <td class="formValue">
+                    <input id="StepLength" name="StepLength" type="text" class="form-control required" placeholder="请输入 步长" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建时间</th>
+                <td class="formValue">
+                    <input id="CreateDate" name="CreateDate" type="text" class="form-control required" placeholder="请输入 创建时间" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建人ID</th>
+                <td class="formValue">
+                    <input id="CreateUserId" name="CreateUserId" type="text" class="form-control required" placeholder="请输入 创建人ID" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建人名称</th>
+                <td class="formValue">
+                    <input id="CreateUserName" name="CreateUserName" type="text" class="form-control required" placeholder="请输入 创建人名称" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 更新时间</th>
+                <td class="formValue">
+                    <input id="UpdateDate" name="UpdateDate" type="text" class="form-control required" placeholder="请输入 更新时间" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 更新人ID</th>
+                <td class="formValue">
+                    <input id="UpdateUserId" name="UpdateUserId" type="text" class="form-control required" placeholder="请输入 更新人ID" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 更新人名称</th>
+                <td class="formValue">
+                    <input id="UpdateUserName" name="UpdateUserName" type="text" class="form-control required" placeholder="请输入 更新人名称" />
+                </td>
+            </tr>
+   
+        </table>
+    </div>
+</form>

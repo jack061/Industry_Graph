@@ -1,0 +1,136 @@
+﻿using JFine.Common.Config;
+using JFine.Common.Data;
+using JFine.Common.Web;
+using JFine.Data.Repository;
+using JFine.Job;
+using JFine.Plugins.VMW.Busines.VMW;
+using JFine.Plugins.VMW.Domain.Models.VMW;
+using JFine.Plugins.VMW.VMWHub;
+using JFine.Sequence;
+using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using JFine.Common.Json;
+/********************************************************************************
+**文 件 名:CheckTimeoutJob
+**命名空间:JFine.Plugins.VMW.Scheduler
+**描    述:检测过去N天内有没有进行巡检操作,如果没有生成预警信息；
+**
+**版 本 号:V1.0.0.0
+**创 建 人:superjoy
+**创建日期:2019-04-25 12:17:40
+**修 改 人:
+**修改日期:
+**修改描述:
+**版权所有: ©为之团队
+*********************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace JFine.Plugins.VMW.Scheduler
+{
+    public class CheckTimeoutJob : ITaskJob
+    {
+
+        public bool CloseJob(JFine.Domain.Models.SysCommon.Job_ScheduleEntity jobModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RunJob(Dictionary<string, string> dic_paras, string jobName, string id)
+        {
+            /*
+             * 检测过去N天内有没有进行巡检操作,如果没有生成预警信息；
+             * 
+             */
+            if (dic_paras.ContainsKey("@Code") && dic_paras.ContainsKey("@days")) 
+            {
+                string cameraCode = dic_paras["@Code"];
+                double days = 0;
+                try
+                {
+                    days = double.Parse(dic_paras["@days"]);
+                }
+                catch (Exception)
+                {
+
+                    return false;
+                }
+
+                VMWCameraBLL vMWCameraBll = new VMWCameraBLL();
+                var cameraInfo = vMWCameraBll.GetFormByCode(cameraCode);
+                if (cameraInfo == null)
+                {
+                    throw new Exception("获取摄像头信息失败，请检查摄像头编码是否正确。");
+                }
+
+                string categoryCode = ConfigHelper.GetValue("CheckCategoryCode");
+                VMWWarnTypeBLL vMWWarnTypeBLL = new VMWWarnTypeBLL();
+                var warnTypeInfo = vMWWarnTypeBLL.GetFormByCode(categoryCode);
+                if (warnTypeInfo == null)
+                {
+                    throw new Exception("预警类型不正确，请检查预警类型。");
+                }
+
+                DateTime currentDt = DateTime.Now;
+                DateTime startDt = currentDt.AddDays(-days);
+
+                StringBuilder sql = new StringBuilder();
+                sql.Append(" SELECT COUNT(1) AS WCount FROM vmw_warning WHERE CameraCode = '" + cameraCode + "' AND WarningDate >= '" + startDt.ToString("yyyy-MM-dd") + "' AND WarningDate<='" + currentDt.ToString("yyyy-MM-dd HH:mm:ss") + "' ");
+                DataTable countDt = new RepositoryFactory().BaseRepository().FindTable(sql.ToString());
+
+                if (DataTableHelper.IsExistRows(countDt)) 
+                {
+                    int count = int.Parse(countDt.Rows[0]["WCount"].ToString());
+                    if (count == 0) 
+                    {
+                        
+                        VMWWarningBLL vMWWarningBll = new VMWWarningBLL();
+                        VMWWarningEntity warningEntity = new VMWWarningEntity();
+                        warningEntity.Code = SequenceHelper.getRuleCode(VMWConstant.CODE_RULE_WARN);
+                        warningEntity.BindId = cameraInfo.Id;
+                        warningEntity.CameraCode = cameraInfo.Code;
+                        warningEntity.CameraName = cameraInfo.Name;
+                        warningEntity.Position = cameraInfo.Position;
+                        warningEntity.DES = "超" + days + "天未巡检，巡检超时";
+                        warningEntity.CategoryCode = warnTypeInfo.Code;
+                        warningEntity.CategoryName = warnTypeInfo.Name;
+                        warningEntity.WarningDate = DateTime.Now;
+
+                        if ("是".Equals(warnTypeInfo.IsDeal))
+                        {
+                            warningEntity.ConfirmStatus = VMWConstant.STATU_CONFIRM_UN;
+                            warningEntity.DealStatus = VMWConstant.STATU_DEAL_UN;
+                        }
+                        else
+                        {
+                            warningEntity.ConfirmStatus = VMWConstant.STATU_CONFIRM_NO;
+                            warningEntity.DealStatus = VMWConstant.STATU_DEAL_NO;
+                        }
+
+
+                        vMWWarningBll.SaveForm("", warningEntity);
+                        //广播预警信息
+                        cameraInfo = vMWCameraBll.GetFormByCode(warningEntity.CameraCode);
+                        GlobalHost.ConnectionManager.GetHubContext<WarnHub>().Clients.All.warn(warningEntity.ToJson(), cameraInfo.ToJson());
+                    }
+                }
+
+            }
+            
+            
+            
+            return true;
+        }
+
+        public bool RunJobBefore(JFine.Domain.Models.SysCommon.Job_ScheduleEntity jobModel)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

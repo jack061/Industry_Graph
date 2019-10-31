@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>注塑设备整体看板</title>
+    <!-- head中需要引入的部分 begin -->
+    <link href="/Plugins/JFine.IOT/Content/css/lanrenzhijia.css" rel="stylesheet" />
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/jquery.js"></script>
+    <script src="/Plugins/JFine.IOT/Content/js/highcharts.js?v=1.0.3"></script>
+    <script src="/Plugins/JFine.IOT/Content/js/exporting.js"></script>
+    <style>
+
+        body {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            /*background-color: #242152;*/
+            background: -webkit-linear-gradient( top, #2e287a, #0277bd);
+            /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient( top, #2e287a, #0277bd);
+            /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient( top, #2e287a, #0277bd);
+            /* Firefox 3.6 - 15 */
+            background: linear-gradient( top, #2e287a, #0277bd);
+            -webkit-user-select: none;
+            /*禁用手机浏览器的用户选择功能 */
+            -moz-user-select: none;
+            -webkit-touch-callout: none;
+            /*系统默认菜单被禁用*/
+            -webkit-user-select: none;
+            /*webkit浏览器*/
+            -khtml-user-select: none;
+            /*早期浏览器*/
+            -moz-user-select: none;
+            /*火狐*/
+            -ms-user-select: none;
+            /*IE10*/
+            user-select: none;
+        }
+
+        .blockDiv {
+            float: left;
+            width: 19.64%;
+            margin-left: 0.3%;
+            margin-top: 0.3%;
+            height: 24.125%;
+            background-color: #f5f5f5;
+        }
+
+        .titleDiv {
+            position: relative;
+            width: 100%;
+            height: 10%;
+            background-color: #7385eb;
+            color: #FFFFFF;
+            padding-top: 0px;
+            text-align: center;
+        }
+
+        .titleSpan {
+            font-size: 16px;
+            text-align: center;
+            position: relative;
+            top: -4px;
+        }
+
+        .chartDiv {
+            position: relative;
+            width: 70%;
+            height: 45%;
+            background-color: blue;
+            float: left;
+        }
+
+        .imgDiv {
+            position: relative;
+            width: 29%;
+            height: 45%;
+            float: left;
+        }
+
+        .bottomDiv {
+            position: relative;
+            width: 100%;
+            height: 45%;
+            background-color: green;
+            float: left;
+        }
+    </style>
+    <script>
+        $(function () {
+            for (var i = 0; i < 20; i++) {
+                initColumGraph('chartDiv ' + i);
+            }
+
+        })
+        function initColumGraph(id) {
+            var chart = Highcharts.chart(id, {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'
+                    ],
+                    labels: {
+                        enabled: false
+                    },
+                    crosshair: true
+                },
+                credits: false,
+                exporting: false,
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    }
+                },
+                series: [{
+                    showInLegend: false,
+                    name: '东京',
+                    data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+                }]
+            });
+        }
+    </script>
+</head>
+<body>
+    <!--标题部分-->
+    <div style="position:fixed;width:100%;height:5%;background-color: #ffffff;opacity:0.2"></div>
+    <img style="position: absolute;width: 120px;height: 5%;padding-left: 20px;top:2px;" src="/Plugins/JFine.IOT/Content/images/touming.png" />
+    <span style="position: absolute;padding-left:45%;color: #ffffff;font-size:20px;top:1%;font-weight: 900;text-align:center;">注塑设备整体看板</span>
+    <!--第一页-->
+
+    <div style="position: relative;width:100%;top:5%;height:100%">
+        <div id="borderDiv" style="border:0px solid rgba(255, 255, 255, 0.2);height:90%;width:100%">
+            <div style="width:100%;height:100%;margin-left:0px;">
+                <!--EOG生产-->
+                @for (int i = 0; i < 20; i++)
+                {
+                    <div class="blockDiv">
+                        <div class="titleDiv"><span class="titleSpan">机器编号:A @i</span></div>
+                        <div class="chartDiv" id="chartDiv @i"></div>
+                        <div class="imgDiv"><img style="width:100%;height:100%;" src="/Plugins/JFine.IOT/Content/images/machine1.jpg" /></div>
+                        <div class="bottomDiv">
+                            <div style="margin-top:6px;margin-left:15px;">
+                                <span style="font-size:12px;color:#ffff;display:block">设备状态:<span style="">正常</span></span>
+                            </div>
+                            <div style="float:left;margin-left:15px;">
+                                <span style="font-size:12px;color:#ffff;display:block">工单号:<span>3444</span></span>
+                                <span style="font-size:12px;color:#ffff;display:block">工单数量:<span>33</span></span>
+                                <span style="font-size:12px;color:#ffff;display:block">标准节拍:<span>112</span></span>
+                            </div>
+                            <div style="float:left;margin-left:60px;">
+                                <span style="font-size:12px;color:#ffff;display:block">产品编号:<span>545</span></span>
+                                <span style="font-size:12px;color:#ffff;display:block">生产数量:<span>65</span></span>
+                                <span style="font-size:12px;color:#ffff;display:block">生产节拍:<span>656</span></span>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div style="position:fixed;width:100%;height:5%;background-color:#c43a2e6b;">
+            <div style="margin-left:40%;margin-top:15px;">
+                <div style="background-color:green;width:20px;height:10px;float:left;display:inline"></div>
+                <div style="width:20px;height:10px;float:left;margin-left:5px;display:inline"><span style="font-size:10px;position:relative;bottom:10px;">运行</span></div>
+                <div style="background-color:yellow;width:20px;height:10px;float:left;margin-left:5px;display:inline"></div>
+                <div style="width:20px;height:10px;float:left;margin-left:5px;display:inline"><span style="font-size:10px;position:relative;bottom:10px;">待机</span></div>
+                <div style="background-color:darkblue;width:20px;height:10px;float:left;margin-left:5px;display:inline"></div>
+                <div style="width:20px;height:10px;float:left;margin-left:5px;display:inline"><span style="font-size:10px;position:relative;bottom:10px;">关机</span></div>
+                <div style="background-color:red;width:20px;height:10px;float:left;margin-left:5px;display:inline"></div>
+                <div style="width:20px;height:10px;float:left;margin-left:5px;display:inline"><span style="font-size:10px;position:relative;bottom:10px;">故障</span></div>
+                <div style="background-color:deepskyblue;width:20px;height:10px;float:left;margin-left:5px;display:inline"></div>
+                <div style="width:20px;height:10px;float:left;margin-left:5px;display:inline"><span style="font-size:10px;position:relative;bottom:10px;">调试</span></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+</body>
+</html>

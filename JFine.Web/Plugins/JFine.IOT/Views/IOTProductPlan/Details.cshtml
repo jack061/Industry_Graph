@@ -1,0 +1,63 @@
+﻿ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2019-08-06 14:34:26
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+     var keyValue = $.request("keyValue");
+    $(function () {
+        $.ajax({
+            url: "/IOT/IOTProductPlan/GetFormJson",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                  $("#form1").formInitialize(data);
+            }
+        });
+    });
+</script>
+
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <table class="form">
+ 	  	
+			<tr>
+                <th class="formTitle"> 流水编码</th>
+                <td class="formValue">
+                    <div id="Code" name="Code" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 文件</th>
+                <td class="formValue">
+                    <div id="FileRUL" name="FileRUL" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 文件</th>
+                <td class="formValue">
+                    <div id="FileName" name="FileName" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 数量</th>
+                <td class="formValue">
+                    <div id="Quantity" name="Quantity" ></div>
+                </td>
+            </tr>
+ 	  	
+			
+   
+        </table>
+    </div>
+</form>
+

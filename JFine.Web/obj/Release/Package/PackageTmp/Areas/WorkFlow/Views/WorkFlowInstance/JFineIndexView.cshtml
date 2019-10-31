@@ -1,0 +1,164 @@
+﻿
+
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2017-12-12 21:52:22
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/WorkFlow/WorkFlowInstance/GetGridJson",
+            height: $(window).height() - 138,
+            colModel: [
+					  	
+					{ label: " 主键", name: "Id", width: 150, align: 'left' },
+	  	
+					{ label: " 流程ID", name: "WFID", width: 150, align: 'left' },
+	  	
+					{ label: " 标题", name: "Title", width: 150, align: 'left' },
+	  	
+					{ label: " 是否开始", name: "WFStart", width: 150, align: 'left' },
+	  	
+					{ label: " 是否结束", name: "WFEnd", width: 150, align: 'left' },
+	  	
+					{ label: " 启动时间", name: "StartDate", width: 150, align: 'left' },
+	  	
+					{ label: " 结束时间", name: "EndDate", width: 150, align: 'left' },
+	  	
+					{ label: " 备注", name: "Remark", width: 150, align: 'left' },
+	  	
+					{ label: " 创建日期", name: "CreateDate", width: 150, align: 'left' },
+	  	
+					{ label: " 创建用户账户", name: "CreateUserId", width: 150, align: 'left' },
+	  	
+					{ label: " 创建用户名称", name: "CreateUserName", width: 150, align: 'left' },
+	  	
+					{ label: " 最后修改时间", name: "UpdateDate", width: 150, align: 'left' },
+	  	
+					{ label: " 最后修改用户", name: "UpdateUserId", width: 150, align: 'left' },
+	  	
+					{ label: " 最后修改用户名称", name: "UpdateUserName", width: 150, align: 'left' },
+ 
+            ],
+			pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+			var queryJson = {
+                keyword: $("#txt_keyword").val()
+            }
+		    $gridList.jqGrid('setGridParam', {
+		         postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+		    }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增流程任务",
+            url: "/WorkFlow/WorkFlowInstance/Form",
+            width: "550px",
+            height: "570px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_edit() {
+		var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue))
+        {
+			$.modalOpen({
+				id: "Form",
+				title: "修改流程任务",
+				url: "/WorkFlow/WorkFlowInstance/Form?keyValue=" + keyValue,
+				width: "550px",
+				height: "570px",
+				callBack: function (iframeId) {
+					top.frames[iframeId].submitForm();
+				}
+			});
+        }
+        
+    }
+    function btn_delete() {
+	  var keyValue = $("#gridList").jqGridRowValue().Id;
+	 if ($.checkedArray(keyValue))
+        {
+			 $.deleteForm({
+				url: "/WorkFlow/WorkFlowInstance/DeleteForm",
+				param: { keyValue: keyValue },
+				success: function () {
+					$.currentWindow().$("#gridList").trigger("reloadGrid");
+				}
+			});
+        }
+        
+    }
+    function btn_details() { 
+		var keyValue = $("#gridList").jqGridRowValue().Id;      
+		if ($.checkedArray(keyValue))
+		 {
+			$.modalOpen({
+				id: "Details",
+				title: "查看流程任务",
+				url: "/WorkFlow/WorkFlowInstance/Details?keyValue=" + keyValue,
+				width: "550px",
+				height: "620px",
+				btn: null,
+			});
+		  }    
+    }      
+</script>
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="JF-add"  class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+        </div>
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li class="first">已选中<span>1</span>项</li>
+                <li><a id="JF-edit"  onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a></li>
+                <li><a id="JF-delete"  onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a></li>
+                <li><a id="JF-Details"  onclick="btn_details()"><i class="fa fa-search-plus"></i>查看</a></li>
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+        <div id="toolbar" class="btn-group">
+		</div>
+		<script>$('#toolbar').authorizeButton()</script>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+	<div id="gridPager"></div>
+</div>

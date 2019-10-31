@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form2.cshtml";
+}
+<script>
+    var origin = $.request("from");
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/Supplier/SupplierBase/GetFormExtJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#Id").val(data.Id);
+                    $("#BINDID").val(data.BINDID);
+                }
+            });
+        }
+    });
+
+    //初始化组件
+    function initControl() {
+        //审批结果
+        $("#Status").bindSelect();
+        $(".collapse-link").click(function () {
+            var o = $(this).closest("div.ibox"),
+                e = $(this).find("i"),
+                i = o.find("div.ibox-content");
+            i.slideToggle();
+            e.toggleClass("fa-chevron-up").toggleClass("fa-chevron-down");
+            o.toggleClass("").toggleClass("border-bottom");
+        });
+    }
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        var postData = $("#form1").formSerialize();
+        $.submitForm({
+            url: "/Supplier/SupplierBase/SaveApprovalForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                var parentTabId = top.$.jfinetab.getCurrentTabParentId();
+                var resultPage = top.$.jfinetab.getTabContentFromId(parentTabId);
+                if (origin == "sy") {
+                    resultPage.getProject();
+                } else
+                {
+                    resultPage.refreshUnApproval();
+                    resultPage.refreshApproval();
+                }
+
+                top.$.jfinetab.closeCurrentTab();
+            }
+        })
+    }
+	//关闭Form
+    function closeForm() {
+        top.$.jfinetab.closeCurrentTab();
+    }
+</script>
+
+<form id="form1">
+    <input type="hidden" id="Id" name="Id" value="" />
+    <input type="hidden" id="BINDID" name="BINDID" value="" />
+    <div id="jfine-form-container" class="jfine-form-container" border="0">
+        <table id="jfine-form-maintable" class="jfineui jfine-form-maintable" style="table-layout: fixed;"
+               border="0" cellspacing="0" cellpadding="0" align="center">
+            <tbody>
+                <tr id="jfine-form-titlebg" class="jfine-form-titlebg">
+                    <td>
+                        <table align="center" border="0" style="margin: 0px auto; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td class="jfine-form-header_l">
+                                        <span class="jfine-form-logo">
+                                            <img src="/Content/images/formlogo.png" />
+                                        </span>
+                                    </td>
+                                    <td class="jfine-form-header_c">
+                                        <span class="jfine-form-header-title">供应商审核</span>
+                                    </td>
+                                    <td class="jfine-form-header_r">
+                                        <div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-info dropdown-text" onclick="submitForm()"><i class="fa fa-send"></i>提交</a>
+                                                <a class="btn btn-warning dropdown-text" onclick="closeForm()"><i class="fa fa-minus"></i>关闭</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="jfine-form-formcontent" class="jfine-form-titlebg" style="">
+                    <td>
+                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                            
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5 style="font-weight: bold;">审批信息</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <table class="form">
+                                        <tr>
+                                            <th class="formTitle"> 审批结果</th>
+                                            <td class="formValue">
+                                                <select id="Status" name="Status" class="form-control required">
+                                                    <option value="通过">通过</option>
+                                                    <option value="未通过">未通过</option>
+                                                </select>
+                                            </td>
+                                            <th class="formTitle"> </th>
+                                            <td class="formValue"></td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <th class="formTitle"> 审批意见</th>
+                                            <td class="formValue" colspan="3">
+                                                <textarea id="ApprovalSpec" name="ApprovalSpec" rows="4" class="form-control required" placeholder="请输入审批意见"></textarea>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5 style="font-weight: bold;">供应商信息</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div id="project_div" class="ibox-content">
+                                    @Html.Action("Details", "SupplierBase", new { keyValue = @ViewBag.keyValue })
+                                </div>
+                            </div>
+
+                            
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+

@@ -1,0 +1,433 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>注塑设备整体看板</title>
+    <!-- head中需要引入的部分 begin -->
+    <link href="/Plugins/JFine.IOT/Content/css/lanrenzhijia.css" rel="stylesheet" />
+    <link href="/Plugins/JFine.IOT/Content/css/idangerous.swiper.css" rel="stylesheet" />
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/jquery.js"></script>
+    <script src="/Plugins/JFine.IOT/Content/js/highcharts.js?v=1.0.3"></script>
+    <script src="/Plugins/JFine.IOT/Content/js/exporting.js"></script>
+    <script src="/Plugins/JFine.IOT/Content/js/idangerous.swiper.js"></script>
+    <script src="~/Content/js/signalR/jquery.signalR-2.2.3.min.js"></script>
+    <script type="text/javascript" src="~/signalr/hubs"></script>
+    <style>
+
+        body {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            /*background-color: #242152;*/
+            background: -webkit-linear-gradient( top, #2e287a, #0277bd);
+            /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient( top, #2e287a, #0277bd);
+            /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient( top, #2e287a, #0277bd);
+            /* Firefox 3.6 - 15 */
+            background: linear-gradient( top, #2e287a, #0277bd);
+            -webkit-user-select: none;
+            /*禁用手机浏览器的用户选择功能 */
+            -moz-user-select: none;
+            -webkit-touch-callout: none;
+            /*系统默认菜单被禁用*/
+            -webkit-user-select: none;
+            /*webkit浏览器*/
+            -khtml-user-select: none;
+            /*早期浏览器*/
+            -moz-user-select: none;
+            /*火狐*/
+            -ms-user-select: none;
+            /*IE10*/
+            user-select: none;
+        }
+
+        .blockDiv {
+            float: left;
+            width: 19.64%;
+            margin-left: 0.3%;
+            margin-top: 0.3%;
+            height: 24.125%;
+            background-color: #f5f5f5;
+        }
+
+        .titleDiv {
+            position: relative;
+            width: 100%;
+            height: 10%;
+            background-color: #7385eb;
+            color: #FFFFFF;
+            padding-top: 0px;
+            text-align: center;
+        }
+
+        .titleSpan {
+            font-size: 13px;
+            text-align: center;
+            position: relative;
+            top: -5px;
+        }
+
+        .chartDiv {
+            position: relative;
+            width: 85%;
+            height: 45%;
+            background-color: blue;
+            float: left;
+        }
+
+        .imgDiv {
+            position: relative;
+            width: 14%;
+            height: 45%;
+            float: left;
+        }
+
+        .bottomDiv {
+            position: relative;
+            width: 100%;
+            height: 45%;
+            /*background-color: gray;*/
+            float: left;
+        }
+
+        .swiper-container {
+            height: 90%;
+            width: 100%;
+        }
+
+        .content-slide {
+            padding: 20px;
+            color: #fff;
+        }
+
+        .title {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .pagination {
+            position: absolute;
+            left: 40%;
+            text-align: center;
+            bottom: 0px;
+            width: 20%;
+        }
+
+        .arrow-left {
+            background: url(/Plugins/JFine.IOT/Content/images/arrows.png) no-repeat left top;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            margin-top: -15px;
+            width: 17px;
+            height: 30px;
+        }
+
+        .arrow-right {
+            background: url(/Plugins/JFine.IOT/Content/images/arrows.png) no-repeat left bottom;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            margin-top: -15px;
+            width: 17px;
+            height: 30px;
+        }
+
+        .swiper-pagination-switch {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: #999;
+            box-shadow: 0px 1px 2px #555 inset;
+            margin: 0 3px;
+            cursor: pointer;
+        }
+
+        .swiper-active-switch {
+            background: #fff;
+        }
+    </style>
+    <script>
+        var modbusHub;
+        var deviceParaConfig;
+        var DeviceStartTimeList;
+        $(function () {
+            deviceParaConfig = eval("(" + @Html.Raw(Json.Encode(ViewBag.DeviceParamList)) + ")");
+            DeviceStartTimeList= eval("(" + @Html.Raw(Json.Encode(ViewBag.DeviceStartTimeList)) + ")");
+            SlideInit();
+            receiveData();
+        })
+        //滑动效果
+        function SlideInit() {
+            var mySwiper = new Swiper('.swiper-container', {
+                pagination: '.pagination',
+                loop: false,
+                grabCursor: true,
+                paginationClickable: true,
+                onSlideChangeStart: function (swiper) {
+                    //receiveData(deviceParaConfig);
+                }
+            });
+            $('.arrow-left').on('click', function (e) {
+                e.preventDefault()
+                mySwiper.swipePrev()
+            });
+            $('.arrow-right').on('click', function (e) {
+                e.preventDefault()
+                mySwiper.swipeNext()
+            })
+        }
+        //接收数据初始化
+        function receiveData() {
+            //加载柱状图
+            $.each($(".chartDiv"), function () {
+                var id = $(this).attr("id");
+                initColumGraph(id);
+            })
+            //$("#bottomDiv_1").css("background-color", "blue");
+            //$("#bottomDiv_2").css("background-color", "red");
+            //$("#bottomDiv_3").css("background-color", "red");
+            //$("#bottomDiv_5").css("background-color", "orange");
+            //$("#bottomDiv_4").css("background-color", "purple");
+            //$("#bottomDiv_6").css("background-color", "green");
+            //$("#bottomDiv_8").css("background-color", "purple");
+            //$("#bottomDiv_7").css("background-color", "green");
+            //$("#bottomDiv_16").css("background-color", "purple");
+            // Declare a proxy to reference the hub.
+            modbusHub = $.connection.modbus;
+            modbusHub.client.ReceiveData = function (deviceCode, paraType, paraCategory, paraCode, data, dataTime) {
+                console.log("接收到数据");
+                for (var i = 0; i < deviceParaConfig.length; i++) {
+                    if (deviceParaConfig[i].Code == paraCategory) {
+                        $("#deviceStatus_" + deviceCode).text(deviceParaConfig[i].Remark);
+                        $("#bottomDiv_" + deviceCode).css("background-color", relativeColor(paraCategory));
+                        if (paraCategory == 1) {
+                            //字体变黑色
+                            $("#bottomDiv_" + deviceCode+" span").css("color","black");
+                        }
+                    }
+                }
+                //更新开机时间
+                //for (var i = 0; i < DeviceStartTimeList.length; i++) {
+                //    if (deviceCode == DeviceStartTimeList[i].DeviceCode) {
+                //        var date_start = new Date(DeviceStartTimeList[i].CreateDate);
+                //        var date_progess = new Date(dataTime);
+                //        var date_diff = date_progess - date_start;
+                //        $("#deviceStatus_" + deviceCode).text(deviceParaConfig[i].Remark);
+                //    }
+                //}
+                //生产数量+1
+                $("#produceQ_" + deviceCode).text(parseInt($("#produceQ_" + deviceCode).text())+1);
+
+
+            };
+            modbusHub.client.ReceiveQuantitySignal = function (deviceCode, beat, dataTime) {
+                console.log("接收到数据");
+                $("#produceBeat_" + deviceCode).text(beat.toFixed(2));
+            };
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                console.log("modbusHub已连接");
+            });
+
+        }
+        //加载图表
+        function initColumGraph(id) {
+            //获取小时产能
+            var deviceCode = id.substring(id.indexOf('_')+1);
+            initGraph(id,deviceCode);
+            //定时一小时执行
+            setInterval(function () {
+                initGraph(id,deviceCode);
+            }, 30 * 60 * 1000)
+        }
+        //加载图表one
+        function initGraph(id,deviceCode) {
+            $.ajax({
+                url: '/IOT/IOTHome/LoadHourProductivity?deviceCode=' + deviceCode,
+                dataType: 'json',
+                success: function (data) {
+                    var proDict = { "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0 };
+                    var hour_assemble = ['8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'];
+                    var proData = [];
+                        for (var key in proDict) {
+                            for (var i = 0; i < data.length; i++) {
+                                if (key == data[i]["Hour"]) {
+                                    proDict[key] = data[i]["Quantity"];
+                                }
+                            }
+                        }
+                        for (var key in proDict) {
+                            proData.push(proDict[key]);
+                        }
+
+                    var chart = Highcharts.chart(id, {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: ''
+                        },
+                        xAxis: {
+                            categories: hour_assemble,
+                            labels: {
+                                enabled: false
+                            },
+                            crosshair: true
+                        },
+                        credits: false,
+                        exporting: false,
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: ''
+                            },
+                            tickInterval: 200,
+                            labels: {
+                                formatter: function () {
+                                    return this.value
+                                },
+                                style: {
+                                    color: 'black',
+                                    fontSize: '7px',
+                                    fontFamily: '微软雅黑'
+                                }
+                            },
+                        },
+                        plotOptions: {
+                            column: {
+                                pointWidth: 12,     //设置柱形的宽度
+                                borderWidth: 0,      //设置柱子的边框，默认是1
+                                dataLabels: {
+                                    enabled: true,    //默认是false，即默认不显示数值
+                                    style: {
+                                        fontSize: '7px'
+                                    }
+                                }
+                            }
+                        },
+                        series: [{
+                            showInLegend: false,
+                            name: '小时产能',
+                            data: proData,
+                            //dataLabels: {
+                            //    enabled: true,    //默认是false，即默认不显示数值
+                            //    color: '#666',    //字体颜色
+                            //    align: 'center',   //居柱子中间
+                            //    y: 20,
+                            //    fontSize:7
+                            //}
+                        }]
+                    });
+                }
+
+            })
+        }
+        function relativeColor(Code) {
+            switch (Code) {
+                case 1:
+                    return "orange"
+                    break;
+                case 2:
+                    return "gray";
+                    break;
+                default:
+                    return "green";
+                    break;
+            }
+        }
+    </script>
+</head>
+<body>
+    <!--标题部分-->
+    <div style="position:fixed;width:100%;height:5%;background-color: #ffffff;opacity:0.2"></div>
+    <img style="position: absolute;width: 120px;height: 5%;padding-left: 20px;top:0px;" src="/Content/images/cos.png" />
+    <span style="position: absolute;padding-left:45%;color: #ffffff;font-size:20px;top:1%;font-weight: 900;text-align:center;">注塑设备整体看板</span>
+    <!--第一页-->
+
+    <div style="position: relative;width:100%;top:5%;height:100%">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                @for (int i = 0; i < ViewBag.DevicePage; i++)
+                {
+                    <div class="swiper-slide">
+                        <div class="borderDiv" style="border:0px solid rgba(255, 255, 255, 0.2);height:100%;width:100%">
+                            <div style="width:100%;height:100%;margin-left:0px;">
+                                @using System.Data;
+                                @foreach (DataRow item in ViewBag.DiviceList.Rows)
+                                {
+                                    if (Convert.ToInt32(item["num"]) < (i + 1) * 20 + 1 && Convert.ToInt32(item["num"]) >= i * 20 + 1)
+                                    {
+                                        string color = item["Status"].ToString() == "0" ? "gray" : "green";
+                                        <div class="blockDiv">
+                                            <div class="titleDiv"><span class="titleSpan">机器编号:@item["Name"]</span></div>
+                                            <div class="chartDiv" id="chartDiv_@item["Code"]"></div>
+                                            <div class="imgDiv"><img style="width:100%;height:100%;" src="/Plugins/JFine.IOT/Content/images/machine1.jpg" /></div>
+                                            <div class="bottomDiv" style="background-color:@color" id="bottomDiv_@item["Code"]">
+                                                <div style="margin-top:6px;margin-left:15px;">
+                                                    <span style="font-size:12px;color:#ffff;display:block">设备状态:<span id="deviceStatus_@item["Code"]" style="">计划停机</span></span>
+                                                </div>
+                                                <div style="float:left;margin-left:15px;">
+                                                    <span style="font-size:12px;color:#ffff;display:block">工单号:<span id="orderNum_@item["Code"]">@item["OrderNum"]</span></span>
+                                                    <span style="font-size:12px;color:#ffff;display:block">产品编号:<span id="pcode_@item["Code"]">@item["ProductCode"]</span></span>
+
+                                                    <span style="font-size:12px;color:#ffff;display:block">标准节拍:<span id="stardardBeat_@item["Code"]">@item["StandardBeat"]</span></span>
+                                                    @*<span style="font-size:12px;color:#ffff;display:block">开机时间:<span id="startTime_@item["code"]">@item["productcode"]</span></span>*@
+                                                </div>
+                                                <div style="float:left;margin-left:30px;">
+                                                    <span style="font-size:12px;color:#ffff;display:block">工单数量:<span id="orderQuantity_@item["Code"]">@item["Quantity"]</span></span>
+                                                    <span style="font-size:12px;color:#ffff;display:block">生产数量:<span id="produceQ_@item["Code"]">@item["dayQuantity"]</span></span>
+                                                    <span style="font-size:12px;color:#ffff;display:block">生产节拍:<span id="produceBeat_@item["Code"]"></span></span>
+                                                    @*<span style="font-size:12px;color:#ffff;display:block">生产时间:<span id="productTime_@item["code"]">@item["productcode"]</span></span>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                }
+
+
+                @*<div class="swiper-slide"> <img src="/Plugins/JFine.IOT/Content/images/slider1-2.png"> </div>*@
+                <!--EOG生产-->
+            </div>
+        </div>
+        <div style="position:fixed;width:100%;height:5%;background-color:#c43a2e6b;">
+            <div style="margin-left:5%;margin-top:15px;">
+                <a class="arrow-left" href="#"></a>
+            </div>
+            <div style="margin-left:40%;margin-top:15px;">
+                <div style="background-color:green;width:20px;height:10px;float:left;display:inline"></div>
+                <div style="width:40px;height:10px;float:left;margin-left:5px;display:inline"><span style="font-size:10px;position:relative;bottom:10px;">正常生产</span></div>
+                <div style="background-color:orange;width:20px;height:10px;float:left;margin-left:5px;display:inline"></div>
+                <div style="width:40px;height:10px;float:left;margin-left:5px;display:inline"><span style="font-size:10px;position:relative;bottom:10px;">待机空闲</span></div>
+                <div style="background-color:gray;width:20px;height:10px;float:left;margin-left:5px;display:inline"></div>
+                <div style="width:40px;height:10px;float:left;margin-left:5px;display:inline"><span style="font-size:10px;position:relative;bottom:10px;">断电停机</span></div>
+                <div style="background-color:#4169e185;width:20px;height:10px;float:left;margin-left:5px;display:inline"></div>
+                <div style="width:40px;height:10px;float:left;margin-left:5px;display:inline"><span style="font-size:10px;position:relative;bottom:10px;">计划停机</span></div>
+            </div>
+            <div style="margin-right:25%;margin-top:15px;" class="pagination"></div>
+            <div style="margin-right:5%;margin-top:15px;">
+                <a class="arrow-right" href="#"></a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+</body>
+</html>

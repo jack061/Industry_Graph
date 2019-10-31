@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/css/framework-font.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-index.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery/jquery-2.0.3.min.js"></script>
+    <script src="~/Content/js/jqgrid/jqgrid.js?v=1.0.5"></script>
+    <link href="~/Content/js/jqgrid/jqgrid2.css" rel="stylesheet" />
+    <script src="~/Content/js/jqgrid/grid.locale-cn.js"></script>
+    <script src="~/Content/js/bootstrap/bootstrap.min.js"></script>
+    <link href="~/Content/js/bootstrap/bootstrap.min.css?v=1.0.1" rel="stylesheet" />
+    <link href="~/Content/js/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.css" rel="stylesheet" />
+    <script src="~/Content/js/bootstrap-switch-master/dist/js/bootstrap-switch.js"></script>
+    <script src="~/Content/js/wdtree/tree.js"></script>
+    <link href="~/Content/js/wdtree/tree.css" rel="stylesheet" />
+    <link href="~/Content/js/select2/select2.min.css?v=1.0.1" rel="stylesheet" />
+    <script src="~/Content/js/select2/select2.min.js"></script>
+    <link href="~/Content/js/select2-to-tree/src/select2totree.css" rel="stylesheet" />
+    <script src="~/Content/js/select2-to-tree/src/select2totree.js"></script>  
+    <link href="~/Content/js/wizard/wizard.css" rel="stylesheet" />
+    <script src="~/Content/js/wizard/wizard.js"></script>
+    <script src="~/Content/js/validate/jquery.metadata.js"></script>
+    <script src="~/Content/js/validate/jquery.validate.min.js"></script>
+    <script src="~/Content/js/datepicker/WdatePicker.js"></script>
+    <link href="~/Content/css/framework-ui.css?v=1.0.4" rel="stylesheet" />
+    <script src="~/Content/js/common/framework-ui.js?v=1.0.10"></script>
+</head>
+<body>
+    @RenderBody()
+    @Html.AntiForgeryToken()
+</body>
+</html>

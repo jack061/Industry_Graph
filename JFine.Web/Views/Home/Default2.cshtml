@@ -1,0 +1,658 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="~/Content/css/framework-font.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-ui.css" rel="stylesheet" />
+
+    <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
+    <link href="~/Content/js/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
+    <link href="~/Content/css/iss4/index.css" rel="stylesheet" />
+    <link href="~/Content/css/iss4/layui.css" rel="stylesheet" />
+    @*<script src="~/Content/js/charts/Chart.js"></script>*@
+    @*<script src="~/Content/js/jquery/jquery-2.0.3.min.js"></script>*@
+    @*<script src="~/Content/js/jquery/jquery-2.1.1.min.js"></script>*@
+    <script src="~/Content/js/highcharts/highcharts-7.1.2.js"></script>
+    @*<script src="~/Content/js/highcharts/highcharts.js"></script>*@
+    <script>
+        $(function () {
+            LoadHighCharts();
+            gridList();
+            //GetSalaryChart();
+            //GetLeaveChart();
+        });
+        function GetSalaryChart() {
+            var randomScalingFactor = function () { return Math.round(Math.random() * 100) };
+            var lineChartData = {
+                labels: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "8月", "10月", "11月", "12月"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                    },
+                    {
+                        label: "My Second dataset",
+                        fillColor: "rgba(151,187,205,0.2)",
+                        strokeColor: "rgba(151,187,205,1)",
+                        pointColor: "rgba(151,187,205,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                    }
+                ]
+            }
+            var ctx = document.getElementById("salarychart").getContext("2d");
+            window.myLine = new Chart(ctx).Line(lineChartData, {
+                responsive: false,
+                bezierCurve: false
+            });
+        }
+        function GetLeaveChart() {
+            var randomScalingFactor = function () { return Math.round(Math.random() * 100) };
+            var a_value = randomScalingFactor();
+            var b_value = randomScalingFactor();
+            var c_value = randomScalingFactor();
+            var d_value = randomScalingFactor();
+            var doughnutData = [
+                {
+                    value: a_value,
+                    color: "#F7464A",
+                    highlight: "#FF5A5E",
+                    label: "事假"
+                },
+                {
+                    value: b_value,
+                    color: "#46BFBD",
+                    highlight: "#5AD3D1",
+                    label: "病假"
+                },
+                {
+                    value: c_value,
+                    color: "#FDB45C",
+                    highlight: "#FFC870",
+                    label: "公休假"
+                },
+                {
+                    value: d_value,
+                    color: "#949FB1",
+                    highlight: "#A8B3C5",
+                    label: "调休假"
+                }
+            ];
+            var ctx = document.getElementById("leavechart").getContext("2d");
+            window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, { responsive: false });
+            $("#a_value").html(a_value + "小时");
+            $("#b_value").html(b_value + "小时");
+            $("#c_value").html(c_value + "小时");
+            $("#d_value").html(d_value + "小时");
+        }
+        function LoadHighCharts() {
+            var chart = Highcharts.chart('container', {
+                chart: {
+                    spacing: [0, 0, 0, 0]
+                },
+                title: {
+                    floating: true,
+                    text: '运行率70%'
+                },
+                tooltip: {
+                    //pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                credits: false,
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        },
+                        point: {
+                            events: {
+                                mouseOver: function (e) {  // 鼠标滑过时动态更新标题
+                                    // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
+                                    chart.setTitle({
+                                        //	text: e.target.name+ '\t'+ e.target.y + ' %'
+                                    });
+                                }
+                                //,
+                                // click: function(e) { // 同样的可以在点击事件里处理
+                                //     chart.setTitle({
+                                //         text: e.point.name+ '\t'+ e.point.y + ' %'
+                                //     });
+                                // }
+                            }
+                        },
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    innerSize: '80%',
+                    name: '运行率',
+                    data: [
+
+                        ['运行', 70],
+                        ['调试', 8],
+                        ['暂停', 12],
+                        ['离线', 10]
+                    ]
+                }]
+            }, function (c) { // 图表初始化完毕后的会掉函数
+                // 环形图圆心
+                var centerY = c.series[0].center[1],
+                    titleHeight = parseInt(c.title.styles.fontSize);
+                // 动态设置标题位置
+                c.setTitle({
+                    y: centerY + titleHeight / 2
+                });
+            });
+            var chart2 = Highcharts.chart('container2', {
+                chart: {
+                    type: 'line'
+                },
+                credits: false,
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                },
+                yAxis: {
+                    title: {
+                        text: ''
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            // 开启数据标签
+                            enabled: true
+                        },
+                        // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+                        enableMouseTracking: false
+                    }
+                },
+                series: [{
+                    label: false,
+                    name: '报警曲线值',
+                    data: [3.9, 4.2, 5.7, 18.5, 11.9, 15.2, 7.0]
+                }]
+            });
+            var chart3 = Highcharts.chart('container3', {
+                chart: {
+                    spacing: [0, 0, 0, 0]
+                },
+                title: {
+                    floating: true,
+                    text: '完成率70%'
+                },
+                tooltip: {
+                    //pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                credits: false,
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        },
+                        point: {
+                            events: {
+                                mouseOver: function (e) {  // 鼠标滑过时动态更新标题
+                                    // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
+                                    chart.setTitle({
+                                        //	text: e.target.name+ '\t'+ e.target.y + ' %'
+                                    });
+                                }
+                                //,
+                                // click: function(e) { // 同样的可以在点击事件里处理
+                                //     chart.setTitle({
+                                //         text: e.point.name+ '\t'+ e.point.y + ' %'
+                                //     });
+                                // }
+                            }
+                        },
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    innerSize: '80%',
+                    name: '完成率',
+                    data: [
+
+                        ['已完成', 70],
+                        ['未完成', 30],
+
+                    ]
+                }]
+            }, function (c) { // 图表初始化完毕后的会掉函数
+                // 环形图圆心
+                var centerY = c.series[0].center[1],
+                    titleHeight = parseInt(c.title.styles.fontSize);
+                // 动态设置标题位置
+                c.setTitle({
+                    y: centerY + titleHeight / 2
+                });
+            });
+            var chart4 = Highcharts.chart('container4', {
+                chart: {
+                    type: 'column'
+                },
+                credits: false,
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    }
+                },
+                tooltip: {
+                    // head + 每个 point + footer 拼接成完整的 table
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: '产能',
+                    data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4]
+                }]
+            });
+        }
+
+        function gridList() {
+            var $gridList = $("#gridList");
+            $gridList.dataGrid({
+                url: "/IOT/IOTOrder/GetOrderList?flag=1",
+                height: $(window).height() - 438,
+                colModel: [
+
+                    { label: "主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+                    {
+                        label: "工单状态", name: "Status", width: 100, align: 'left',
+                        formatter: function (cellvalue, options, rowObject) {
+                            if (cellvalue == '0') {
+                                return '<span class=\"label label-default\">待生产</span>';
+                            } else if (cellvalue == '1') {
+                                return '<span class=\"label label-success\">生产中</span>';
+                            } else if (cellvalue == '2') {
+                                return '<span class=\"label label-success\">已完成</span>';
+                            } else {
+                                return "暂无状态";
+                            }
+                        }
+                    },
+
+                    { label: "工单号", name: "OrderNum", width: 100, align: 'left' },
+
+                    { label: "设备编码", name: "DeviceCode", width: 100, align: 'left' },
+
+                    { label: "设备名称", name: "DeviceName", width: 100, align: 'left' },
+
+                    { label: "模具编码", name: "MouldCode", width: 100, align: 'left' },
+
+                    { label: "产品编码", name: "ProductCode", width: 100, align: 'left' },
+
+                    { label: "产品名称", name: "ProductName", width: 150, align: 'left' },
+
+                    { label: "标准节拍", name: "StandardBeat", width: 80, align: 'left' },
+
+                    { label: "计划数量", name: "PlanQuantity", width: 90, align: 'left' },
+
+                    { label: "实际数量", name: "Quantity", width: 90, align: 'left' },
+
+                    { label: "计划开始时间", name: "PlanStartTime", width: 150, align: 'left' },
+
+                    { label: "计划结束时间", name: "PlanEndTime", width: 150, align: 'left' },
+
+                    { label: "实际开始时间", name: "StartTime", width: 150, align: 'left' },
+
+                    { label: "实际结束时间", name: "EndTime", width: 150, align: 'left' },
+
+                    { label: "创建日期", name: "CreateDate", width: 150, align: 'left' },
+
+                    { label: "创建用户名称", name: "CreateUserName", width: 150, align: 'left' }
+                ],
+                pager: "#gridPager",
+                sortname: 'CreateDate desc',
+                viewrecords: true
+            });
+ 
+        }
+    </script>
+</head>
+<body>
+    <div id="areascontent">
+        <div class="rows" style="margin-bottom: 1%; border: 1px solid #e6e6e6; overflow: hidden; padding-left: 1px;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-line-chart fa-lg" style="padding-right: 5px;"></i>关键数据实时指标
+                    <div style="float: right; position: relative; top: -4px; right: 0px;">
+                        @*<iframe name="weather_inc" src="http://i.tianqi.com/index.php?c=code&id=1" width="330" height="35" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>*@
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #fc8675;">
+                            <h2 class="m-top-none">98</h2>
+                            <h5>全部</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-th-large fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #6bafbd;">
+                            <h2 class="m-top-none">52</h2>
+                            <h5>运行</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-youtube-play fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #f3ce85;">
+                            <h2 class="m-top-none">21</h2>
+                            <h5>调试</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-wrench fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #949FB1;">
+                            <h2 class="m-top-none">11</h2>
+                            <h5>暂停</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-pause fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #65cea7; margin-right: 0px;">
+                            <h2 class="m-top-none">14</h2>
+                            <h5>离线</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-stop fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rows" style="margin-bottom: 1%; overflow: hidden;">
+            <!--         <div style="float: left; width: 69%;">
+                          <div style="height: 350px; border: 1px solid #e6e6e6; background-color: #fff;">
+                              <div class="panel panel-default">
+                                  <div class="panel-heading">
+                                      <i class="fa fa-area-chart fa-lg" style="padding-right: 5px;"></i>考勤统计
+                                      <div style="float: right">
+                                          <span style="font-weight: 500;"><i class="fa fa-square" style="color: #dcdcdc; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>迟到</span>
+                                          <span style="margin-left: 10px; font-weight: 500;"><i class="fa fa-square" style="color: #97bbcd; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>缺卡</span>
+                                      </div>
+                                  </div>
+                                  <div class="panel-body" style="padding-bottom: 0px;">
+                                      <canvas id="salarychart" style="height: 285px; width: 100%; padding-right: 10px;"></canvas>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div style="float: right; width: 30%;">
+                          <div style="height: 350px; border: 1px solid #e6e6e6; background-color: #fff;">
+                              <div class="panel panel-default">
+                                  <div class="panel-heading"><i class="fa fa-pie-chart fa-lg" style="padding-right: 5px;"></i>请假统计</div>
+                                  <div class="panel-body" style="padding-top: 20px;">
+                                      <canvas id="leavechart" style="height: 160px; width: 100%;"></canvas>
+                                      <div style="text-align: center; padding-top: 20px;">
+                                          <span><i class="fa fa-square" style="color: #F7464A; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>事假</span>
+                                          <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #46BFBD; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>病假</span>
+                                          <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #FDB45C; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>公休假</span>
+                                          <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #949FB1; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>调休假</span>
+                                      </div>
+                                      <div style="margin-top: 20px; padding-top: 18px; height: 60px; border-top: 1px solid #e6e6e6;">
+                                          <div style="width: 25%; text-align: center; float: left;">
+                                              <span id="a_value">16.5小时</span>
+                                              <p style="color: #a1a1a1">事假</p>
+                                          </div>
+                                          <div style="width: 25%; text-align: center; float: left;">
+                                              <span id="b_value">7.5小时</span>
+                                              <p style="color: #a1a1a1">病假</p>
+                                          </div>
+                                          <div style="width: 25%; text-align: center; float: left;">
+                                              <span id="c_value">13小时</span>
+                                              <p style="color: #a1a1a1">公休假</p>
+                                          </div>
+                                          <div style="width: 25%; text-align: center; float: left;">
+                                              <span id="d_value">19小时</span>
+                                              <p style="color: #a1a1a1">调休假</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>  -->
+        </div>
+        <div class="rows" style="height:900px">
+            <div style="float: left; width: 34%; margin-right: 1%;">
+                <div style="height: 265px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-thumbs-o-up fa-lg" style="padding-right: 5px;"></i>设备利用率</div>
+                        <div class="panel-body">
+                            <div id="container" style="max-width:800px;height:200px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float: left; width: 34%; margin-right: 1%;">
+                <div style="height: 265px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-rss fa-lg" style="padding-right: 5px;"></i>7天报警曲线</div>
+                        <div class="panel-body">
+                            <div id="container2" style="min-width:400px;height:200px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float: right; width: 30%;">
+                <div style="height: 265px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading "><i class="fa fa-send fa-lg" style="padding-right: 5px;"></i>7天报警数量排行</div>
+                        <div class="panel-body overallAnalysis">
+                            <ul class="aWeek-rank" id="qualityList"> <!-- 只循环前5 -->   <li> <div class="r-index">1</div> <div class="r-name">A01</div> <div class="r-count">182</div> </li>    <li> <div class="r-index">2</div> <div class="r-name">A05</div> <div class="r-count">166</div> </li>    <li> <div class="r-index">3</div> <div class="r-name">A03</div> <div class="r-count">97</div> </li>    <li> <div class="r-index">4</div> <div class="r-name">A04</div> <div class="r-count">74</div> </li>                                                                                                                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height:15px;width:100%;float:left"></div>
+            <div style="float: left; width: 34%; margin-right: 1%;">
+                <div style="height: 265px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-thumbs-o-up fa-lg" style="padding-right: 5px;"></i>工单完成率</div>
+                        <div class="panel-body">
+                            <div id="container3" style="max-width:800px;height:200px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float: left; width: 34%; margin-right: 1%;">
+                <div style="height: 265px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-rss fa-lg" style="padding-right: 5px;"></i>7天产能报告</div>
+                        <div class="panel-body">
+                            <div id="container4" style="min-width:400px;height:200px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float: right; width: 30%;">
+                <div style="height: 265px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading "><i class="fa fa-send fa-lg" style="padding-right: 5px;"></i>7天产能设备排行</div>
+                        <div class="panel-body overallAnalysis">
+                            <ul class="aWeek-rank" id="qualityList"> <!-- 只循环前5 -->   <li> <div class="r-index">1</div> <div class="r-name">A05</div> <div class="r-count">380</div> </li>    <li> <div class="r-index">2</div> <div class="r-name">A03</div> <div class="r-count">256</div> </li>    <li> <div class="r-index">3</div> <div class="r-name">A06</div> <div class="r-count">197</div> </li>    <li> <div class="r-index">4</div> <div class="r-name">A04</div> <div class="r-count">88</div> </li>                                                                                                                                      </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="height:15px;width:100%;float:left"></div>
+            <div style="float: left; width: 100%;">
+                <div style="height: 265px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading "><i class="fa fa-send fa-lg" style="padding-right: 5px;"></i>生产工单</div>
+                        <div class="panel-body overallAnalysis">
+                            <div class="gridPanel">
+                                <table id="gridList"></table>
+                                <div id="gridPager"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        #copyrightcontent {
+            height: 30px;
+            line-height: 29px;
+            overflow: hidden;
+            position: absolute;
+            top: 100%;
+            margin-top: -30px;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #e6e6e6;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .dashboard-stats {
+            float: left;
+            width: 20%;
+        }
+
+        .dashboard-stats-item {
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+            cursor: pointer;
+            height: 105px;
+            margin-right: 25px;
+            margin-bottom: 10px;
+            padding: 20px 20px;
+        }
+
+            .dashboard-stats-item .m-top-none {
+                margin-top: 2px;
+            }
+
+            .dashboard-stats-item h2 {
+                font-size: 35px;
+                font-family: inherit;
+                line-height: 1.1;
+                font-weight: 500;
+            }
+
+            .dashboard-stats-item h5 {
+                font-size: 14px;
+                font-family: inherit;
+                margin-top: 3px;
+                line-height: 1.1;
+            }
+
+
+            .dashboard-stats-item .stat-icon {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 30px;
+                opacity: .3;
+            }
+
+        .dashboard-stats i.fa.stats-icon {
+            width: 50px;
+            padding: 20px;
+            font-size: 50px;
+            text-align: center;
+            color: #fff;
+            height: 50px;
+            border-radius: 10px;
+        }
+
+        .panel-default {
+            border: none;
+            border-radius: 0px;
+            margin-bottom: 0px;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+        }
+
+            .panel-default > .panel-heading {
+                color: #777;
+                background-color: #fff;
+                border-color: #e6e6e6;
+                padding: 10px 10px;
+            }
+
+            .panel-default > .panel-body {
+                padding: 10px;
+                padding-bottom: 0px;
+            }
+
+                .panel-default > .panel-body ul {
+                    overflow: hidden;
+                    padding: 0;
+                    margin: 0px;
+                    margin-top: -5px;
+                }
+
+                    .panel-default > .panel-body ul li {
+                        line-height: 27px;
+                        list-style-type: none;
+                        /*white-space: nowrap;*/
+                        text-overflow: ellipsis;
+                    }
+
+                        .panel-default > .panel-body ul li .time {
+                            color: #a1a1a1;
+                            float: right;
+                            padding-right: 5px;
+                        }
+    </style>
+</body>
+</html>

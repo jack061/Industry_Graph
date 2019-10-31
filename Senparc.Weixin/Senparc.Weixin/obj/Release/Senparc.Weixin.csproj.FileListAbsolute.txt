@@ -1,0 +1,8 @@
+E:\Project\Industry_Graph\Senparc.Weixin.MP.BuildOutPut\.net4.5\Senparc.Weixin.XML
+E:\Project\Industry_Graph\Senparc.Weixin.MP.BuildOutPut\.net4.5\Senparc.Weixin.dll
+E:\Project\Industry_Graph\Senparc.Weixin.MP.BuildOutPut\.net4.5\Senparc.Weixin.pdb
+E:\Project\Industry_Graph\Senparc.Weixin\Senparc.Weixin\obj\Release\Senparc.Weixin.csprojAssemblyReference.cache
+E:\Project\Industry_Graph\Senparc.Weixin\Senparc.Weixin\obj\Release\Senparc.Weixin.csproj.CoreCompileInputs.cache
+E:\Project\Industry_Graph\Senparc.Weixin\Senparc.Weixin\obj\Release\Senparc.Weixin.csproj.CopyComplete
+E:\Project\Industry_Graph\Senparc.Weixin\Senparc.Weixin\obj\Release\Senparc.Weixin.dll
+E:\Project\Industry_Graph\Senparc.Weixin\Senparc.Weixin\obj\Release\Senparc.Weixin.pdb

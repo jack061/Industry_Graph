@@ -1,0 +1,117 @@
+﻿ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2019-09-29 17:02:16
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+     var keyValue = $.request("keyValue");
+    $(function () {
+        $.ajax({
+            url: "/IOT/IOTOrder/GetFormJson",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                  $("#form1").formInitialize(data);
+            }
+        });
+    });
+</script>
+
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <table class="form">
+			  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="Id" name="Id" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="OrderName" name="OrderName" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="Status" name="Status" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="Quantity" name="Quantity" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="OrderType" name="OrderType" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="Remark" name="Remark" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="CreateDate" name="CreateDate" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="CreateUserId" name="CreateUserId" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="CreateUserName" name="CreateUserName" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="UpdateDate" name="UpdateDate" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="UpdateUserId" name="UpdateUserId" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> </th>
+                <td class="formValue">
+                    <div id="UpdateUserName" name="UpdateUserName" ></div>
+                </td>
+            </tr>
+   
+        </table>
+    </div>
+</form>
+

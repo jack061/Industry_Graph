@@ -1,0 +1,205 @@
+﻿
+
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2017-09-14 16:11:54
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+<script>
+    $(function () {
+        $('#layout').layout();
+        initControl();
+        treeView();       
+        gridList();
+    });
+    function treeView() {
+        $("#itemTree").treeview({
+            url: "/SysManage/Items/GetTreeJsonFromCode?code=CG",
+            onnodeclick: function (item) {
+                $("#txt_keyword").val('');
+                $('#btn_search').trigger("click");
+            }
+        });
+    }
+    function initControl()
+    {
+        $("#BidType").bindSelect({
+            url: "/SysManage/ItemsDetail/GetSelectJson",
+            id: "text",
+            param: { Code: "ZBType" }
+        });
+    }
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            height: $(window).height() - 111,
+            colModel: [
+					  	
+					{ label: " Id", name: "Id", width: 150, align: 'left', hidden: true },
+	  	
+					{ label: " 招标类型", name: "BidType", width: 80, align: 'left' },
+	  	
+					{ label: " 采购类型编码", name: "PurTypeCode", width: 100, align: 'left' },
+	  	
+					{ label: " 采购类型", name: "PurType", width: 100, align: 'left' },
+	  	
+					{ label: " 扩展字段", name: "ExpandColumn", width: 100, align: 'left' },
+	  	
+					{ label: " 扩展字段标题", name: "ExpandColumnTitle", width: 100, align: 'left' },
+	  	
+					{ label: " 列宽", name: "ColumnWidth", width: 100, align: 'left' },
+	  	
+					{ label: " 排序", name: "Sort", width: 80, align: 'left' },
+	  	
+					{
+					    label: " 供应商是否可见", name: "SuppVisible", width: 100, align: 'left',
+					    formatter: function (cellvalue, options, rowObject) {
+					        return cellvalue == true ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+					    }
+					},
+	  	
+					{
+					    label: " 是否格式化", name: "IsFormat", width: 80, align: 'left',
+					    formatter: function (cellvalue, options, rowObject) {
+					        return cellvalue == true ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+					    }
+					},
+	  	
+					{ label: " 格式化代码", name: "FormatCode", width: 150, align: 'left' },
+	  	
+					{ label: " 创建时间", name: "CreateDate", width: 120, align: 'left' },
+	  	
+					{ label: " 创建人", name: "CreateUserName", width: 100, align: 'left' }
+ 
+            ]
+        });
+        $("#btn_search").click(function () {
+            var queryJson = {
+                bidType: $("#BidType").val(),
+			    itemId: $("#itemTree").getCurrentNode().value,
+                keyword: $("#txt_keyword").val()
+            }
+            $gridList.jqGrid('setGridParam', {
+                url: "/SysCommon/BDConfig/GetGridJson",
+                postData: queryJson, page: 1
+            }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+        var itemCode;
+        var itemName;
+        try {
+            itemCode = $("#itemTree").getCurrentNode().value;
+            itemName = $("#itemTree").getCurrentNode().text;
+            if (!itemCode) {
+                $.modalAlert("获取采购类别编码失败，请联系系统管理员！", "error");
+                return false;
+            }
+        } catch (err)
+        {
+            $.modalAlert("请先选择左侧的采购类别", "error");
+            return false;
+        }
+        
+        $.modalOpen({
+            id: "Form",
+            title: itemName + " 》新增标的扩展",
+            url: "/SysCommon/BDConfig/Form?itemCode=" + itemCode + "&itemName=" + itemName,
+            width: "550px",
+            height: "570px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_edit() {
+		var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue))
+        {
+			$.modalOpen({
+				id: "Form",
+				title: "修改标的扩展",
+				url: "/SysCommon/BDConfig/Form?keyValue=" + keyValue,
+				width: "550px",
+				height: "570px",
+				callBack: function (iframeId) {
+					top.frames[iframeId].submitForm();
+				}
+			});
+        }
+        
+    }
+    function btn_delete() {
+	  var keyValue = $("#gridList").jqGridRowValue().Id;
+	 if ($.checkedArray(keyValue))
+        {
+			 $.deleteForm({
+				url: "/SysCommon/BDConfig/DeleteForm",
+				param: { keyValue: keyValue},
+				success: function () {
+					$.currentWindow().$("#gridList").trigger("reloadGrid");
+				}
+			});
+        }
+        
+    }
+    function btn_details() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+		if ($.checkedArray(keyValue))
+		 {
+			$.modalOpen({
+				id: "Details",
+				title: "查看标的扩展",
+				url: "/SysCommon/BDConfig/Details?keyValue=" + keyValue,
+				width: "550px",
+				height: "620px",
+				btn: null,
+			});
+		  }    
+    }      
+</script>
+
+
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+    <div class="ui-layout-west">
+        <div id="itemTree"></div>
+    </div>
+    <div class="ui-layout-center">
+        <div class="topPanel">
+            <div class="toolbar">
+				<div class="btn-group">
+					<a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+				</div>
+				<div id="toolbar" class="btn-group">
+				</div>
+				<script>$('#toolbar').authorizeButton()</script>
+			</div>
+			<div class="search">
+				<table>
+					<tr>
+                        <th > 招标类型</th>
+                        <td >
+                            <select id="BidType" name="BidType" class="form-control"></select>
+                        </td>
+						<td>
+							<div class="input-group">
+								<input id="txt_keyword" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+								<span class="input-group-btn">
+									<button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+								</span>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+        <div class="gridPanel">
+            <table id="gridList"></table>
+        </div>
+    </div>
+</div>

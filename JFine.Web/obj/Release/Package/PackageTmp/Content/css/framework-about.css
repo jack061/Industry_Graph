@@ -1,0 +1,4 @@
+.panel-default{border: none;border-radius: 0px;margin-bottom: 0px;box-shadow: none;-webkit-box-shadow: none;}
+.panel-default > .panel-heading{color: #777;background-color: #fff;border-color: #e6e6e6;padding: 7px 10px;font-weight: 900;}
+.panel-default > .panel-body{padding: 10px;padding-bottom: 0px;}
+.panel-default > .panel-body p{margin: 0px 0px 8px;}

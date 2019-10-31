@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    var windowId = $.request("windowId");//window ID
+    var displayTyle = $.request("displayTyle");//展示类型：role/org
+    var orgCode = $.request("orgCode");//组织编码，多个用逗号隔开
+    var isSingle = $.request("isSingle");//是否单选：1:是；非1：否
+    var flag = $.request("flag");//标识调用页面的元素：自行赋值
+    var selectedUsers = new Array();
+
+    $(function () {
+        $('#layout').layout();
+        treeView();
+        gridList();
+    });
+    function treeView() {
+        $("#orgTree").treeview({
+            url: "/SysManage/Organize/GetTreeJson",
+            onnodeclick: function (item) {
+                $("#txt_keyword").val('');
+                $('#btn_search').trigger("click");
+            }
+        });
+    }
+
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/VMW/VMWFaceSample/GetGridJson",
+            height: $(window).height() - 128,
+            multiselect: true,
+            colModel: [
+                { label: "主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+					{ label: "编码", name: "Code", width: 100, align: 'left' },
+
+					{ label: "姓名", name: "Name", width: 100, align: 'left' },
+
+                    { label: "状态", name: "Status", width: 100, align: 'left', hidden: true },
+
+					{
+					    label: "状态", name: "Status_", width: 60, align: 'left',
+					    formatter: function (cellValue, options, rowObject) {
+					        //状态
+					        var status_s = '';
+					        if (rowObject.Status == 0) {
+					            status_s += '<span class=\"label label-default\">未处理</span>';
+					        } else if (rowObject.Status == 1) {
+					            status_s += '<span class=\"label label-success\">已处理</span>';
+					        }
+					        return status_s;
+					    }
+					},
+
+					{ label: "部门编码", name: "DepCode", width: 80, align: 'left' },
+
+					{ label: "部门名称", name: "DepName", width: 100, align: 'left' },
+
+					{
+					    label: "人脸照片", name: "FaceImage", width: 130, align: 'left',
+					    formatter: function (cellvalue, options, rowObject) {
+					        return '<img style="height:80px;" src="' + cellvalue + '"/>';
+					    }
+					},
+
+					{ label: "创建日期", name: "CreateDate", width: 130, align: 'left' },
+
+					{ label: "创建用户名称", name: "CreateUserName", width: 100, align: 'left' }
+            ],
+            pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+            var queryJson = {
+                deptCode: !!$("#orgTree").getCurrentNode() ? $("#orgTree").getCurrentNode().value : "",
+                keyword: $("#txt_keyword").val()
+            }
+            $gridList.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+            }).trigger('reloadGrid');
+        });
+    }
+
+    //返回所选人员完整信息
+    function submitForm() {
+
+        backData();
+    }
+
+    //返回完整数据
+    function backData() {
+        var userListJson = $("#gridList").jqGridRows();
+        if (userListJson != undefined) {
+            if (isSingle == "1") {//单选
+                if (userListJson.length != 1) {
+                    $.modalAlert("只能选择一条数据！请重新选择！", "warning");
+                    return;
+                }
+            }
+            //每一个调用该模块的必须实现dealSelectedUserFull(account,name,flag)方法
+            if (windowId == '') {
+                $.currentWindow().dealSelectedUser(userListJson, flag);
+            } else {
+                top.frames[windowId].dealSelectedUser(userListJson, flag);
+            }
+            $.modalClose();
+        } else {
+            $.modalAlert("请选择数据！", "warning");
+        }
+
+    }
+
+</script>
+
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+    <div class="ui-layout-west">
+        <div id="orgTree"></div>
+    </div>
+    <div class="ui-layout-center">
+        <div class="topPanel">
+            <div class="search">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input id="txt_keyword" type="text" class="form-control" placeholder="编码/姓名" style="width: 200px;">
+                                <span class="input-group-btn">
+                                    <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="gridPanel">
+            <table id="gridList"></table>
+            <div id="gridPager"></div>
+        </div>
+    </div>
+</div>

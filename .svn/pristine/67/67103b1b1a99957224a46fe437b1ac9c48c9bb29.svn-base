@@ -1,0 +1,197 @@
+﻿/********************************************************************************
+**文 件 名:MQTTGatewayController
+**命名空间:JFine.Plugins.IOT.Busines.MQTT
+**描    述:
+**
+**
+**版 本 号:V1.0.0.0
+**创 建 人:此代码由T4模板自动生成
+**创建日期:2019-06-29 10:48:03
+**修 改 人:
+**修改日期:
+**修改描述:
+**
+**
+**版权所有: ©为之团队
+*********************************************************************************/
+using JFine.Plugins.IOT.Busines.MQTT;
+using JFine.Common.UI;
+using JFine.Common.Json;
+using JFine.Plugins.IOT.Domain.Models.MQTT;
+using JFine.Web.Base.MVC.Handler;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Data;
+
+namespace JFine.Plugins.IOT.Areas.MQTT.Controllers
+{
+    [HandlerPlugin("IOT")]
+	/// <summary>
+	/// MQTTGatewayController
+	/// </summary>	
+	public class MQTTGatewayController:JFControllerBase
+	{
+		 private MQTTGatewayBLL mQTTGatewayBll = new MQTTGatewayBLL();
+
+        #region View
+        //
+        // GET: /MQTT/
+        public override ActionResult Index()
+        {
+            var ServerState = MQTTBLL.ServerState;
+            ViewBag.ServerState = ServerState;
+            return View("~/Plugins/JFine.IOT/Views/MQTTGateway/Index.cshtml");
+        }
+
+        /// <summary>
+        /// Form表单
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize]
+        public override ActionResult Form()
+        {
+            ViewBag.Id = Request["keyValue"];
+            return View("~/Plugins/JFine.IOT/Views/MQTTGateway/Form.cshtml");
+        }
+
+        /// <summary>
+        /// Form表单
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize]
+        public ActionResult Form2()
+        {
+            ViewBag.Id = Request["keyValue"] ?? "";
+            if (string.IsNullOrWhiteSpace(ViewBag.Id))
+            {
+                MQTTGatewayEntity mQTTGatewayEntity = new MQTTGatewayEntity();
+                mQTTGatewayBll.SaveForm("", mQTTGatewayEntity);
+                ViewBag.Id = mQTTGatewayEntity.Id;
+            }
+            return View("~/Plugins/JFine.IOT/Views/MQTTGateway/Form2.cshtml");
+        }
+
+        #endregion
+
+        #region 数据获取
+
+		/// <summary>
+        /// 列表 
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <returns></returns>
+		[HttpGet]
+        [HandlerAjaxOnly]
+        public ActionResult GetGridJson(Pagination pagination, string queryJson)
+        {
+            var currentlist = mQTTGatewayBll.GetPageList(pagination, queryJson).ToList();
+            var gatewayList = MQTTBLL.gatewayList;
+            currentlist.ForEach(m =>
+            {
+                var s = gatewayList.FirstOrDefault(n => n.Id == m.Id);
+                if (s != null)
+                {
+                    m.Status = s.Status;
+                }
+            }
+                    );
+            var data = new
+            {
+                rows = currentlist,
+                total = pagination.total,
+                page = pagination.page,
+                records = pagination.records
+            };
+            return Content(data.ToJson());
+        }
+
+        /// <summary>
+        /// 功能实体 返回对象Json
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetFormJson(string keyValue)
+        {
+            var data = mQTTGatewayBll.GetForm(keyValue);
+            return Content(data.ToJson());
+        }
+        #endregion
+
+        #region 数据处理
+        
+
+        /// <summary>
+        /// 保存功能表单
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="MQTTGatewayEntity">功能实体</param>
+        /// <returns></returns>
+        [HttpPost]
+        [HandlerAjaxOnly]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult SaveForm(string keyValue, MQTTGatewayEntity mQTTGatewayEntity)
+        {
+            mQTTGatewayBll.SaveForm(keyValue, mQTTGatewayEntity);
+            MQTTBLL mQTTBLL = new MQTTBLL();
+            mQTTBLL.SaveGateWay2List(mQTTGatewayEntity);
+            return Success("保存成功。");
+        }
+
+		/// <summary>
+        /// 删除功能
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        [HttpPost]
+        [HandlerAjaxOnly]
+        [HandlerAuthorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteForm(string keyValue)
+        {
+            mQTTGatewayBll.DeleteForm(keyValue);
+            MQTTBLL mQTTBLL = new MQTTBLL();
+            mQTTBLL.DeleteGateWayFromList(keyValue);
+            return Success("删除成功。");
+        }
+
+        #endregion
+
+        #region MQTT
+        /// <summary>
+        /// 启动MQTT服务
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [HandlerAjaxOnly]
+        [HandlerAuthorize]
+        public ActionResult MQTTStart()
+        {
+            MQTTBLL mQTTBLL = new MQTTBLL();
+            mQTTBLL.MQTTStart();
+            return Success("MQTT服务启动成功。");
+        }
+        /// <summary>
+        /// 停止MQTT服务
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [HandlerAjaxOnly]
+        [HandlerAuthorize]
+        public ActionResult MQTTStop()
+        {
+            MQTTBLL mQTTBLL = new MQTTBLL();
+            mQTTBLL.MQTTStop();
+            return Success("MQTT服务启动停止。");
+        }
+        #endregion
+
+    }
+}
+

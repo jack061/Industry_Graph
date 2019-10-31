@@ -1,0 +1,7 @@
+﻿.bui-input .error {
+    border-color: #FF6666;
+    background-color: #FFCCCC;
+}
+.bui-input i.error {
+    color: #e46f61;
+}

@@ -1,0 +1,244 @@
+﻿@*------------------------------------------------------------------------------
+    *     此代码由T4模板自动生成
+    *	   生成时间 2019-09-29 17:04:16
+    *     ©为之团队
+    *------------------------------------------------------------------------------*@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/IOT/IOT_Order_Sec/GetGridJson",
+            height: $(window).height() - 138,
+            colModel: [
+
+                { label: "", name: "Id", width: 150, align: 'left', hidden: true },
+
+
+                { label: "", name: "StartStatus", width: 150, align: 'left', hidden: true },
+
+                { label: "", name: "ProceedStatus", width: 150, align: 'left', hidden: true },
+
+                {
+                    label: "启动状态", name: "CombineStatus", width: 120, align: 'left',
+                    formatter: function (value, options, row) {
+                        //未启动未进行
+                        if (row.StartStatus == "0" && row.ProceedStatus == "0") {
+                            return '<span class=\"label label-default\">未启动</span>&nbsp;&nbsp;&nbsp;<span class=\"label label-danger\">未进行</span>';
+                        }
+                        //已启动进行中
+                        else if (row.StartStatus == "1" && row.ProceedStatus == "1") {
+                            return '<span class=\"label label-success\">已启动</span>&nbsp;&nbsp;&nbsp;<span class=\"label label-success\">进行中</span>';
+                        }
+                        //已启动未进行
+                        else if (row.StartStatus == "1" && row.ProceedStatus == "0") {
+                            return '<span class=\"label label-success\">已启动</span>&nbsp;&nbsp;&nbsp;<span class=\"label label-danger\">未进行</span>';
+                        }
+                        else {
+                            return '<span class=\"label label-default\">暂无状态</span>';
+                        }
+                    }
+                },
+                {
+                    label: "状态", name: "Status", width: 150, align: 'left', formatter: function (value, options, row) {
+                        if (value == "0") {
+                            return '<span class=\"label label-default\">未完成</span>';
+                        }
+                        else if (value == "1") {
+                            return '<span class=\"label label-success\">已完成</span>';
+                        }
+                        else {
+                            return '<span class=\"label label-default\">暂无状态</span>';
+                        }
+                    }
+                },
+
+                { label: "产线名称", name: "ProductLine", width: 150, align: 'left' },
+
+                { label: "订单类型", name: "OrderType", width: 150, align: 'left' },
+
+                { label: "订单名称", name: "OrderName", width: 150, align: 'left' },
+
+                { label: "产品编号", name: "PCode", width: 150, align: 'left' },
+
+                { label: "产品名称", name: "PName", width: 150, align: 'left' },
+
+                { label: "订单计划数量", name: "PlanQuantity", width: 150, align: 'left' },
+
+                { label: "合格数量", name: "QualifyQuantity", width: 150, align: 'left' },
+
+                { label: "不合格数量", name: "UnQualifyQuantity", width: 150, align: 'left' },
+
+                { label: "备注", name: "Remark", width: 150, align: 'left' },
+
+            ],
+            pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+            var queryJson = {
+                keyword: $("#txt_keyword").val()
+            }
+            $gridList.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+            }).trigger('reloadGrid');
+        });
+    }
+
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增订单信息",
+            url: "/IOT/IOT_Order_Sec/Form",
+            width: ($(window).width() * 0.8) + "px",
+            height: ($(window).height() * 0.7) + "px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+        //var parentId = top.$.jfinetab.getCurrentTabId();
+        //top.$.jfinetab.addTabContent("/IOT/IOT_Order_Sec/Form2", "订单信息--新增", parentId + "_add", parentId);
+    }
+
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            $.modalOpen({
+                id: "Form",
+                title: "修改订单信息",
+                url: "/IOT/IOT_Order_Sec/Form?keyValue=" + keyValue,
+                width: ($(window).width() * 0.8) + "px",
+                height: ($(window).height() * 0.7) + "px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].submitForm();
+                }
+            });
+        }
+        //var parentId = top.$.jfinetab.getCurrentTabId();
+        //var Id = $("#gridList").jqGridRowValue().Id;
+        //if ($.checkedArray(Id)) {
+        //    top.$.jfinetab.addTabContent("/IOT/IOT_Order_Sec/Form2?keyValue=" + Id, "订单信息--修改", parentId + "_edit", parentId);
+        // }
+
+    }
+
+    function btn_delete() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            $.deleteForm({
+                url: "/IOT/IOT_Order_Sec/DeleteForm",
+                param: { keyValue: keyValue },
+                success: function () {
+                    $.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+            });
+        }
+
+    }
+
+    function btn_details() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            $.modalOpen({
+                id: "Details",
+                title: "查看订单信息",
+                url: "/IOT/IOT_Order_Sec/Details?keyValue=" + keyValue,
+                width: "550px",
+                height: "620px",
+                btn: null,
+            });
+        }
+
+        //var parentId = top.$.jfinetab.getCurrentTabId();
+        //var Id = $("#gridList").jqGridRowValue().Id;
+        //if ($.checkedArray(Id)) {
+        //    top.$.jfinetab.addTabContent("/IOT/IOT_Order_Sec/Details2?keyValue=" + Id, "订单信息--查看", parentId + "_view", parentId);
+        //}
+
+    }
+
+    function refreshGrid() {
+        $("#gridList").trigger("reloadGrid");
+    }
+
+    function btn_start() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            $.modalConfirm("确认是否启动?", function (r) {
+                if (r) {
+                    $.submitAjax({
+                        url: '/IOT/IOT_Order_Sec/OrderStart?keyValue=' + keyValue,
+                        success: function (data) {
+                            $.currentWindow().$("#gridList").trigger("reloadGrid");
+                        }
+                    })
+                }
+            })
+        }
+
+    }
+
+    function btn_proceed() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            $.modalConfirm("确认是否切换进行中订单?", function (r) {
+                if (r) {
+                    $.submitAjax({
+                        url: '/IOT/IOT_Order_Sec/ChangeProceedOrder?keyValue=' + keyValue,
+                        success: function (data) {
+                            $.currentWindow().$("#gridList").trigger("reloadGrid");
+                        }
+                    })
+                }
+            })
+        }
+
+    }
+
+</script>
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="JF-add" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+            <a id="JF-edit" class="btn btn-primary dropdown-text" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a>
+            <a id="JF-delete" class="btn btn-primary dropdown-text" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+            <a id="JF-Details" class="btn btn-primary dropdown-text" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看</a>
+            <a id="JF-Details" class="btn btn-primary dropdown-text" onclick="btn_start()"><i class="fa fa-fast-forward"></i>启动</a>
+            <a id="JF-Details" class="btn btn-primary dropdown-text" onclick="btn_proceed()"><i class="fa fa-bell-o"></i>进行</a>
+        </div>
+        <div id="toolbar" class="btn-group">
+        </div>
+        <script>$('#toolbar').authorizeButton()</script>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>
+

@@ -1,0 +1,156 @@
+﻿
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2017-09-14 16:12:00
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+     var keyValue = $.request("keyValue");
+     $(function () {
+         initControl();
+        $.ajax({
+            url: "/SysCommon/BDConfig/GetFormJson",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $("#form1").formSerialize(data);
+                $("#form1").find('.form-control,select,input').attr('readonly', 'readonly');
+                $("#form1").find('div.ckbox label').attr('for', '');
+            }
+        });
+     });
+     function initControl() {
+         $("#BidType").bindSelect({
+             url: "/SysManage/ItemsDetail/GetSelectJson",
+             id: "text",
+             text: "text",
+             param: { Code: "ZBType" }
+         });
+     }
+</script>
+
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <table class="form">
+ 	  	
+			<tr>
+                <th class="formTitle"> 招标类型</th>
+                <td class="formValue">
+                    <select id="BidType" name="BidType" class="form-control required"></select>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 采购类型编码</th>
+                <td class="formValue">
+                    <input id="PurTypeCode" name="PurTypeCode" type="text" class="form-control required" placeholder="请输入采购类型编码" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 采购类型</th>
+                <td class="formValue">
+                    <input id="PurType" name="PurType" type="text" class="form-control required" placeholder="请输入采购类型" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 扩展字段</th>
+                <td class="formValue">
+                    <input id="ExpandColumn" name="ExpandColumn" type="text" class="form-control required" placeholder="请输入扩展字段" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 扩展字段标题</th>
+                <td class="formValue">
+                    <input id="ExpandColumnTitle" name="ExpandColumnTitle" type="text" class="form-control required" placeholder="请输入扩展字段标题" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 列宽</th>
+                <td class="formValue">
+                    <input id="ColumnWidth" name="ColumnWidth" type="text" class="form-control required" placeholder="请输入int" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 排序</th>
+                <td class="formValue">
+                    <input id="Sort" name="Sort" type="text" class="form-control required" placeholder="请输入排序" />
+                </td>
+            </tr>
+ 	  	
+            <tr>
+                <th class="formTitle"> 选项</th>
+                <td class="formValue">
+
+                    <div class="ckbox">
+                        <input id="SuppVisible" name="SuppVisible" type="checkbox" checked="checked"><label for="SuppVisible">供应商是否可见</label>
+                    </div>
+                    <div class="ckbox">
+                        <input id="IsFormat" name="IsFormat   " type="checkbox"><label for="IsFormat">是否格式化</label>
+                    </div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 格式化代码</th>
+                <td class="formValue">
+                    <input id="FormatCode" name="FormatCode" type="text" class="form-control required" placeholder="请输入格式化代码" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建时间</th>
+                <td class="formValue">
+                    <input id="CreateDate" name="CreateDate" type="text" class="form-control required" placeholder="请输入创建时间" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建人ID</th>
+                <td class="formValue">
+                    <input id="CreateUserId" name="CreateUserId" type="text" class="form-control required" placeholder="请输入创建人ID" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建人名称</th>
+                <td class="formValue">
+                    <input id="CreateUserName" name="CreateUserName" type="text" class="form-control required" placeholder="请输入创建人名称" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 更新时间</th>
+                <td class="formValue">
+                    <input id="UpdateDate" name="UpdateDate" type="text" class="form-control required" placeholder="请输入更新时间" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 更新人ID</th>
+                <td class="formValue">
+                    <input id="UpdateUserId" name="UpdateUserId" type="text" class="form-control required" placeholder="请输入更新人ID" />
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 更新人名称</th>
+                <td class="formValue">
+                    <input id="UpdateUserName" name="UpdateUserName" type="text" class="form-control required" placeholder="请输入更新人名称" />
+                </td>
+            </tr>
+   
+        </table>
+    </div>
+</form>

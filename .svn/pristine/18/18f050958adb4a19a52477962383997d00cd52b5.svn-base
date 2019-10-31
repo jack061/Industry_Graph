@@ -1,0 +1,27 @@
+﻿<#@ assembly name="System.Core"#>
+<#@ import namespace="System.Collections.Generic"#>
+<#@ import namespace="System.IO"#>
+<#@ import namespace="System.Text"#>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating"#>
+
+
+<#+
+	public class config
+	{
+		//数据库连接字符串
+        public static readonly string ConnectionString = "Data Source=47.100.1.234;Initial Catalog=JFine_IOT;User ID=sa;Password=@sasql2018;";
+        public static readonly string DbDatabase = "JFine_IOT";//数据库名称
+        public static readonly string TableName = "IOT_Device_Sec";//数据库表名
+		public static readonly string PreNameSpace="JFine.Plugins.IOT";//命名空间前缀
+		public static readonly string NameSpace="IOT";//命名空间
+		public static readonly string ModuleCode = "IOT_Device_Sec";//模块编码
+	    public static readonly string ModuleName = "设备信息";//模块名称
+		public static readonly bool isFolder = true;//是否创建文件夹；true：生成的文件放到对应设置的目录下；false：生成文件在对应的T4模板下；
+		public static readonly bool isAddProject= true;//是否添加到解决方案；true：生成文件添加到插件对应的项目中；false：生成文件放在生成器所在的项目下；
+		public static readonly string PluginName = "JFine.Plugins.IOT";//插件名称（插件项目名称）
+		public static readonly string PublishPluginName = "JFine.IOT";//插件名称（项目生成时文件名称）
+		public static readonly string PluginFolderName = "1 Plugins 插件库";//插件库名称
+		public static readonly bool packing = true;//true:封装后；false:封装前
+	}
+#>

@@ -1,0 +1,329 @@
+﻿
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2018-03-06 11:18:44
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = '@ViewBag.keyValue';
+    $(function () {
+        initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/Supplier/SupplierBase/GetFormExtJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formInitialize(data);
+                    if (data.PromiseAttachURL != null && data.PromiseAttachURL != undefined) {
+                        var displayStr = "<a style='color:blue;' href='" + data.PromiseAttachURL + "'>" + data.PromiseAttach + "</a>";
+                        $("#PromiseName").html(displayStr);
+                    }
+                }
+            });
+        }
+    });
+
+    //初始化组件
+    function initControl() {
+        initZZList();
+        initOrgList();
+
+    }
+
+    //初始化资质列表
+    function initZZList() {
+        var queryJson = {
+            BindId: (keyValue == "") ? "0" : keyValue
+        }
+        var $gridList = $("#gridList_zh");
+        $gridList.dataGrid({
+            url: "/Supplier/SupplierFiles/GetGridJson",
+            height: $(window).height() - 380,
+            postData: { queryJson: JSON.stringify(queryJson) },
+            colModel: [
+
+					{ label: " 主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+					{ label: " BindId", name: "BindId", width: 150, align: 'left', hidden: true },
+
+					{ label: " 文件名", name: "FileName", width: 150, align: 'left' },
+
+					{ label: " 文件描述", name: "FileDES", width: 150, align: 'left' },
+
+					{
+					    label: " 文件URL", name: "FileURL", width: 150, align: 'left',
+					    formatter: function (cellvalue, options, rowObject) {
+					        return "<a style='color:blue;' href='" + cellvalue + "'>" + rowObject.FileName + "</a>";
+					    }
+					},
+
+            ],
+            pager: "#gridPager_zh",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $gridList.setGridWidth($(window).width() - 180);
+    }
+
+    //初始化采购组织列表
+    function initOrgList() {
+        var queryJson = {
+            BindId: (keyValue == "") ? "0" : keyValue
+        }
+        var $gridList = $("#gridList_organization");
+        $gridList.dataGrid({
+            url: "/Supplier/SupplierPurchaseORG/GetGridJson",
+            height: $(window).height() - 380,
+            postData: { queryJson: JSON.stringify(queryJson) },
+            colModel: [
+
+					{ label: " 主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+					{ label: " BindId", name: "BindId", width: 150, align: 'left', hidden: true },
+
+					{ label: " 组织编码", name: "OrganizeCode", width: 150, align: 'left' },
+
+					{ label: " 组织名称", name: "OrganizeName", width: 150, align: 'left' },
+
+					{ label: " 审批状态", name: "ApprovalStatus", width: 150, align: 'left' },
+
+                    { label: '审核描述', name: 'ApprovalSpec', width: 100, align: 'left' },
+
+                    { label: '审核人', name: 'ApprovalMan', width: 120, align: 'left' },
+
+                    { label: '审核时间', name: 'ApprovalTime', width: 150, align: 'left' }
+
+            ],
+            pager: "#gridPager_organization",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $gridList.setGridWidth($(window).width() - 180);
+    }
+</script>
+
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <div>
+            <table class="form">
+
+                <tr>
+                    <th class="formTitle"> 公司名称</th>
+                    <td class="formValue">
+                        <div id="SupName" name="SupName"></div>
+                    </td>
+                    <th class="formTitle"> 公司曾用名</th>
+                    <td class="formValue">
+                        <div id="SupName1" name="SupName1"></div>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th class="formTitle"> 企业类别</th>
+                    <td class="formValue">
+                        <div id="SupType" name="SupType"></div>
+                    </td>
+                    <th class="formTitle"> 企业性质</th>
+                    <td class="formValue">
+                        <div id="Property" name="Property"></div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle"> 公司成立时间</th>
+                    <td class="formValue">
+                        <div id="EstablishDate" name="EstablishDate"></div>
+                    </td>
+                    <th class="formTitle"> 采购类别</th>
+                    <td class="formValue">
+                        <div id="PurchaseCategory" name="PurchaseCategory"></div>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th class="formTitle"> 公司网址</th>
+                    <td class="formValue">
+                        <div id="URL" name="URL"></div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle"> 地址</th>
+                    <td class="formValue" colspan="3">
+                        <div id="Area" name="Area" style="display: inline;"></div>
+                        <div id="Area1" name="Area1" style="display: inline;"></div>
+                        <div id="Area2" name="Area2" style="display: inline;"></div>
+                        <div id="Area3" name="Area3" style="display: inline;"></div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle"> 注册地址</th>
+                    <td class="formValue" colspan="3">
+                        <div id="DetailAddress" name="DetailAddress"></div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle"> 法人</th>
+                    <td class="formValue">
+                        <div id="LegalPerson" name="LegalPerson"></div>
+                    </td>
+                    <th class="formTitle"> 注册资金（万元）</th>
+                    <td class="formValue">
+                        <div id="RegisteredCapital" name="RegisteredCapital"></div>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th class="formTitle"> 开户行</th>
+                    <td class="formValue">
+                        <div id="Bank" name="Bank"></div>
+                    </td>
+                    <th class="formTitle"> 银行账号</th>
+                    <td class="formValue">
+                        <div id="Account" name="Account"></div>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th class="formTitle"> 税号</th>
+                    <td class="formValue">
+                        <div id="TaxNo" name="TaxNo"></div>
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <th class="formTitle"> 经营范围</th>
+                    <td class="formValue" colspan="3">
+                        <div id="BusinessScope" name="BusinessScope"></div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle"> 公司描述</th>
+                    <td class="formValue" colspan="3">
+                        <div id="CompanyDES" name="CompanyDES"></div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle"> 是否阅读条款</th>
+                    <td class="formValue">
+                        <div id="IfRead" name="IfRead"></div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle"> 承诺书</th>
+                    <td class="formValue">
+                        <div id="PromiseName" name="PromiseName"></div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle"> 注册时间</th>
+                    <td class="formValue">
+                        <div id="CreateDate" name="CreateDate"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active"><a href="#tab_linkman" data-toggle="tab">企业联系人</a></li>
+                <li role="presentation"><a href="#tab_file" data-toggle="tab">资质文件</a></li>
+                <li role="presentation"><a href="#tab_org" data-toggle="tab">采购组织</a></li>
+            </ul>
+            <div class="tab-content">
+
+                <!-- 企业联系人 -->
+                <div class="tab-pane fade in active" id="tab_linkman">
+                    <div class="gridPanel">
+                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                            <table class="form">
+
+                                <tr>
+                                    <th class="formTitle"> 姓名</th>
+                                    <td class="formValue">
+                                        <div id="Name" name="Name"></div>
+                                    </td>
+                                    <th class="formTitle"> 性别</th>
+                                    <td class="formValue">
+                                        <div id="Sex" name="Sex"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="formTitle"> 部门</th>
+                                    <td class="formValue">
+                                        <div id="Department" name="Department"></div>
+                                    </td>
+                                    <th class="formTitle"> 职位</th>
+                                    <td class="formValue">
+                                        <div id="Post" name="Post"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="formTitle"> 身份证号</th>
+                                    <td class="formValue">
+                                        <div id="IDNumber" name="IDNumber"></div>
+                                    </td>
+                                    <th class="formTitle"> 电话</th>
+                                    <td class="formValue">
+                                        <div id="Phone" name="Phone"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="formTitle"> 手机</th>
+                                    <td class="formValue">
+                                        <div id="Mobile" name="Mobile"></div>
+                                    </td>
+                                    <th class="formTitle"> 邮箱</th>
+                                    <td class="formValue">
+                                        <div id="Email" name="Email"></div>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 资质文件 -->
+                <div class="tab-pane fade" id="tab_file">
+                    <div class="gridPanel">
+                        <table id="gridList_zh"></table>
+                        <div id="gridPager_zh"></div>
+                    </div>
+                </div>
+
+                <!-- 采购组织 -->
+                <div class="tab-pane fade" id="tab_org">
+                    <div class="gridPanel">
+                        <table id="gridList_organization"></table>
+                        <div id="gridPager_organization"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

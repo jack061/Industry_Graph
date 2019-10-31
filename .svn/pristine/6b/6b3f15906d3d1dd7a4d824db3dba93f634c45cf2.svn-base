@@ -1,0 +1,518 @@
+﻿<#@ assembly name="System.Core"#>
+<#@ assembly name="EnvDTE"#>
+<#@ assembly name="VSLangProj"#>
+<#@ assembly name="EnvDTE80"#>
+
+<#@ import namespace="System.Collections.Generic"#>
+<#@ import namespace="System.IO"#>
+<#@ import namespace="System.Text"#>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating"#>
+<#@ include file="ModelConfig.ttinclude"#>
+
+
+<#+
+
+class Manager
+{
+    public struct Block {
+        public String Name;
+        public int Start, Length;
+    }
+
+    public List<Block> blocks = new List<Block>();
+    public Block currentBlock;
+    public Block footerBlock = new Block();
+    public Block headerBlock = new Block();
+    public ITextTemplatingEngineHost host;
+    public VSManagementStrategy strategy;
+    public StringBuilder template;
+    public String OutputPath { get; set; }
+
+    public Manager(ITextTemplatingEngineHost host, StringBuilder template, bool commonHeader,string pluginPath="") {
+        this.host = host;
+        this.template = template;
+        OutputPath = String.Empty;
+        strategy = new VSManagementStrategy(host,pluginPath);
+    }
+
+    public void StartBlock(String name) {
+        currentBlock = new Block { Name = name, Start = template.Length };
+    }
+
+    public void StartFooter() {
+        footerBlock.Start = template.Length;
+    }
+
+    public void EndFooter() {
+        footerBlock.Length = template.Length - footerBlock.Start;
+    }
+
+    public void StartHeader() {
+        headerBlock.Start = template.Length;
+    }
+
+    public void EndHeader() {
+        headerBlock.Length = template.Length - headerBlock.Start;
+    }    
+
+    public void EndBlock() {
+        currentBlock.Length = template.Length - currentBlock.Start;
+        blocks.Add(currentBlock);
+    }
+
+    public void Process(bool split) {
+        String header = template.ToString(headerBlock.Start, headerBlock.Length);
+        String footer = template.ToString(footerBlock.Start, footerBlock.Length);
+        blocks.Reverse();
+        foreach(Block block in blocks) {
+            String fileName = Path.Combine(OutputPath, block.Name);
+            if (split) {
+                String content = header + template.ToString(block.Start, block.Length) + footer;
+                strategy.CreateFile(fileName, content);
+                template.Remove(block.Start, block.Length);
+            } else {
+                strategy.DeleteFile(fileName);
+            }
+        }
+    }
+}
+
+class ManagementStrategy
+{
+	public string lastPath="";
+    internal static ManagementStrategy Create(ITextTemplatingEngineHost host,string pluginPath ="") {
+		
+        return (host is IServiceProvider) ? new VSManagementStrategy(host,pluginPath) : new ManagementStrategy(host,pluginPath);
+    }
+
+    internal ManagementStrategy(ITextTemplatingEngineHost host,string pluginPath) 
+	{
+		lastPath = pluginPath;
+	 }
+
+    internal virtual void CreateFile(String fileName, String content) {
+        File.WriteAllText(fileName, content,Encoding.UTF8);
+    }
+
+    internal virtual void DeleteFile(String fileName) {
+        if (File.Exists(fileName))
+            File.Delete(fileName);
+    }
+}
+
+class VSManagementStrategy : ManagementStrategy
+{
+	private ITextTemplatingEngineHost host;
+    private EnvDTE.ProjectItem templateProjectItem;
+	private  EnvDTE.DTE dte;
+	//private  EnvDTE80.DTE2 dte2;
+	
+    internal VSManagementStrategy(ITextTemplatingEngineHost host,string pluginPath) : base(host,pluginPath) {
+		this.host = host;
+		lastPath = pluginPath;//pluginPath用@隔开
+        IServiceProvider hostServiceProvider = (IServiceProvider)host;
+        if (hostServiceProvider == null)
+            throw new ArgumentNullException("Could not obtain hostServiceProvider");
+        dte = (EnvDTE.DTE)hostServiceProvider.GetService(typeof(EnvDTE.DTE));
+		//dte2 = (EnvDTE80.DTE2)hostServiceProvider.GetService(typeof(EnvDTE80.DTE2));
+        if (dte == null)
+            throw new ArgumentNullException("Could not obtain DTE from host");
+
+		CreatePluginLibrary();
+		
+    }
+
+	//根据path获取当前项目
+	public void setCurrentProjectItem()
+	{
+		var solution = dte.Solution;
+		var pathArry = lastPath.Split('@');
+
+		string solutionsPath = host.ResolveAssemblyReference("$(SolutionDir)");
+		string projectPath = host.ResolveAssemblyReference("$(ProjectDir)");
+		var path = host.TemplateFile;
+		if(config.isAddProject)
+		{
+
+			IList<EnvDTE.Project> projectList = Projects(solution);
+			var projeInfo = "";
+			foreach(var project in projectList)
+			{
+				if(project.Name == config.PluginName)
+				{
+					IList<EnvDTE.ProjectItem> folderProjectList = GetProjectFolder(project,pathArry);
+					templateProjectItem = folderProjectList.LastOrDefault();
+					var sss = templateProjectItem.Name;
+				}
+				//templateProjectItem = project;
+			}			
+	
+		}else
+		{
+			templateProjectItem = dte.Solution.FindProjectItem(path);
+		}
+	}
+
+    internal override void CreateFile(String fileName, String content) {
+        base.CreateFile(fileName, content);
+		templateProjectItem.ProjectItems.AddFromFile(fileName);
+        
+    }
+
+    internal override void DeleteFile(String fileName) {
+        ((EventHandler)delegate { FindAndDeleteFile(fileName); }).BeginInvoke(null, null, null, null);
+    }
+
+    private void FindAndDeleteFile(String fileName) {
+        foreach(EnvDTE.ProjectItem projectItem in templateProjectItem.ProjectItems) {
+            if (projectItem.get_FileNames(0) == fileName) {
+                projectItem.Delete();
+                return;
+            }
+        }
+    }
+
+	//创建类库
+	private void CreatePluginLibrary()
+	{
+		if(config.isAddProject)
+		{
+			EnvDTE.Project project = GetProjectFromSolution();
+			if(project == null)
+			{
+				//找到插件库项目
+				var solution = dte.Solution;
+				var solution2 = (EnvDTE80.Solution2)dte.Solution;
+				EnvDTE.Projects projects = solution.Projects;
+				var item = projects.GetEnumerator();
+				while (item.MoveNext())
+				{
+					var project_temp = item.Current as EnvDTE.Project;
+					if (project_temp == null)
+					{
+						continue;
+					}else
+					{
+						var name = project_temp.Name;
+						if(project_temp.Name == config.PluginFolderName)
+						{
+							EnvDTE.ProjectItems projectItems = project_temp.ProjectItems;
+							string fileN = solution2.GetProjectTemplate("ClassLibrary.zip", "CSharp");
+							//projectItems.AddFromTemplate(fileN, config.PluginName);
+							string solutionsPath = host.ResolveAssemblyReference("$(SolutionDir)");
+							solutionsPath = solutionsPath + config.PluginName;
+							if (Directory.Exists(solutionsPath) == false)//
+							{
+								Directory.CreateDirectory(solutionsPath);
+							}
+							//方法1、到解决方案
+							//solution2.AddFromTemplate(fileN, solutionsPath, config.PluginName, false);
+
+							//方法2：到解决方案文件夹
+							EnvDTE80.SolutionFolder folder = (EnvDTE80.SolutionFolder)project_temp.Object;
+							folder.AddFromTemplate(fileN, solutionsPath, config.PluginName);
+
+							//写入插件信息
+							string[] names = config.PluginName.Split('.');
+							string jsonPath = solutionsPath+"\\插件信息.json";
+							StringBuilder jsonContent = new StringBuilder(@"{"
+																			+"\"PluginName\": \""+names[names.Length-1]+"\","
+																			+"\"FriendlyName\": \""+names[names.Length-1]+"\","
+																			+"\"Group\": \"\","
+																			+"\"Version\": \"1.0\","
+																			+"\"SupportedVersions\": [\"3.0\"],"
+																			+"\"Author\": \"sj\","
+																			+"\"Sort\": 1,"
+																			+"\"PluginFileName\": \""+ config.PluginName +".dll\","
+																			+"\"Description\": \""+ config.PluginName +"\","
+																			+"\"LimitedToCustomerRoles\": []"
+																			+"}");
+							File.WriteAllText(jsonPath,jsonContent.ToString());
+							var newProject = GetProjectFromSolution();
+							newProject.ProjectItems.AddFromFile(jsonPath);
+							
+							VSLangProj.VSProject vsProject = (VSLangProj.VSProject)newProject.Object;
+							
+							if(config.packing)
+							{
+								//引用类库
+								string[] dllArr = {"JFine.Log.dll","JFine.Cache.dll","JFine.Code.dll","JFine.Common.dll","JFine.Data.dll",
+												"JFine.Domain.dll","JFine.Sequence.dll","JFine.Infrastructure.dll"};
+								string dllPath = host.ResolveAssemblyReference("$(SolutionDir)") +"\\Libs\\";
+								foreach(var pathItem in dllArr)
+								{
+									string dllPathTemp = dllPath + pathItem;
+									vsProject.References.Add(dllPathTemp);
+								}
+							}else
+							{
+								//引用项目
+								string[] projectArr = {"JFine.Web.Base","JFine.Log","JFine.Cache","JFine.Code","JFine.Common",
+												  "JFine.Data","JFine.Domain","JFine.Sequence","JFine.Infrastructure"};
+								foreach(var projectItem in projectArr)
+								{
+									var refProject = GetProjectFromSolution(projectItem);
+									//异常：
+									//vsProject.References.AddProject(refProject);
+								}
+							}
+
+						}
+					}
+				}
+			}
+		}
+	}
+
+	//获取解决方案下的项目
+	private  IList<EnvDTE.Project> Projects(EnvDTE.Solution solution)
+    {
+        EnvDTE.Projects  projects = solution.Projects;
+        List<EnvDTE.Project> list = new List<EnvDTE.Project>();
+        var item = projects.GetEnumerator();
+        while (item.MoveNext())
+        {
+            var project = item.Current as EnvDTE.Project;
+            if (project == null)
+            {
+                continue;
+            }
+
+            if (project.Kind == EnvDTE80.ProjectKinds.vsProjectKindSolutionFolder)
+            {
+                list.AddRange(GetSolutionFolderProjects(project));
+            }
+            else
+            {
+                list.Add(project);
+            }
+        }
+
+        return list;
+    }
+
+	private IEnumerable<EnvDTE.Project> GetSolutionFolderProjects(EnvDTE.Project solutionFolder)
+    {
+        List<EnvDTE.Project> list = new List<EnvDTE.Project>();
+        for (var i = 1; i <= solutionFolder.ProjectItems.Count; i++)
+        {
+            var subProject = solutionFolder.ProjectItems.Item(i).SubProject;
+            if (subProject == null)
+            {
+                continue;
+            }
+
+            // If this is another solution folder, do a recursive call, otherwise add
+			var a = subProject.Kind;
+			var b = subProject.Name;
+            if (subProject.Kind == EnvDTE80.ProjectKinds.vsProjectKindSolutionFolder)
+            {
+               list.AddRange(GetSolutionFolderProjects(subProject));
+            }
+           else
+           {
+               list.Add(subProject);
+           }
+        }
+        return list;
+    }
+
+	//从解决方案中获取项目
+	public EnvDTE.Project GetProjectFromSolution()
+	{
+		var solution = dte.Solution;
+		EnvDTE.Project tempProject = null;
+		IList<EnvDTE.Project> projectList = Projects(solution);
+		foreach(var project in projectList)
+		{
+			if(project.Name == config.PluginName)
+			{
+				tempProject = project;
+				break;
+			}
+		}
+		return tempProject;	
+	}
+
+	//从解决方案中获取项目
+	public EnvDTE.Project GetProjectFromSolution(string projectName)
+	{
+		var solution = dte.Solution;
+		EnvDTE.Project tempProject = null;
+		IList<EnvDTE.Project> projectList = Projects(solution);
+		foreach(var project in projectList)
+		{
+			if(project.Name == projectName)
+			{
+				tempProject = project;
+				break;
+			}
+		}
+		return tempProject;	
+	}
+
+	//根据问价夹集合获取项目下的对应的文件夹项目
+	private IList<EnvDTE.ProjectItem> GetProjectFolder(EnvDTE.Project project,string[] folderNameArr)
+    {
+        List<EnvDTE.ProjectItem> list = new List<EnvDTE.ProjectItem>();
+		EnvDTE.Project projectTemp = project;
+		int folderCount = folderNameArr.Length;
+		EnvDTE.ProjectItem projectItem = null;
+		for(var j= 0;j < folderCount;j++)
+		{
+			var abc = projectTemp.ProjectItems.Count;
+			
+			if(j==0)
+			{
+				for (var i = 1; i <= projectTemp.ProjectItems.Count; i++)
+				{
+					projectItem = projectTemp.ProjectItems.Item(i);				
+					var name = projectItem.Name;
+
+					if (projectItem.Name == folderNameArr[j])
+					{
+						list.Add(projectItem);
+						break;
+					}
+				 }
+			}else
+			{
+				projectItem =GetProjectItemFolder(projectItem,folderNameArr[j]);
+				list.Add(projectItem);
+			}
+		}
+        
+        return list;
+    }
+
+	//根据文件夹名称获取项目项下对应的文件夹项目
+	private EnvDTE.ProjectItem GetProjectItemFolder(EnvDTE.ProjectItem projectItem,string folderName)
+    {
+		EnvDTE.ProjectItem projectItemTemp = projectItem;
+		EnvDTE.ProjectItem projectItem_ = null ;
+		var abc = projectItemTemp.ProjectItems.Count;
+			for (var i = 1; i <= projectItemTemp.ProjectItems.Count; i++)
+			{
+				projectItem_ = projectItemTemp.ProjectItems.Item(i);				
+				var name = projectItem_.Name;
+
+				if (projectItem_.Name == folderName)
+				{
+					break;
+				}
+			}        
+        return projectItem_;
+    }
+
+	//创建文件夹
+	public void CreateFolderFromPath ()
+	{
+		EnvDTE.Project project = null;
+		EnvDTE.ProjectItem newProjectItem = null;
+		var pathArry = lastPath.Split('@');
+		for(var i=0;i<pathArry.Length;i++)
+		{
+			if(i==0)
+			{
+				project = GetProjectFromSolution();
+				newProjectItem = CreateFolder2Project(project,pathArry[i]);
+			}else
+			{
+				newProjectItem = CreateFolder2ProjectItem(newProjectItem,pathArry[i]);
+			}
+		}
+	}
+
+	//在对应的项目下创建文件,并返回生成的文件夹项目
+	private EnvDTE.ProjectItem CreateFolder2Project(EnvDTE.Project project,string folderName)
+	{
+		EnvDTE.ProjectItem newProjectItem = null;
+		EnvDTE.ProjectItem projectItem_ = null;
+		if(project != null)
+		{
+			var sss = project.Name;
+			var count = project.ProjectItems.Count;
+			bool isExist = false;
+			for (var i = 1; i <= project.ProjectItems.Count; i++)
+			{
+				projectItem_ = project.ProjectItems.Item(i);				
+				var name = projectItem_.Name;
+
+				if (projectItem_.Name == folderName)
+				{
+					isExist = true;
+					break;
+				}
+			}
+			if(!isExist)
+			{
+				project.ProjectItems.AddFolder(folderName);
+			} 
+			
+			//返回新的项目
+			for (var i = 1; i <= project.ProjectItems.Count; i++)
+			{
+				projectItem_ = project.ProjectItems.Item(i);				
+				var name = projectItem_.Name;
+
+				if (projectItem_.Name == folderName)
+				{
+					newProjectItem = projectItem_;
+					break;
+				}
+			}     
+		}else
+		{
+			newProjectItem = null;
+		}
+		return newProjectItem;
+	}
+
+	//在对应的项目下创建文件,并返回生成的文件夹项目
+	private EnvDTE.ProjectItem CreateFolder2ProjectItem(EnvDTE.ProjectItem projectItem,string folderName)
+	{
+		EnvDTE.ProjectItem newProjectItem = null;
+		EnvDTE.ProjectItem projectItem_ = null;
+		if(projectItem != null)
+		{
+			var count = projectItem.ProjectItems.Count;
+			bool isExist = false;
+			for (var i = 1; i <= projectItem.ProjectItems.Count; i++)
+			{
+				projectItem_ = projectItem.ProjectItems.Item(i);				
+				var name = projectItem_.Name;
+
+				if (projectItem_.Name == folderName)
+				{
+					isExist = true;
+					break;
+				}
+			}
+			if(!isExist)
+			{
+				projectItem.ProjectItems.AddFolder(folderName);
+			} 
+			
+			//返回新的项目
+			for (var i = 1; i <= projectItem.ProjectItems.Count; i++)
+			{
+				projectItem_ = projectItem.ProjectItems.Item(i);				
+				var name = projectItem_.Name;
+
+				if (projectItem_.Name == folderName)
+				{
+					newProjectItem = projectItem_;
+					break;
+				}
+			}     
+		}else
+		{
+			newProjectItem = null;
+		}
+		return newProjectItem;
+	}
+}
+
+
+#>

@@ -1,0 +1,264 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>企业生产设备数据监控</title>
+    <script type="text/javascript" src="/Plugins/JFine.IOT/Content/js/jquery.js"></script>
+    <script src="~/Content/js/bootstrap/bootstrap.min.js"></script>
+    <link href="~/Content/js/bootstrap/bootstrap.min.css?v=1.0.3" rel="stylesheet" />
+    <link rel="stylesheet" href="/Plugins/JFine.IOT/Content/css/comon0.css">
+    <script src="~/Content/js/signalR/jquery.signalR-2.2.3.min.js"></script>
+    <script type="text/javascript" src="~/signalr/hubs"></script>
+    <script>
+        var checkbus;
+        @*var orderId=@ViewBag.ProceedOrder.Id;*@
+        var t = null;
+        t = setTimeout(time, 1000);/*開始运行*/
+        function time() {
+            clearTimeout(t);/*清除定时器*/
+            dt = new Date();
+            var y = dt.getFullYear();
+            var mt = dt.getMonth() + 1;
+            var day = dt.getDate();
+            var h = dt.getHours();
+            var m = dt.getMinutes();
+            var s = dt.getSeconds();
+            document.getElementById("showTime").innerHTML = y + "年" + mt + "月" + day + "日" + h + "时" + m + "分" + s + "秒";
+            t = setTimeout(time, 1000);
+        }
+        function progressBar() {
+            //$.each($(".bar"), function () {
+            //    var randomWidth = randomNum(150, 230);
+            //    $(this).css("width", randomWidth+"px");
+            //})
+            //初始化js进度条
+            //$(".bar").css("width", "0px");
+            //进度条的速度，越小越快
+            var speed = 20;
+            bar = setInterval(function () {
+                $.each($(".bar"), function () {
+                    var quantity = parseInt($(this).parent().find(".QualifyQuantitySpan").text());
+                    var planQuantity = parseInt($(this).parent().find(".PlanQuantitySpan").text());
+                    nowWidth = parseInt($(this).parent().width()) * quantity / planQuantity;
+                    //宽度要不能大于进度条的总宽度
+                    if (nowWidth <= 480) {
+                        //barWidth = (nowWidth + 1) + "px";
+                        $(this).css("width", nowWidth);
+                    } else {
+                        //进度条读满后，停止
+                        clearInterval(bar);
+                    }
+                })
+
+            }, speed);
+        }
+        $(window).load(function () {
+            $(".loading").fadeOut();
+            progressBar();
+            checkbus();
+        })
+        function checkbus() {
+            checkbusHub = $.connection.checkbus;
+            checkbusHub.client.ReceiveResult = function (deviceCode, result, dataTime) {
+                if (result == 1) {
+                    $.ajax({
+                        url: "/IOT/IOTHome/UpdateOrderQuantity",
+                        data: { quantityType: "qualify", keyValue:"@ViewBag.ProceedOrder.Id"},
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.state=="success") {
+                                $("#qualifySpan").text(parseInt($("#qualifySpan").text()) + 1);
+                            }
+
+                        }
+                    })
+                }
+                else if (result == 0) {
+                    $.ajax({
+                        url: "/IOT/IOTHome/UpdateOrderQuantity",
+                        data: { quantityType: "unQualify",keyValue:"@ViewBag.ProceedOrder.Id"},
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.state=="success") {
+                                $("#unQualifySpan").text(parseInt($("#unQualifySpan").text()) + 1);
+                            }
+                        }
+                    })
+
+                }
+            };
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                console.log("modbusHub已连接");
+            });
+        }
+    </script>
+    <style type="text/css">
+        .mainbox {
+            position: absolute;
+            width: 100%;
+            height: 85%;
+            border-left: 15px solid #0277bd;
+            border-right: 15px solid #0277bd;
+            top: 10%;
+            padding: 0px;
+            background-color:#0277bd;
+        }
+
+        .bottomDiv {
+            position: absolute;
+            width: 100%;
+            height: 5%;
+            top: 95%;
+            background-color: #0277bd;
+        }
+
+        .mainLeft_Div {
+            position: relative;
+            width: 70%;
+            height: 100%;
+            background-color: #0277bd;
+            border-radius: 25px;
+            border: 5px solid gray;
+            float: left;
+        }
+
+        .leftRow_Div {
+            position: relative;
+            width: 100%;
+            height: 33%;
+        }
+
+        .leftRowSpan_Div {
+            position: relative;
+            width: 45%;
+            height: 100%;
+            float: left;
+            text-align: left;
+        }
+
+            .leftRowSpan_Div span:nth-child(2n) {
+                position: relative;
+                top: 30%;
+                font-size: 55px;
+                color: white;
+                left: 8%;
+            }
+
+            .leftRowSpan_Div span:nth-child(2n+1) {
+                position: relative;
+                top: 30%;
+                font-size: 45px;
+                color: white;
+                left:5%;
+            }
+
+        .mainRight_Div {
+            position: relative;
+            width: 30%;
+            height: 100%;
+            float: left;
+            background-color: cornflowerblue;
+            border-radius: 15px;
+        }
+
+        .rightRow_Div {
+            position: relative;
+            width: 98%;
+            border: 5px solid gray;
+            border-radius: 10px;
+            height: 24%;
+            margin: 1%;
+        }
+
+        .rightRowSub_Div {
+            position: relative;
+            width: 100%;
+            float: left;
+            height: 33%;
+            text-align: center;
+        }
+
+        .rightRowSpan_Div {
+            position: relative;
+            width: 33%;
+            height: 100%;
+            float: left;
+        }
+
+            .rightRowSpan_Div span {
+                position: relative;
+                top: 30%;
+                font-size: 20px;
+                color: white;
+            }
+
+        .progressBar {
+            width: 80%;
+            height: 50%;
+            border: 1px solid #98AFB7;
+            border-radius: 5px;
+            left: 7%;
+            top: 15%;
+            position: relative;
+        }
+
+        .bar {
+            width: 0px;
+            height: 100%;
+            border-radius: 5px;
+            background: #5EC4EA;
+        }
+    </style>
+</head>
+<body>
+    <div style="background:-webkit-linear-gradient( top, #2e287a, #0277bd);position:absolute;width:100%;height:10%;">
+        <div class="head" style="height:100%;">
+            <img style="position: absolute;width:10%;height:70%;padding-left: 0px;top:0px;" src="/Content/images/hljh.jpg" />
+            <div class="weather"><span id="showTime"></span></div>
+            <h1>@ViewBag.ProceedOrder.ProductLine 产线生产看板</h1>
+        </div>
+    </div>
+    <div class="mainbox">
+        <div class="mainLeft_Div">
+            <div class="leftRow_Div">
+                <div class="leftRowSpan_Div"><span>产品编号:</span><span>@ViewBag.ProceedOrder.PCode</span></div>
+                <div class="leftRowSpan_Div"><span>产品名称:</span><span>@ViewBag.ProceedOrder.PName</span></div>
+            </div>
+            <div class="leftRow_Div">
+                <div class="leftRowSpan_Div"><span>计划数量:</span><span>@ViewBag.ProceedOrder.PlanQuantity</span></div>
+                <div class="leftRowSpan_Div"><span>状态:</span><span style="background-color:green;border-left:50px solid green;border-right:50px solid green">生产中</span></div>
+            </div>
+            <div class="leftRow_Div">
+                <div class="leftRowSpan_Div"><span>合格数:</span><span id="qualifySpan" style="background-color:green;border-left:50px solid green;border-right:50px solid green">@ViewBag.ProceedOrder.QualifyQuantity</span></div>
+                <div class="leftRowSpan_Div"><span>不合格数:</span><span id="unQualifySpan" style="background-color:red;border-left:50px solid red;border-right:50px solid red">@ViewBag.ProceedOrder.UnqualifyQuantity</span></div>
+            </div>
+        </div>
+        <div class="mainRight_Div">
+            @using JFine.Plugins.IOT.Domain.Models.IOT;
+            @foreach (IOT_Order_SecEntity item in ViewBag.ProceedSiblingsOrder)
+            {
+                int? PlanQuantity =item.PlanQuantity;
+                int? QualifyQuantity = item.QualifyQuantity == null ? 0 : item.QualifyQuantity;
+                int? UnqualifyQuantity = item.UnqualifyQuantity == null ? 0 : item.UnqualifyQuantity;
+                <div class="rightRow_Div">
+                    <div class="rightRowSub_Div"><div class="rightRowSpan_Div"><span>产品编号:@item.PCode</span></div><div class="rightRowSpan_Div"><span>产品名称:@item.PName</span></div></div>
+                    <div class="rightRowSub_Div"><div class="rightRowSpan_Div"><span>计划数量:@PlanQuantity</span></div><div class="rightRowSpan_Div"><span>合格数:@QualifyQuantity</span></div><div class="rightRowSpan_Div"><span>不合格数量:@UnqualifyQuantity</span></div></div>
+                    <div class="rightRowSub_Div"> <div class="progressBar"><div class="bar" style="width:160px;"></div><span style="font-size:12px;position:relative;top:-25px;">完成:<span class="QualifyQuantitySpan">@QualifyQuantity</span> 总数:<span class="PlanQuantitySpan">@item.PlanQuantity</span></span></div></div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="bottomDiv">
+        <div style="margin-left:40%;margin-top:15px;">
+            <div style="background-color:green;width:20px;height:10px;float:left;display:inline"></div>
+            <div style="width:40px;height:10px;float:left;margin-left:5px;display:inline"><span style="font-size:10px;position:relative;bottom:10px;">生产中</span></div>
+            <div style="background-color:orange;width:20px;height:10px;float:left;margin-left:5px;display:inline"></div>
+            <div style="width:40px;height:10px;float:left;margin-left:5px;display:inline"><span style="font-size:10px;position:relative;bottom:10px;">暂停生产</span></div>
+       
+        </div>
+    </div>
+</body>
+</html>

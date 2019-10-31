@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JFine.Log</name>
+    </assembly>
+    <members>
+        <member name="T:JFine.Log.LogMessage">
+            <summary>
+            日志消息
+            </summary>
+        </member>
+        <member name="P:JFine.Log.LogMessage.Account">
+            <summary>
+            操作人
+            </summary>
+        </member>
+        <member name="P:JFine.Log.LogMessage.UserName">
+            <summary>
+            操作人
+            </summary>
+        </member>
+        <member name="P:JFine.Log.LogMessage.Time">
+            <summary>
+            操作时间
+            </summary>
+        </member>
+        <member name="P:JFine.Log.LogMessage.Ip">
+            <summary>
+            IP
+            </summary>
+        </member>
+        <member name="P:JFine.Log.LogMessage.System">
+            <summary>
+            操作系统
+            </summary>
+        </member>
+        <member name="P:JFine.Log.LogMessage.Browser">
+            <summary>
+            浏览器
+            </summary>
+        </member>
+        <member name="P:JFine.Log.LogMessage.Url">
+            <summary>
+            Url地址
+            </summary>
+        </member>
+        <member name="P:JFine.Log.LogMessage.Class">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:JFine.Log.LogMessage.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:JFine.Log.LogMessage.ExceptionMessage">
+            <summary>
+            异常信息
+            </summary>
+        </member>
+        <member name="P:JFine.Log.LogMessage.ExceptionTrace">
+            <summary>
+            异常堆栈
+            </summary>
+        </member>
+    </members>
+</doc>

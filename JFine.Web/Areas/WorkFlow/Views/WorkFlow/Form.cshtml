@@ -1,0 +1,232 @@
+﻿
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2017-09-26 21:21:42
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form2.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/js/gooflow/codebase/fonts/iconflow.css" />
+<link rel="stylesheet" type="text/css" href="~/Content/js/gooflow/codebase/GooFlow.css" />
+<script type="text/javascript" src="~/Content/js/gooflow/demo/data2.js"></script>
+<script type="text/javascript" src="~/Content/js/gooflow/codebase/GooFunc.js"></script>
+<script type="text/javascript" src="~/Content/js/gooflow/plugin/printThis.js"></script>
+<script type="text/javascript" src="~/Content/js/gooflow/codebase/GooFlow.js?v=1.0.1"></script>
+<script type="text/javascript" src="~/Content/js/gooflow/codebase/GooFlow.color.js"></script>
+<script type="text/javascript" src="~/Content/js/gooflow/codebase/GooFlow.export.js"></script>
+<script src="~/Content/pages/WorkFlow/workFlowDesigner.js?v=1.0.5"></script>
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/WorkFlow/WorkFlow/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                    //加载流程数据
+                    if (data.DesignJson != "")
+                    {
+                        flowDesigner.loadData(JSON.parse(data.DesignJson));
+                    }
+                }
+            });
+        }
+    });
+    //初始化组件
+    function initControl() {
+        $("#Type").bindSelect({
+            url: "/SysManage/ItemsDetail/GetSelectJson",
+            id: "text",
+            param: { Code: "WFType" }
+        });
+    }
+
+    //结点回调
+    function NodeCallBack(id, name, data)
+    {
+        flowDesigner.setName(id, name, "node");
+        flowDesigner.$nodeData[id].setting = data;
+    }
+    //连线回调
+    function LineCallBack(id, name, data) {
+        flowDesigner.setName(id, name, "line");
+        data.FromNode = flowDesigner.$lineData[id].from;
+        data.ToNode = flowDesigner.$lineData[id].to;
+        flowDesigner.$lineData[id].setting = data;
+    }
+    //提交表单
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        //获取流程数据
+        var wf_json_data = flowDesigner.exportData();
+        wf_json_data.title = $("#Name").val();
+       // wf_json_data.nodes.demo_node_1.setting = "i want u";
+        $("#DesignJson").val(JSON.stringify(wf_json_data));
+
+        //节点数据
+        var nodes = [];
+        for (var node_temp in flowDesigner.$nodeData)
+        {
+            var node_temp_temp = flowDesigner.$nodeData[node_temp];
+            //if (node_temp_temp.type != "start round mix" && node_temp_temp.type != "end round mix")
+            {
+                if (node_temp_temp.setting == null || node_temp_temp.setting == undefined || node_temp_temp.setting == "") {
+                    var newNode = {};
+                    newNode.Id = node_temp;
+                    newNode.Name = node_temp_temp.name;
+                    newNode.type = node_temp_temp.type;
+                    nodes.push(newNode);
+                } else {
+                    nodes.push(node_temp_temp.setting);
+                }
+            }
+            
+        }
+
+        //连线数据
+        var lines = [];
+        for (var line_temp in flowDesigner.$lineData) {
+            var line_temp_temp = flowDesigner.$lineData[line_temp];
+            if (line_temp_temp.setting == null || line_temp_temp.setting == undefined || line_temp_temp.setting == "") {
+                var newLine = {};
+                newLine.Id = line_temp;
+                newLine.FromNode = line_temp_temp.from;
+                newLine.ToNode = line_temp_temp.to;
+                lines.push(newLine);
+            } else {
+                lines.push(line_temp_temp.setting);
+            }
+        }
+
+        var postData = $("#form1").formSerialize();
+        postData.nodes = nodes;
+        postData.lines = lines;
+        postData = mvcParamMatch(postData);
+        $.submitForm({
+            url: "/WorkFlow/WorkFlow/SaveForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                var parentTabId = top.$.jfinetab.getCurrentTabParentId();
+                var resultPage = top.$.jfinetab.getTabContentFromId(parentTabId);
+                resultPage.refreshGrid();
+                top.$.jfinetab.closeCurrentTab();
+            }
+        });
+    }
+
+    
+    //关闭Form
+    function closeForm() {
+        top.$.jfinetab.closeCurrentTab();
+    }
+</script>
+
+<form id="form1">
+    <input type="hidden" id="Id" name="Id" value="" />
+    <input type="hidden" id="DesignJson" name="DesignJson" value="" />
+    <div id="jfine-form-container" class="jfine-form-container" border="0">
+        <table id="jfine-form-maintable" class="jfineui jfine-form-maintable" style="table-layout: fixed;"
+               border="0" cellspacing="0" cellpadding="0" align="center">
+            <tbody>
+                <tr id="jfine-form-titlebg" class="jfine-form-titlebg">
+                    <td>
+                        <table align="center" border="0" style="margin: 0px auto; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td class="jfine-form-header_l">
+                                        <span class="jfine-form-logo">
+                                            <img src="/Content/images/formlogo.png" />
+                                        </span>
+                                    </td>
+                                    <td class="jfine-form-header_c">
+                                        <span class="jfine-form-header-title">流程设计</span>
+                                    </td>
+                                    <td class="jfine-form-header_r">
+                                        <div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-info dropdown-text" onclick="submitForm()"><i class="fa fa-send"></i>提交</a>
+                                                <a class="btn btn-warning dropdown-text" onclick="closeForm()"><i class="fa fa-minus"></i>关闭</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="jfine-form-formcontent" class="jfine-form-titlebg" style="">
+                    <td>
+                        <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                            <table class="form">
+
+                                <tr>
+                                    <th class="formTitle"> 标题</th>
+                                    <td class="formValue">
+                                        <input id="Name" name="Name" type="text" class="form-control required" placeholder="请输入标题" />
+                                    </td>
+                                    <th class="formTitle"> 类型</th>
+                                    <td class="formValue">
+                                        <select id="Type" name="Type" class="form-control required"></select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="formTitle"> 组名</th>
+                                    <td class="formValue">
+                                        <input id="GroupName" name="GroupName" type="text" class="form-control required" placeholder="请输入组名" />
+                                    </td>
+                                    <th class="formTitle"> 版本号</th>
+                                    <td class="formValue">
+                                        <input id="VersionNo" name="VersionNo" type="text" class="form-control required" placeholder="请输入版本号" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="formTitle"> 流程实例默认标题</th>
+                                    <td class="formValue">
+                                        <input id="DefaultTitle" name="DefaultTitle" type="text" class="form-control required" placeholder="请输入标题" />
+                                    </td>
+                                    <th class="formTitle">数据表</th>
+                                    <td class="formValue">
+                                        <input id="DBTable" name="DBTable" type="text" class="form-control" placeholder="请输入数据表" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="formTitle" style="height: 35px;">选项</th>
+                                    <td class="formValue" colspan="3" style="padding-top: 1px;">
+                                        <div class="ckbox">
+                                            <input id="IsPermission" name="IsPermission" type="checkbox"><label for="IsPermission">控制权限</label>
+                                        </div>
+                                        <div class="ckbox">
+                                            <input id="IsAvailable" name="IsAvailable" type="checkbox" checked="checked"><label for="IsAvailable">有效</label>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="formTitle"> 描述</th>
+                                    <td class="formValue" colspan="3">
+                                        <input id="Description" name="Description" type="text" class="form-control" placeholder="请输入描述" />
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <div id="workFlowDesign"></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>

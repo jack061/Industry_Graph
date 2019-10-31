@@ -1,0 +1,81 @@
+﻿
+ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2019-06-17 10:07:36
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+	    initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/VMW/VMWConfigNew/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+
+	//初始化组件
+    function initControl() {
+        
+    }
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        var postData = $("#form1").formSerialize();
+        $.submitForm({
+            url: "/VMW/VMWConfigNew/SaveForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+</script>
+
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <input id="Id" name="Id" type="hidden" value="" />
+        <input id="BindId" name="BindId" type="hidden" value="@ViewBag.bindId" />
+        <table class="form">
+			<tr>
+                <th class="formTitle"> 编码</th>
+                <td class="formValue">
+                    <input id="Code" name="Code" type="text"
+					 class="form-control  required"  placeholder="请输入编码" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 名称</th>
+                <td class="formValue">
+                    <input id="Name" name="Name" type="text"
+					 class="form-control  required"  placeholder="请输入名称" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle">参数值</th>
+                <td class="formValue">
+                    <input id="Value" name="Value" type="text"
+                           class="form-control  required" placeholder="请输入参数值" />
+				</td>
+            </tr>
+   
+        </table>
+    </div>
+</form>
+

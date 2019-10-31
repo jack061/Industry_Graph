@@ -1,0 +1,178 @@
+﻿
+ @*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2019-06-11 10:22:34
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<style>
+    .contact-box {
+    /*background-color: #fff;*/
+    border: 1px solid #e7eaec;
+    padding: 20px;
+    margin-bottom: 15px;
+    min-height:160px;
+    border-radius: 10px;
+    color: #fff;
+}
+    .addBank {
+    clear: both;
+    display: block;
+    border: 2px dashed #6a7092;
+    text-align: center;
+    color: #606585;
+    padding: 20px;
+    margin-bottom: 15px;
+    font-size: 18pt;
+    min-height:160px;
+    border-radius: 10px;
+}
+    .buttonwrap {
+    clear: both;
+    background: #203a78 repeat;
+    background: rgba(0,0,0,0.1);
+    margin: 10px -20px 15px -20px;
+    padding: 10px 0px;
+    text-align:right;
+}
+    .buttonwrap input {
+    display:inline;
+    border: 1px solid #fff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background: none;
+    color: #fff;
+}
+</style>
+<script>
+    $(function () {
+        getBankList();
+    })
+
+    function getBankList()
+    {
+        $.ajax({
+            url: "/SysCommon/SysBank/GetBankList",
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                var content = getHtml(data);
+                $("#bankList").html(content);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.loading(false);
+                if (!(XMLHttpRequest.responseText == undefined || XMLHttpRequest.responseText == null || XMLHttpRequest.responseText == '')) {
+                    $.modalMsg(XMLHttpRequest.responseJSON.message, "error");
+                } else {
+                    $.modalMsg(errorThrown, "error");
+                }
+
+            }
+        });
+    }
+
+    function getHtml(data)
+    {
+        var result = '';
+        for (var i = 0; i < data.length; i++) {
+
+            result += '<div class="col-sm-3">'
+                        + '<div class="contact-box" style="background-color:' + data[i].Color + '">'
+                        + ' <div class="row">'
+                            + ' <div class="col-sm-4">'
+                                + '<div class="text-center">'
+                                    + '<img alt="image" class="img-circle m-t-xs img-responsive" src="' + data[i].Logo + '">'
+                                    + '<div class="m-t-xs font-bold">' + data[i].EName + '</div>'
+                                + '</div>'
+                            + '</div>'
+                            + '<div class="col-sm-8">'
+                                + '<p style="font-size: 16px;"><strong>' + data[i].Name + '</strong></p>'
+                            + '</div>'
+                        + '</div>'
+                        + '<div class="clearfix"></div>'
+                         + '<div class="buttonwrap">'
+							+ '<input  onclick="btn_edit(\'' + data[i].Id + '\')" type="button" value="修改" >'
+                            + '<input onclick="btn_delete(\'' + data[i].Id + '\')" style="margin-right:10px;margin-left:10px" type="button" value="删除" >'
+				         + '</div>'
+                        + '</div>'
+                    + '</div>';
+        }
+        result += '<div class="col-sm-3">'
+                        + '<div class="addBank" onclick="btn_add()">'
+                              + '+添加银行'
+                        + '</div>'
+                    + '</div>';
+        return result;
+    }
+    function btn_add() {
+        $.modalOpen({
+            id: "BankForm",
+            title: "新增银行",
+            url: "/SysCommon/SysBank/Form",
+            width: ($(window).width() * 0.8) + "px",
+            height: ($(window).height() * 0.7) + "px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+		//var parentId = top.$.jfinetab.getCurrentTabId();
+        //top.$.jfinetab.addTabContent("/SysCommon/SysBank/Form2", "银行--新增", parentId + "_add", parentId);
+    }
+    function btn_edit(id) {
+        $.modalOpen({
+            id: "BankForm",
+            title: "修改银行",
+            url: "/SysCommon/SysBank/Form?keyValue=" + id,
+            width: ($(window).width() * 0.8) + "px",
+            height: ($(window).height() * 0.7) + "px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+        
+    }
+    function btn_delete(id) {
+        $.deleteForm({
+            url: "/SysCommon/SysBank/DeleteForm",
+            param: { keyValue: id },
+            success: function () {
+                refreshGrid();
+            }
+        });
+    }
+    function btn_details() { 
+		var keyValue = $("#gridList").jqGridRowValue().Id;      
+		if ($.checkedArray(keyValue))
+		 {
+			$.modalOpen({
+				id: "Details",
+				title: "查看银行",
+				url: "/SysCommon/SysBank/Details?keyValue=" + keyValue,
+				width: "550px",
+				height: "620px",
+				btn: null,
+			});
+		  }
+
+		//var parentId = top.$.jfinetab.getCurrentTabId();
+		//var Id = $("#gridList").jqGridRowValue().Id;
+		//if ($.checkedArray(Id)) {
+		//    top.$.jfinetab.addTabContent("/SysCommon/SysBank/Details2?keyValue=" + Id, "银行--查看", parentId + "_view", parentId);
+		//}
+    
+    }
+	function refreshGrid() {
+	    getBankList();
+	 }      
+</script>
+
+<div class="gridPanel">
+	<div id="bankList" class="row">
+
+    </div>
+</div>
+

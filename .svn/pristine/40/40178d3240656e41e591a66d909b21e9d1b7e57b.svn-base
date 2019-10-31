@@ -1,0 +1,206 @@
+﻿@{
+    ViewBag.Title = "ChoseUser";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<style>
+    .fa-user-leader {
+        width: 13px;
+        height: 13px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        display: inline-block;
+        background-image: url(/Content/images/executive.png);
+    }
+
+    .fa-user-ordinary {
+        width: 13px;
+        height: 13px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        display: inline-block;
+        background-image: url(/Content/images/male.png);
+    }
+
+    .fa-user-parttime {
+        width: 13px;
+        height: 13px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        display: inline-block;
+        background-image: url(/Content/images/male_j.png);
+    }
+</style>
+<script>
+    /*
+    var node = {
+                id = userId;
+                text = 名称;
+                value = 账号;
+                expand1 = "1";//扩展数据类型0：角色，1：人员
+                expand2 = 组织ID
+                expand3 = 组织名称
+                expand4 = 部门id
+                expand5 =部门名称
+                expand6 = 手机
+                expand7 =邮箱
+                expand8 = 是否为领导
+                expand8 = 是否兼职
+                }
+    */
+    var keyValue = $.request("keyValue");
+    var windowId = $.request("windowId");//window ID
+    var displayTyle = $.request("displayTyle");//展示类型：role/org
+    var orgCode = $.request("orgCode");//组织编码，多个用逗号隔开
+    var roleCode = $.request("roleCode");//角色编码,多个用逗号隔开
+    var isLeader = $.request("isLeader");//是只选择领导：0；1
+    var backType = $.request("backType");//返回数据类型：0:返回account+name；非0：返回完整数据
+    var isSingle = $.request("isSingle");//是否单选：1:是；非1：否
+    var flag = $.request("flag");//标识调用页面的元素：自行赋值
+    var selectedUsers = new Array();
+    $(function () {
+        treeView();
+    });
+    function treeView() {
+        $("#userTree").treeview({
+            showcheck: true,
+            url: "/SysManage/User/GetChooseTreeJson?displayTyle=" + displayTyle + "&orgCode=" + orgCode + "&roleCode=" + roleCode + "&isLeader=" + isLeader,
+            onnodeclick: function (item) {
+                // $("#select_data").append("<li><span id='" + item.value + "' class='hover'>《" + item.value + "》" + item.text + "</span></li>");
+            },
+            oncheckboxclick: function (tree, item, status) {
+
+            }
+        });
+    }
+
+    //添加选中的数据到右侧
+    function add2right() {
+        var nodes = $("#userTree").getCheckedNodes();
+        for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].expand1 == '1') {
+                var addedNode = $('#' + nodes[i].value).text();
+                
+                if (addedNode == null || addedNode == undefined || addedNode == "") {
+                    selectedUsers.push(nodes[i]);
+                    $("#select_data").append("<li style='list-style:none;background:url(/Content/images/" + (nodes[i].expand8 == "True" ? "executive" : "male") + ".png) no-repeat left;background-size:16px 16px;padding-left:20px;'><span id='"
+                        + nodes[i].value + "' class='hover'>《" + nodes[i].value + "》"
+                        + nodes[i].text + "</span><a style='cursor:pointer;margin-left:10px;'title='删除' onclick=\"deleteUser('"
+                        + nodes[i].value + "')\"><img src='/Content/images/minus_alt.png' style='width: 16px;'></a></li>");
+                }
+            }
+        }
+    }
+
+    //删除已经添加的数据
+    function deleteUser(dataId) {
+        $("#" + dataId).parent().remove();
+        //左侧撤销选中 （后续实现）
+        //$("#userTree").setNoCheckedNodes(dataId);
+
+        //从已选数组中删除
+        removeByValue(selectedUsers, dataId);
+
+    }
+
+    function removeByValue(arr, val) {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].value == val) {
+                arr.splice(i, 1);
+                break;
+            }
+        }
+    }
+
+    //返回所选人员完整信息
+    function submitForm() {
+
+        if (backType == "0") {
+            backData();
+        } else {
+            backDataFull();
+        }
+    }
+
+    //返回 account + name
+    function backData() {
+        var accountArr = new Array();
+        var nameArr = new Array();
+        var parameter = $("#select_data").find("span").each(function () {
+            var text = $(this).text();
+            var account = text.substring(text.indexOf('《') + 1, text.indexOf('》'));
+            var name = text.substr(text.indexOf('》') + 1);
+            accountArr.push(account);
+            nameArr.push(name);
+        });
+        var accountStr = accountArr.toString();
+        var nameStr = nameArr.toString();
+
+        if (accountArr.length > 0 && nameArr.length > 0) {
+            if (isSingle == "1") {//单选
+                if (accountArr.length != 1) {
+                    $.modalAlert("只能选择一条数据！请重新选择！", "warning");
+                    return;
+                }
+            }
+            //每一个调用该模块的必须实现dealSelectedUser(account,name,flag)方法
+            if (windowId == '') {
+                $.currentWindow().dealSelectedUser(accountStr, nameStr, flag);
+            } else {
+                top.frames[windowId].dealSelectedUser(accountStr, nameStr, flag);
+            }
+
+            $.modalClose();
+        } else {
+            $.modalAlert("请选择要添加的数据！", "warning");
+        }
+
+    }
+
+    //返回完整数据
+    function backDataFull() {
+        if (selectedUsers.length > 0) {
+            if (isSingle == "1") {//单选
+                if (selectedUsers.length != 1) {
+                    $.modalAlert("只能选择一条数据！请重新选择！", "warning");
+                    return;
+                }
+            }
+            //每一个调用该模块的必须实现dealSelectedUserFull(account,name,flag)方法
+            if (windowId == '') {
+                $.currentWindow().dealSelectedUserFull(selectedUsers, flag);
+            } else {
+                top.frames[windowId].dealSelectedUserFull(selectedUsers, flag);
+            }
+            $.modalClose();
+        } else {
+            $.modalAlert("请选择要添加的数据！", "warning");
+        }
+
+    }
+</script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <div class="user_left" style=" width: 45%;height: 500px; border: 1px solid #c8c8c8; border-radius: 3px;float: left;">
+            <div id="userTree" style="height: 100%;"></div>
+        </div>
+        <div class="user_center" style="width: 9%; text-align: center; padding-top: 30%; position: relative; box-sizing: border-box;float: left;">
+            <a id="list_add" style="cursor:pointer;" onclick=" add2right()"><img src="~/Content/images/arrow.png" style="width:60px;"></a>
+            <div style="text-align:left;">
+                <i class="fa-user-leader"></i>领导
+                <br />
+                <i class="fa-user-ordinary"></i>普通员工
+                <br />
+                <i class="fa-user-parttime"></i>兼职
+            </div>
+        </div>
+
+        <div class="user_right" style="width: 45%;height: 500px; border: 1px solid #c8c8c8;float: right;">
+            <ul id="select_data" class="send_to"></ul>
+        </div>
+
+    </div>
+</form>
+

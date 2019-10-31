@@ -1,0 +1,142 @@
+﻿
+
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2018-05-28 18:37:16
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/SysCommon/SysNotice/GetGridJson",
+            height: $(window).height() - 138,
+            colModel: [
+					  	
+					{ label: "主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+                    { label: "状态", name: "Status", width: 60, align: 'left' },
+	  	
+					{ label: "编码", name: "NoticeNo", width: 100, align: 'left' },
+	  	
+					{ label: "标题", name: "NoticeName", width: 130, align: 'left' },
+	  	
+					{ label: "类型", name: "NoticeType", width: 80, align: 'left' },
+	  	
+					{ label: "发布时间", name: "PublishTime", width: 150, align: 'left' },
+	  	
+					{ label: "发布部门", name: "PublishDEPT", width: 150, align: 'left' },
+	  	
+					{ label: "是否对外发布", name: "IsOutPublish", width: 150, align: 'left' },
+	  	
+					{ label: "阅读次数", name: "ReadCount", width: 150, align: 'left' },
+	  	
+					{ label: "创建日期", name: "CreateDate", width: 150, align: 'left' },
+	  	
+					{ label: "创建人", name: "CreateUserName", width: 150, align: 'left' },
+ 
+            ],
+			pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+			var queryJson = {
+                keyword: $("#txt_keyword").val()
+            }
+		    $gridList.jqGrid('setGridParam', {
+		         postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+		    }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+        var parentId = top.$.jfinetab.getCurrentTabId();
+        top.$.jfinetab.addTabContent("/SysCommon/SysNotice/Form", "通知公告--新增", parentId + "_add", parentId);
+    }
+    function btn_edit() {
+        var parentId = top.$.jfinetab.getCurrentTabId();
+        var Id = $("#gridList").jqGridRowValue().Id;
+        var Status = $("#gridList").jqGridRowValue().Status;
+        if ($.checkedArray(Id)) {
+            if (Status == '新建') {
+                top.$.jfinetab.addTabContent("/SysCommon/SysNotice/Form?operation=edit&Id=" + Id, "通知公告--修改", parentId + "_edit", parentId);
+            } else {
+                $.modalAlert("只能编辑<新建>状态的公告信息！", "error");
+            }
+
+        }
+        
+    }
+    function btn_delete() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        var Status = $("#gridList").jqGridRowValue().Status;
+        if ($.checkedArray(keyValue)) {
+            if (Status == '新建') {
+                $.deleteForm({
+                    url: "/SysCommon/SysNotice/DeleteForm",
+                    param: { keyValue: $("#gridList").jqGridRowValue().Id },
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                });
+            } else {
+                $.modalAlert("只能删除<新建>状态的公告信息！", "error");
+            }
+
+        }
+        
+    }
+    function btn_details() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(keyValue)) {
+            var parentId = top.$.jfinetab.getCurrentTabId();
+            top.$.jfinetab.addTabContent("/SysCommon/SysNotice/Details?keyValue=" + keyValue, "通知公告--详情", parentId + "_details", parentId);
+        }    
+    }
+	function refreshGrid() {
+        $("#gridList").trigger("reloadGrid");
+	 }      
+</script>
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="JF-add"  class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+            <a id="JF-edit" class="btn btn-primary dropdown-text" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a>
+            <a id="JF-delete" class="btn btn-primary dropdown-text"  onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+            <a id="JF-Details" class="btn btn-primary dropdown-text"  onclick="btn_details()"><i class="fa fa-search-plus"></i>查看</a>
+        </div>
+        <div id="toolbar" class="btn-group">
+		</div>
+		<script>$('#toolbar').authorizeButton()</script>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+	<div id="gridPager"></div>
+</div>

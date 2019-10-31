@@ -1,0 +1,107 @@
+﻿@*------------------------------------------------------------------------------
+    *     此代码由T4模板自动生成
+    *	   生成时间 2019-02-21 17:15:40
+    *     ©为之团队
+    *------------------------------------------------------------------------------*@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script src="/Content/js/vue2.6.7/vue.min.js"></script>
+<style>
+    .vjs-live .vjs-time-control {
+        display: block;
+    }
+</style>
+
+<div id="app" style="margin-top: 10px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div v-for="camera in currentList" class="col-md-4" style="padding-left:0;padding-right:0;">
+                <div style="background-color:#CCCCCC;margin:5px;">
+                    <iframe v-bind:id="camera.Id" class="plugin" style="width:100%;" height="300" frameborder=0 v-bind:src="'/VMW/VMWCamera/HKVideo?ip='+camera.IP+'&port='+camera.Port+'&account='+camera.Account+'&password='+camera.PassWord"></iframe>
+                    <div>{{camera.Name}}</div>
+                    <div>{{camera.Position}}</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:10px;text-align:center;">
+            <button type="button" v-bind:style="{ display: page==1?'none':'inline-block' }" v-on:click="prePage()" class="btn btn-primary btn-lg">👈上一页</button>
+            <button type="button" v-bind:style="{ display: (page==allCount/pageRows)?'none':'inline-block' }" v-on:click="netPage()" class="btn btn-primary btn-lg">下一页👉</button>
+        </div>
+    </div>
+</div>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            cameraList: [],
+            currentList: [],
+            allCount: 0,
+            page: 1,
+            pageRows: 6
+        },
+        created: function () {
+            /*
+                var self = this;
+                $.ajax({
+                    url: '/VMW/VMWCamera/GetAllCameraList',
+                    type: 'get',
+                    dataType: 'json'
+                }).then(function (res) {
+                    self.cameraList = res;
+                }).fail(function () {
+                    console.log('失败');
+                })
+                */
+        },
+        watch: {
+            cameraList: function () {
+                this.$nextTick(function () {
+                    /*现在数据已经渲染完毕*/
+                    //initVideo()
+                })
+            }
+        },
+        mounted: function () {
+            var self = this;
+            $.ajax({
+                url: '/VMW/VMWCamera/GetAllCameraList',
+                type: 'get',
+                dataType: 'json'
+            }).then(function (res) {
+                self.cameraList = res;
+                self.allCount = self.cameraList.length;
+                self.currentList = self.cameraList.slice(0, self.pageRows)
+            }).fail(function () {
+                console.log('失败');
+            })
+        },
+        methods: {
+            netPage: function () {
+                this.currentList = this.cameraList.slice(this.page * this.pageRows, (this.page + 1) * this.pageRows);
+                this.page = this.page + 1;
+            },
+            prePage: function () {
+                this.currentList = this.cameraList.slice((this.page - 2) * this.pageRows, (this.page - 1) * this.pageRows);
+                this.page = this.page - 1;
+            }
+        }
+    });
+
+
+    function btn_details() {
+
+        var parentId = top.$.jfinetab.getCurrentTabId();
+        var Id = $("#gridList").jqGridRowValue().Id;
+        if ($.checkedArray(Id)) {
+            top.$.jfinetab.addTabContent("/VMW/VMWCamera/Details2?mapCode=KT001&keyValue=" + Id, "摄像头--查看", parentId + "_view", parentId);
+        }
+
+    }
+    function refreshGrid() {
+        $("#gridList").trigger("reloadGrid");
+    }
+</script>

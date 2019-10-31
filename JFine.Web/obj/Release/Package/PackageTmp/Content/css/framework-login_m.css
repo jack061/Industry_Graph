@@ -1,0 +1,64 @@
+.login-content{background-color: #efeff4;background-image: url(../images/login-bg.jpg); background-repeat: no-repeat; background-size: cover;height: 100%;width: 100%;overflow: auto;min-height: 500px;}
+.input-group {
+    position: relative;
+    padding: 0;
+    border: 0;
+    background-color: #fff;
+    margin: 10px;
+    border-radius: 5px;
+}
+.input-row {
+    position: relative;
+    height: 50px;
+    line-height: 60px;
+}
+.input-row {
+    clear: left;
+    overflow: hidden;
+}
+.input-row label {
+    font-family: 'Helvetica Neue',Helvetica,sans-serif;
+    line-height: 1.1;
+    float: left;
+    padding: 15px 15px;
+}
+.input-row input {
+    float: right;
+    width: 75%;
+    height: 50px;
+    margin-bottom: 0;
+    padding-left: 0;
+    border: 0;
+}
+.input-row input{
+    background: 0 0;
+}
+.input-group input, .input-group textarea {
+    margin-bottom: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.login-title{text-align: center;font-size: 24px;margin-top:12%;color: #0667c6;font-weight: 400;line-height: 40px;}
+.link-area {
+	display: block;
+	margin-top: 25px;
+	text-align: center;
+}
+			
+.spliter {
+	color: #bbb;
+	padding: 0px 8px;
+}
+a {
+    text-decoration: none;
+    color: #007aff;
+}
+a {
+    background: 0 0;
+}
+.login-btn a{background: #007aff;}
+.login-btn a:hover{background: #1959a0;}
+.login-btn{margin: 10px;}

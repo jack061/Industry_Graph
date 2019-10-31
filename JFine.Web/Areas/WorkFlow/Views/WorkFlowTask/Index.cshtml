@@ -1,0 +1,236 @@
+﻿
+
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2017-11-23 21:44:15
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+ @{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+        gridList_ed();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/WorkFlow/WorkFlowTask/GetMyGridJson",
+            height: $(window).height() - 168,
+            colModel: [
+					  	
+					{ label: " 主表主键", name: "Id", width: 150, align: 'left',hidden:true },
+	  	
+					{ label: " 流程ID", name: "WFID", width: 150, align: 'left', hidden: true },
+
+                    { label: " DataID", name: "DataID", width: 150, align: 'left', hidden: true },
+	  	
+					{ label: " 前一节点Id", name: "PreWFSID", width: 150, align: 'left', hidden: true },
+	  	
+					{ label: " 当前节点Id", name: "WFSID", width: 150, align: 'left', hidden: true },
+
+                    { label: " 有效状态", name: "IsValid", width: 100, align: 'left', hidden: true },
+
+                    {
+                        label: " 状态", name: "IsValid_", width: 100, align: 'left',
+                        formatter: function (cellvalue, options, rowObject) {
+                            if (rowObject.IsValid) {
+                                return '<span class=\"label label-success\" style="margin-left:5px;">正常</span>';
+                            } else {
+                                return '<span class=\"label label-warning\" style="margin-left:5px;">挂起</span>';
+                            }
+                        }
+                    },
+	  	
+					{ label: " 来自", name: "OwnerName", width: 100, align: 'left' },
+	  	
+					{ label: " 任务标题", name: "Title", width: 130, align: 'left' },
+	  	
+					{ label: " 接收时间", name: "BeginTime", width: 130, align: 'left' },
+	  	
+					{ label: " 优先级", name: "Priority", width: 100, align: 'left' },
+	  	
+					{ label: " 创建日期", name: "CreateDate", width: 150, align: 'left' },
+	  	
+					{ label: " 创建用户名称", name: "CreateUserName", width: 150, align: 'left' }
+ 
+            ],
+			pager: "#gridPager",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+			var queryJson = {
+                keyword: $("#txt_keyword").val()
+            }
+		    $gridList.jqGrid('setGridParam', {
+		         postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+		    }).trigger('reloadGrid');
+        });
+    }
+
+    function gridList_ed() {
+        var $gridList = $("#gridList_ed");
+        $gridList.dataGrid({
+            url: "/WorkFlow/WorkFlowTask/GetMyGridJsonED",
+            height: $(window).height() - 168,
+            colModel: [
+
+					{ label: " 主表主键", name: "Id", width: 150, align: 'left', hidden: true },
+
+                    { label: " 流程实例ID", name: "BindID", width: 150, align: 'left', hidden: true },
+
+					{ label: " 流程ID", name: "WFID", width: 150, align: 'left', hidden: true },
+
+                    { label: " DataID", name: "DataID", width: 150, align: 'left', hidden: true },
+
+					{ label: " 前一节点Id", name: "PreWFSID", width: 150, align: 'left', hidden: true },
+
+					{ label: " 当前节点Id", name: "WFSID", width: 150, align: 'left', hidden: true },
+
+					{ label: " 来自", name: "OwnerName", width: 130, align: 'left' },
+
+					{ label: " 任务标题", name: "Title", width: 150, align: 'left' },
+
+					{ label: " 接收时间", name: "BeginTime", width: 130, align: 'left' },
+
+                    { label: " 完成时间", name: "EndTime", width: 130, align: 'left' },
+
+					{ label: " 优先级", name: "Priority", width: 100, align: 'left' },
+
+					{ label: " 创建日期", name: "CreateDate", width: 150, align: 'left' },
+
+					{ label: " 创建用户名称", name: "CreateUserName", width: 150, align: 'left' }
+
+            ],
+            pager: "#gridPager_ed",
+            sortname: 'CreateDate desc',
+            viewrecords: true
+        });
+        $gridList.setGridWidth($(window).width() - 8);
+        $("#btn_search_ed").click(function () {
+            var queryJson = {
+                keyword: $("#txt_keyword_ed").val()
+            }
+            $gridList.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+            }).trigger('reloadGrid');
+        });
+    }
+    function btn_deal() {
+        var parentId = top.$.jfinetab.getCurrentTabId();
+        var Id = $("#gridList").jqGridRowValue().Id;
+        var DataID = $("#gridList").jqGridRowValue().DataID;
+        if ($.checkedArray(Id)) {
+            top.$.jfinetab.addTabContent("/WorkFlow/WorkFlowExecute/Approval?taskId=" + Id + "&dataId=" + DataID, "任务处理", parentId + "_deal", parentId);
+        }
+    }
+    function btn_details() { 
+        var parentId = top.$.jfinetab.getCurrentTabId();
+        var Id = $("#gridList_ed").jqGridRowValue().Id;
+        var DataID = $("#gridList_ed").jqGridRowValue().DataID;
+        var BindID = $("#gridList_ed").jqGridRowValue().BindID;
+        if ($.checkedArray(Id)) {
+            top.$.jfinetab.addTabContent("/WorkFlow/WorkFlowExecute/Details?taskId=" + Id + "&dataId=" + DataID + "&bindId=" + BindID, "任务查看", parentId + "_details", parentId);
+        }
+    }
+
+    function refreshGrid() {
+        reloadGrid_un();
+        reloadGrid_ed();
+    }
+
+    function reloadGrid_un() {
+        $("#gridList").trigger('reloadGrid');
+    }
+    function reloadGrid_ed() {
+        $("#gridList_ed").trigger('reloadGrid');
+    }
+</script>
+
+<div style=" margin-left: 2px; margin-right: 2px;">
+    <div>
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#tab_unDo" data-toggle="tab">待办</a></li>
+            <li role="presentation"><a href="#tab_done" data-toggle="tab">已办</a></li>
+        </ul>
+        <div class="tab-content">
+
+            <!-- 待办 -->
+            <div class="tab-pane fade in active" id="tab_unDo">
+                <!-- 查询区域 -->
+                <div class="topPanel">
+                    <div class="toolbar">
+                        <div class="btn-group">
+                            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+                        </div>
+                        <div class="btn-group">
+                            <a id="JF-add" class="btn btn-primary dropdown-text" onclick="btn_deal()"><i class="fa fa-check"></i>处理</a>
+                        </div>
+                        <div id="toolbar" class="btn-group">
+                        </div>
+                        <script>$('#toolbar').authorizeButton()</script>
+                    </div>
+                    <div class="search">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="input-group">
+                                        <input id="txt_keyword" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+                                        <span class="input-group-btn">
+                                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="gridPanel">
+                    <table id="gridList"></table>
+                    <div id="gridPager"></div>
+                </div>
+            </div>
+
+            <!-- 已办 -->
+            <div class="tab-pane fade" id="tab_done">
+                <!-- 查询区域 -->
+                <div class="topPanel">
+                    <div class="toolbar">
+                        <div class="btn-group">
+                            <a class="btn btn-primary" onclick="reloadGrid_ed()"><span class="glyphicon glyphicon-refresh"></span></a>
+                        </div>
+                        <div class="btn-group">
+                            <a id="JF-Details" class="btn btn-primary dropdown-text" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看</a>
+                        </div>
+                        <div id="toolbar" class="btn-group">
+                        </div>
+                        <script>$('#toolbar').authorizeButton()</script>
+                    </div>
+                    <div class="search">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="input-group">
+                                        <input id="txt_keyword_ed" type="text" class="form-control" placeholder="名称/编号" style="width: 200px;">
+                                        <span class="input-group-btn">
+                                            <button id="btn_search_ed" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="gridPanel">
+                    <table id="gridList_ed"></table>
+                    <div id="gridPager_ed"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

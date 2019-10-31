@@ -1,0 +1,153 @@
+﻿
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2018-03-06 11:28:20
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+     var keyValue = $.request("keyValue");
+    $(function () {
+        $.ajax({
+            url: "/Supplier/SupplierLinkman/GetFormJson",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                  $("#form1").formInitialize(data);
+            }
+        });
+    });
+</script>
+
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <table class="form">
+			  	
+			<tr>
+                <th class="formTitle"> 主键</th>
+                <td class="formValue">
+                    <div id="Id" name="Id" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> BindId</th>
+                <td class="formValue">
+                    <div id="BindId" name="BindId" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 姓名</th>
+                <td class="formValue">
+                    <div id="Name" name="Name" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 性别</th>
+                <td class="formValue">
+                    <div id="Sex" name="Sex" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 身份证号</th>
+                <td class="formValue">
+                    <div id="IDNumber" name="IDNumber" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 部门</th>
+                <td class="formValue">
+                    <div id="Department" name="Department" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 职位</th>
+                <td class="formValue">
+                    <div id="Post" name="Post" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 手机</th>
+                <td class="formValue">
+                    <div id="Mobile" name="Mobile" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 电话</th>
+                <td class="formValue">
+                    <div id="Phone" name="Phone" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 邮箱</th>
+                <td class="formValue">
+                    <div id="Email" name="Email" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 状态</th>
+                <td class="formValue">
+                    <div id="Status" name="Status" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建日期</th>
+                <td class="formValue">
+                    <div id="CreateDate" name="CreateDate" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建用户账户</th>
+                <td class="formValue">
+                    <div id="CreateUserId" name="CreateUserId" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建用户名称</th>
+                <td class="formValue">
+                    <div id="CreateUserName" name="CreateUserName" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 最后修改时间</th>
+                <td class="formValue">
+                    <div id="UpdateDate" name="UpdateDate" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 最后修改用户</th>
+                <td class="formValue">
+                    <div id="UpdateUserId" name="UpdateUserId" ></div>
+                </td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 最后修改用户名称</th>
+                <td class="formValue">
+                    <div id="UpdateUserName" name="UpdateUserName" ></div>
+                </td>
+            </tr>
+   
+        </table>
+    </div>
+</form>

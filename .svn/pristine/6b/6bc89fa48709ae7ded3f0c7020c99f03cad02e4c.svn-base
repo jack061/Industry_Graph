@@ -1,0 +1,152 @@
+﻿
+@*------------------------------------------------------------------------------
+ *     此代码由T4模板自动生成
+ *	   生成时间 2018-03-14 10:27:32
+ *     ©为之团队
+ *------------------------------------------------------------------------------*@
+
+
+ @{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+	    initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/SysCommon/SysArea/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+
+	//初始化组件
+    function initControl() {
+        
+    }
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        var postData = $("#form1").formSerialize();
+        $.submitForm({
+            url: "/SysCommon/SysArea/SaveForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+</script>
+
+<form id="form1">
+    <div style="margin: 10px 10px 10px 10px;">
+        <table class="form">
+			  	
+			<tr>
+                <th class="formTitle"> Id</th>
+                <td class="formValue">
+                    <input id="Id" name="Id" type="text"
+					 class="form-control  required"  placeholder="请输入Id" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> BindId</th>
+                <td class="formValue">
+                    <input id="BindId" name="BindId" type="text"
+					 class="form-control  required"  placeholder="请输入BindId" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 编码</th>
+                <td class="formValue">
+                    <input id="Code" name="Code" type="text"
+					 class="form-control  required"  placeholder="请输入编码" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 名称</th>
+                <td class="formValue">
+                    <input id="Name" name="Name" type="text"
+					 class="form-control  required"  placeholder="请输入名称" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 描述</th>
+                <td class="formValue">
+                    <input id="Description" name="Description" type="text"
+					 class="form-control  required"  placeholder="请输入描述" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 备注</th>
+                <td class="formValue">
+                    <input id="Mark" name="Mark" type="text"
+					 class="form-control  required"  placeholder="请输入备注" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建时间</th>
+                <td class="formValue">
+                    <input id="CreateDate" name="CreateDate" type="text"
+					 class="form-control Wdate required" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" placeholder="请输入创建时间" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建人ID</th>
+                <td class="formValue">
+                    <input id="CreateUserId" name="CreateUserId" type="text"
+					 class="form-control  required"  placeholder="请输入创建人ID" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 创建人姓名</th>
+                <td class="formValue">
+                    <input id="CreateUserName" name="CreateUserName" type="text"
+					 class="form-control  required"  placeholder="请输入创建人姓名" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 更新时间</th>
+                <td class="formValue">
+                    <input id="UpdateDate" name="UpdateDate" type="text"
+					 class="form-control Wdate required" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" placeholder="请输入更新时间" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 更新人ID</th>
+                <td class="formValue">
+                    <input id="UpdateUserId" name="UpdateUserId" type="text"
+					 class="form-control  required"  placeholder="请输入更新人ID" />
+				</td>
+            </tr>
+ 	  	
+			<tr>
+                <th class="formTitle"> 更新人姓名</th>
+                <td class="formValue">
+                    <input id="UpdateUserName" name="UpdateUserName" type="text"
+					 class="form-control  required"  placeholder="请输入更新人姓名" />
+				</td>
+            </tr>
+   
+        </table>
+    </div>
+</form>
